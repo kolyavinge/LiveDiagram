@@ -8,4 +8,12 @@
     <div class="title noselect">
         <span class="title">{{ item.title }}</span>
     </div>
+    <div class="resize up-left" (mousedown)="onResizeMouseDown(resize.upLeft)" (mouseup)="onResizeMouseUp()"></div>
+    <div class="resize up-middle" (mousedown)="onResizeMouseDown(resize.upMiddle)" (mouseup)="onResizeMouseUp()"></div>
+    <div class="resize up-right" (mousedown)="onResizeMouseDown(resize.upRight)" (mouseup)="onResizeMouseUp()"></div>
+    <div class="resize middle-left" (mousedown)="onResizeMouseDown(resize.middleLeft)" (mouseup)="onResizeMouseUp()"></div>
+    <div class="resize middle-right" (mousedown)="onResizeMouseDown(resize.middleRight)" (mouseup)="onResizeMouseUp()"></div>
+    <div class="resize down-left" (mousedown)="onResizeMouseDown(resize.downLeft)" (mouseup)="onResizeMouseUp()"></div>
+    <div class="resize down-middle" (mousedown)="onResizeMouseDown(resize.downMiddle)" (mouseup)="onResizeMouseUp()"></div>
+    <div class="resize down-right" (mousedown)="onResizeMouseDown(resize.downRight)" (mouseup)="onResizeMouseUp()"></div>
 </div>

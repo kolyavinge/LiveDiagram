@@ -25,3 +25,60 @@ span.title {
     -ms-user-select: none;
     user-select: none;
 }
+
+div.resize {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+}
+
+div.up-left {
+    top: 0;
+    left: 0;
+    cursor: nw-resize;
+}
+
+div.up-middle {
+    top: 0;
+    left: calc(50% - 5px);
+    cursor: ns-resize;
+}
+
+div.up-right {
+    top: 0;
+    right: 0;
+    cursor: sw-resize;
+}
+
+div.middle-left {
+    top: calc(50% - 5px);
+    left: 0;
+    cursor: w-resize;
+}
+
+div.middle-right {
+    top: calc(50% - 5px);
+    right: 0;
+    cursor: w-resize;
+}
+
+div.down-left {
+    bottom: 0;
+    left: 0;
+    cursor: sw-resize;
+}
+
+div.down-middle {
+    bottom: 0;
+    left: calc(50% - 5px);
+    cursor: ns-resize;
+}
+
+div.down-right {
+    bottom: 0;
+    right: 0;
+    cursor: nw-resize;
+}

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DiagramItem } from 'src/app/model/diagram-item';
+import { ResizeDirection } from 'src/app/model/resize-direction';
 
 @Component({
     selector: 'app-diagram-item',
@@ -8,6 +9,7 @@ import { DiagramItem } from 'src/app/model/diagram-item';
 })
 export class DiagramItemComponent implements OnInit {
 
+    resize: ResizeDirection = new ResizeDirection();
     @Input() item: DiagramItem;
 
     constructor() { }
@@ -16,12 +18,18 @@ export class DiagramItemComponent implements OnInit {
     }
 
     onMouseDown(): void {
-        var self = this;
-        self.item.isPointed = true;
+        this.item.isPointed = true;
     }
 
     onMouseUp(): void {
-        var self = this;
-        self.item.isPointed = false;
+        this.item.isPointed = false;
+    }
+
+    onResizeMouseDown(resizeDirectionValue: number): void {
+        this.item.resizeDirectionValue = resizeDirectionValue;
+    }
+
+    onResizeMouseUp(): void {
+        this.item.clearResize();
     }
 }

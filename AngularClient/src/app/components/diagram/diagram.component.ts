@@ -13,7 +13,7 @@ import { Diagram } from 'src/app/model/diagram';
 export class DiagramComponent implements OnInit {
 
     diagram: Diagram;
-    pointedItem: DiagramItem;
+    selectedItem: DiagramItem;
     mouseLastPosition: Position;
 
     constructor() {
@@ -26,29 +26,40 @@ export class DiagramComponent implements OnInit {
 
     onMouseDown(event): void {
         var self = this;
-        self.pointedItem = self.diagram.getPointedItem();
-        if (self.pointedItem) {
+        self.selectedItem = self.diagram.getResizedItem();
+        if (self.selectedItem) {
             self.mouseLastPosition = { x: event.x, y: event.y };
+        } else {
+            self.selectedItem = self.diagram.getPointedItem();
+            if (self.selectedItem) {
+                self.mouseLastPosition = { x: event.x, y: event.y };
+            }
         }
     }
 
     onMouseMove(event): void {
         var self = this;
-        if (self.pointedItem) {
-            var mouseCurrentPosition = { x: event.x, y: event.y };
-            var deltaX = mouseCurrentPosition.x - self.mouseLastPosition.x;
-            var deltaY = mouseCurrentPosition.y - self.mouseLastPosition.y;
-            self.diagram.moveBy(self.pointedItem, deltaX, deltaY);
-            self.mouseLastPosition = mouseCurrentPosition;
+        if (self.selectedItem == null) return;
+        var mouseCurrentPosition = { x: event.x, y: event.y };
+        var deltaX = mouseCurrentPosition.x - self.mouseLastPosition.x;
+        var deltaY = mouseCurrentPosition.y - self.mouseLastPosition.y;
+        if (self.selectedItem.resizeDirectionValue > 0) {
+            self.diagram.resizeItemBy(self.selectedItem, deltaX, deltaY);
+        } else if (self.selectedItem) {
+            self.diagram.moveItemBy(self.selectedItem, deltaX, deltaY);
         }
+        self.mouseLastPosition = mouseCurrentPosition;
     }
 
     onMouseUp(event): void {
         var self = this;
-        self.pointedItem = null;
+        if (self.selectedItem) {
+            self.diagram.clearResize(self.selectedItem);
+        }
+        self.selectedItem = null;
     }
 
-    onResized(event: ResizedEvent): void {
+    onResize(event: ResizedEvent): void {
         var self = this;
         self.diagram.size.width = event.newWidth;
         self.diagram.size.height = event.newHeight;
