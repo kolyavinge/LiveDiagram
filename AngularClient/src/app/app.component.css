@@ -1,0 +1,15 @@
+div.root {
+    height: 100vh;
+}
+
+div.main-menu {
+    height: 32px;
+}
+
+div.diagram {
+    height: calc(100% - 64px);
+}
+
+div.status-bar {
+    height: 32px;
+}

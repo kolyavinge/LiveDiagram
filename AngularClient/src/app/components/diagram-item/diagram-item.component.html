@@ -1,0 +1,11 @@
+<div class="root"
+    [style.left.px]="item.position.x"
+    [style.top.px]="item.position.y"
+    [style.width.px]="item.size.width"
+    [style.height.px]="item.size.height"
+    (mousedown)="onMouseDown()"
+    (mouseup)="onMouseUp()">
+    <div class="title noselect">
+        <span class="title">{{ item.title }}</span>
+    </div>
+</div>

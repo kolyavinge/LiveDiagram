@@ -1,0 +1,5 @@
+<div class="root"
+    (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp($event)"
+    (resized)="onResized($event)">
+    <app-diagram-item *ngFor="let item of diagram.items" [item]="item"></app-diagram-item>
+</div>
