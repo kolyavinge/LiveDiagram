@@ -1,0 +1,10 @@
+<div class="root">
+    <div class="container">
+        <span>Название</span>
+        <input class="title" type="text" [value]="title" (input)="title = $event.target.value" />
+    </div>
+    <div class="buttons">
+        <div class="button-ok"><button [mat-dialog-close]="true">OK</button></div>
+        <div class="button-cancel"><button mat-dialog-close>Отмена</button></div>
+    </div>
+</div>

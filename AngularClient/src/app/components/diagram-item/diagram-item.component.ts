@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DiagramItem } from 'src/app/model/diagram-item';
+import { MatDialog } from '@angular/material/dialog';
 import { ResizeDirection } from 'src/app/model/resize-direction';
+import { DiagramItem } from 'src/app/model/diagram-item';
+import { EditDiagramItemDialogComponent } from 'src/app/dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
 
 @Component({
     selector: 'app-diagram-item',
@@ -12,7 +14,9 @@ export class DiagramItemComponent implements OnInit {
     resize: ResizeDirection = new ResizeDirection();
     @Input() item: DiagramItem;
 
-    constructor() { }
+    constructor(
+        private dialogService: MatDialog
+    ) { }
 
     ngOnInit(): void { }
 
@@ -29,4 +33,15 @@ export class DiagramItemComponent implements OnInit {
     }
 
     onResizeMouseUp(): void { }
+
+    editItem(): void {
+        var self = this;
+        var dialog = self.dialogService.open(EditDiagramItemDialogComponent);
+        dialog.componentInstance.setItem(this.item);
+        dialog.afterClosed().subscribe(result => {
+            if (result) {
+                dialog.componentInstance.saveChanges();
+            }
+        });
+    }
 }

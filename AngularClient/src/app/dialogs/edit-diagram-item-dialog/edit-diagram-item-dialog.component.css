@@ -1,0 +1,33 @@
+div.root {
+    width: 350px;
+    height: 400px;
+}
+
+div.container {
+    height: 375px;
+}
+
+input.title {
+    width: 250px;
+    margin-left: 8px;
+}
+
+div.buttons {
+    float: right;
+    width: 158px;
+}
+
+div.button-ok {
+    float: left;
+    margin-right: 8px;
+}
+
+div.button-ok>button {
+    width: 75px;
+    height: 22px;
+}
+
+div.button-cancel>button {
+    width: 75px;
+    height: 22px;
+}

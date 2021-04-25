@@ -21,6 +21,16 @@ span.title {
     font-weight: bold;
 }
 
+a.edit {
+    cursor: pointer;
+}
+
+img.edit {
+    float: right;
+    width: 16px;
+    height: 16px;
+}
+
 .noselect {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
