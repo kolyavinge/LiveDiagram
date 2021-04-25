@@ -1,4 +1,3 @@
-import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
 import { Position } from 'src/app/model/position';
@@ -13,55 +12,46 @@ import { Diagram } from 'src/app/model/diagram';
 export class DiagramComponent implements OnInit {
 
     diagram: Diagram;
-    selectedItem: DiagramItem;
+    pointedItem: DiagramItem;
     mouseLastPosition: Position;
 
     constructor() {
-        var self = this;
-        self.diagram = new Diagram();
+        this.diagram = new Diagram();
     }
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void { }
 
     onMouseDown(event): void {
-        var self = this;
-        self.selectedItem = self.diagram.getResizedItem();
-        if (self.selectedItem) {
-            self.mouseLastPosition = { x: event.x, y: event.y };
-        } else {
-            self.selectedItem = self.diagram.getPointedItem();
-            if (self.selectedItem) {
-                self.mouseLastPosition = { x: event.x, y: event.y };
-            }
+        this.pointedItem = this.diagram.getPointedItem();
+        this.diagram.clearSelectionBut(this.pointedItem);
+        if (this.pointedItem) {
+            this.mouseLastPosition = { x: event.x, y: event.y };
         }
     }
 
     onMouseMove(event): void {
-        var self = this;
-        if (self.selectedItem == null) return;
+        if (this.pointedItem == null) return;
         var mouseCurrentPosition = { x: event.x, y: event.y };
-        var deltaX = mouseCurrentPosition.x - self.mouseLastPosition.x;
-        var deltaY = mouseCurrentPosition.y - self.mouseLastPosition.y;
-        if (self.selectedItem.resizeDirectionValue > 0) {
-            self.diagram.resizeItemBy(self.selectedItem, deltaX, deltaY);
-        } else if (self.selectedItem) {
-            self.diagram.moveItemBy(self.selectedItem, deltaX, deltaY);
+        var deltaX = mouseCurrentPosition.x - this.mouseLastPosition.x;
+        var deltaY = mouseCurrentPosition.y - this.mouseLastPosition.y;
+        if (this.pointedItem.resizeDirectionValue > 0) {
+            this.diagram.resizeItemBy(this.pointedItem, deltaX, deltaY);
+        } else if (this.pointedItem) {
+            this.diagram.moveItemBy(this.pointedItem, deltaX, deltaY);
         }
-        self.mouseLastPosition = mouseCurrentPosition;
+        this.mouseLastPosition = mouseCurrentPosition;
     }
 
     onMouseUp(event): void {
-        var self = this;
-        if (self.selectedItem) {
-            self.diagram.clearResize(self.selectedItem);
+        if (this.pointedItem) {
+            this.pointedItem.clearPointed();
+            this.pointedItem.clearResize();
         }
-        self.selectedItem = null;
+        this.pointedItem = null;
     }
 
     onResize(event: ResizedEvent): void {
-        var self = this;
-        self.diagram.size.width = event.newWidth;
-        self.diagram.size.height = event.newHeight;
+        this.diagram.size.width = event.newWidth;
+        this.diagram.size.height = event.newHeight;
     }
 }

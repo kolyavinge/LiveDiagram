@@ -10,16 +10,15 @@ export class Diagram {
     items: DiagramItem[] = [];
 
     constructor() {
-        var self = this;
-        self.items.push(new DiagramItem());
+        this.items.push(new DiagramItem());
     }
 
     getPointedItem(): DiagramItem {
         return this.items.find(item => item.isPointed);
     }
 
-    getResizedItem(): DiagramItem {
-        return this.items.find(item => item.resizeDirectionValue > 0);
+    clearSelectionBut(item: DiagramItem): void {
+        this.items.filter(i => i.isEquals(item) == false).forEach(i => i.isSelected = false);
     }
 
     moveItemBy(item: DiagramItem, deltaX: number, deltaY: number): void {
@@ -42,48 +41,43 @@ export class Diagram {
     }
 
     resizeItemBy(item: DiagramItem, deltaWidth: number, deltaHeight: number): void {
-        var self = this;
-        if (item.resizeDirectionValue == self.resize.upLeft) {
+        if (item.resizeDirectionValue == this.resize.upLeft) {
             // deltaWidth и deltaHeight меньше нуля
             item.position.x += deltaWidth;
             item.position.y += deltaHeight;
             item.size.width -= deltaWidth;
             item.size.height -= deltaHeight;
-        } else if (item.resizeDirectionValue == self.resize.upMiddle) {
+        } else if (item.resizeDirectionValue == this.resize.upMiddle) {
             // deltaHeight меньше нуля
             item.position.y += deltaHeight;
             item.size.height -= deltaHeight;
-        } else if (item.resizeDirectionValue == self.resize.upRight) {
+        } else if (item.resizeDirectionValue == this.resize.upRight) {
             // deltaHeight меньше нуля
             item.position.y += deltaHeight;
             item.size.width += deltaWidth;
             item.size.height -= deltaHeight;
-        } else if (item.resizeDirectionValue == self.resize.middleLeft) {
+        } else if (item.resizeDirectionValue == this.resize.middleLeft) {
             // deltaWidth меньше нуля
             item.position.x += deltaWidth;
             item.size.width -= deltaWidth;
-        } else if (item.resizeDirectionValue == self.resize.middleRight) {
+        } else if (item.resizeDirectionValue == this.resize.middleRight) {
             item.size.width += deltaWidth;
-        } else if (item.resizeDirectionValue == self.resize.downLeft) {
+        } else if (item.resizeDirectionValue == this.resize.downLeft) {
             // deltaWidth меньше нуля
             item.position.x += deltaWidth;
             item.size.width -= deltaWidth;
             item.size.height += deltaHeight;
-        } else if (item.resizeDirectionValue == self.resize.downMiddle) {
+        } else if (item.resizeDirectionValue == this.resize.downMiddle) {
             item.size.height += deltaHeight;
-        } else if (item.resizeDirectionValue == self.resize.downRight) {
+        } else if (item.resizeDirectionValue == this.resize.downRight) {
             item.size.width += deltaWidth;
             item.size.height += deltaHeight;
         }
-        self.correctItemSize(item);
+        this.correctItemSize(item);
     }
 
     correctItemSize(item: DiagramItem): void {
         if (item.size.width <= item.minSize.width) item.size.width = item.minSize.width;
         if (item.size.height <= item.minSize.height) item.size.height = item.minSize.height;
-    }
-
-    clearResize(item: DiagramItem): void {
-        item.clearResize();
     }
 }

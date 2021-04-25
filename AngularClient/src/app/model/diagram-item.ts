@@ -6,19 +6,35 @@ export class DiagramItem {
 
     minSize: Size = new Size(100, 100);
 
+    id: string;
     title: string;
     position: Position;
     size: Size;
     isPointed: boolean;
+    isSelected: boolean;
     resizeDirectionValue: number;
 
     constructor() {
-        var self = this;
-        self.title = "new item";
-        self.position = { x: 100, y: 100 };
-        self.size = { width: 120, height: 160 };
-        self.isPointed = false;
-        self.resizeDirectionValue = 0;
+        this.id = Date.now().toString();
+        this.title = "new item";
+        this.position = { x: 100, y: 100 };
+        this.size = { width: 120, height: 160 };
+        this.isPointed = false;
+        this.isSelected = false;
+        this.resizeDirectionValue = 0;
+    }
+
+    isEquals(x: DiagramItem): boolean {
+        if (x == undefined || x == null) return false;
+        return this.id == x.id;
+    }
+
+    clearPointed(): void {
+        this.isPointed = false;
+    }
+
+    clearSelected(): void {
+        this.isSelected = false;
     }
 
     clearResize(): void {

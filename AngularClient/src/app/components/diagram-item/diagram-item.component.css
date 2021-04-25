@@ -1,8 +1,12 @@
 div.root {
     position: absolute;
+}
+
+div.item {
+    position: relative;
     border-radius: 5px;
     box-shadow: rgb(0 0 0 / 50%) 0px 0px 5px;
-    background-color: rgba(209, 227, 255, 0.911);
+    background-color: rgba(209, 227, 255, 0.8);
 }
 
 div.title {
@@ -32,7 +36,8 @@ div.resize {
     height: 5px;
     border-width: 1px;
     border-style: solid;
-    border-color: black;
+    border-color: rgb(50, 50, 50);
+    background-color: darkgrey;
 }
 
 div.up-left {
@@ -43,7 +48,7 @@ div.up-left {
 
 div.up-middle {
     top: 0;
-    left: calc(50% - 5px);
+    left: calc(50% - 2.5px);
     cursor: ns-resize;
 }
 
@@ -54,13 +59,13 @@ div.up-right {
 }
 
 div.middle-left {
-    top: calc(50% - 5px);
+    top: calc(50% - 2.5px);
     left: 0;
     cursor: w-resize;
 }
 
 div.middle-right {
-    top: calc(50% - 5px);
+    top: calc(50% - 2.5px);
     right: 0;
     cursor: w-resize;
 }
@@ -73,7 +78,7 @@ div.down-left {
 
 div.down-middle {
     bottom: 0;
-    left: calc(50% - 5px);
+    left: calc(50% - 2.5px);
     cursor: ns-resize;
 }
 
@@ -81,4 +86,8 @@ div.down-right {
     bottom: 0;
     right: 0;
     cursor: nw-resize;
+}
+
+.hide {
+    display: none;
 }

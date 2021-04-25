@@ -1,19 +1,27 @@
 <div class="root"
-    [style.left.px]="item.position.x"
-    [style.top.px]="item.position.y"
-    [style.width.px]="item.size.width"
-    [style.height.px]="item.size.height"
-    (mousedown)="onMouseDown()"
-    (mouseup)="onMouseUp()">
-    <div class="title noselect">
-        <span class="title">{{ item.title }}</span>
+    [style.left.px]="item.position.x - 5"
+    [style.top.px]="item.position.y - 5"
+    [style.width.px]="item.size.width + 10"
+    [style.height.px]="item.size.height + 10">
+    <div class="item"
+        [style.left.px]="5"
+        [style.top.px]="5"
+        [style.width.px]="item.size.width"
+        [style.height.px]="item.size.height"
+        (mousedown)="onMouseDown()"
+        (mouseup)="onMouseUp()">
+        <div class="title noselect">
+            <span class="title">{{ item.title }}</span>
+        </div>
     </div>
-    <div class="resize up-left" (mousedown)="onResizeMouseDown(resize.upLeft)" (mouseup)="onResizeMouseUp()"></div>
-    <div class="resize up-middle" (mousedown)="onResizeMouseDown(resize.upMiddle)" (mouseup)="onResizeMouseUp()"></div>
-    <div class="resize up-right" (mousedown)="onResizeMouseDown(resize.upRight)" (mouseup)="onResizeMouseUp()"></div>
-    <div class="resize middle-left" (mousedown)="onResizeMouseDown(resize.middleLeft)" (mouseup)="onResizeMouseUp()"></div>
-    <div class="resize middle-right" (mousedown)="onResizeMouseDown(resize.middleRight)" (mouseup)="onResizeMouseUp()"></div>
-    <div class="resize down-left" (mousedown)="onResizeMouseDown(resize.downLeft)" (mouseup)="onResizeMouseUp()"></div>
-    <div class="resize down-middle" (mousedown)="onResizeMouseDown(resize.downMiddle)" (mouseup)="onResizeMouseUp()"></div>
-    <div class="resize down-right" (mousedown)="onResizeMouseDown(resize.downRight)" (mouseup)="onResizeMouseUp()"></div>
+    <div [class.hide]="item.isSelected == false">
+        <div class="resize up-left" (mousedown)="onResizeMouseDown(resize.upLeft)" (mouseup)="onResizeMouseUp()"></div>
+        <div class="resize up-middle" (mousedown)="onResizeMouseDown(resize.upMiddle)" (mouseup)="onResizeMouseUp()"></div>
+        <div class="resize up-right" (mousedown)="onResizeMouseDown(resize.upRight)" (mouseup)="onResizeMouseUp()"></div>
+        <div class="resize middle-left" (mousedown)="onResizeMouseDown(resize.middleLeft)" (mouseup)="onResizeMouseUp()"></div>
+        <div class="resize middle-right" (mousedown)="onResizeMouseDown(resize.middleRight)" (mouseup)="onResizeMouseUp()"></div>
+        <div class="resize down-left" (mousedown)="onResizeMouseDown(resize.downLeft)" (mouseup)="onResizeMouseUp()"></div>
+        <div class="resize down-middle" (mousedown)="onResizeMouseDown(resize.downMiddle)" (mouseup)="onResizeMouseUp()"></div>
+        <div class="resize down-right" (mousedown)="onResizeMouseDown(resize.downRight)" (mouseup)="onResizeMouseUp()"></div>
+    </div>
 </div>

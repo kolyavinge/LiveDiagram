@@ -14,22 +14,19 @@ export class DiagramItemComponent implements OnInit {
 
     constructor() { }
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void { }
 
     onMouseDown(): void {
         this.item.isPointed = true;
+        this.item.isSelected = true;
     }
 
-    onMouseUp(): void {
-        this.item.isPointed = false;
-    }
+    onMouseUp(): void { }
 
     onResizeMouseDown(resizeDirectionValue: number): void {
+        this.item.isPointed = true;
         this.item.resizeDirectionValue = resizeDirectionValue;
     }
 
-    onResizeMouseUp(): void {
-        this.item.clearResize();
-    }
+    onResizeMouseUp(): void { }
 }
