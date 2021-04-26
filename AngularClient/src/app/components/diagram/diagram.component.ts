@@ -14,63 +14,64 @@ import { DiagramService } from 'src/app/services/diagram.service';
 })
 export class DiagramComponent implements OnInit {
 
-    diagram: Diagram;
-    pointedItem: DiagramItem;
-    resizedItem: DiagramItem;
-    mouseLastPosition: Position;
+    private _diagram: Diagram;
+    private _pointedItem: DiagramItem;
+    private _resizedItem: DiagramItem;
+    private _mouseLastPosition: Position;
 
     constructor(
-        private apiService: ApiService,
-        private diagramService: DiagramService,
-        private diagramServiceUpdater: DiagramUpdaterService,
+        private _apiService: ApiService,
+        private _diagramService: DiagramService,
+        private _diagramServiceUpdater: DiagramUpdaterService,
     ) {
-        this.diagram = this.diagramService.getCurrentDiagram();
-        this.diagramServiceUpdater.connectToDiagram(this.diagram);
+        this._diagram = this._diagramService.getCurrentDiagram();
+        this._diagramServiceUpdater.connectToDiagram(this._diagram);
     }
 
     ngOnInit(): void { }
 
+    get diagram(): Diagram { return this._diagram; }
+
     onMouseDown(event): void {
-        this.pointedItem = this.diagram.getPointedItem();
-        this.resizedItem = this.diagram.getResizedItem();
-        this.diagram.clearSelectionBut(this.pointedItem ?? this.resizedItem);
-        if (this.pointedItem || this.resizedItem) {
-            this.mouseLastPosition = { x: event.x, y: event.y };
+        this._pointedItem = this._diagram.getPointedItem();
+        this._resizedItem = this._diagram.getResizedItem();
+        this._diagram.clearSelectionBut(this._pointedItem ?? this._resizedItem);
+        if (this._pointedItem || this._resizedItem) {
+            this._mouseLastPosition = new Position(event.x, event.y);
         }
     }
 
     onMouseMove(event): void {
-        if (this.pointedItem == null && this.resizedItem == null) return;
-        var mouseCurrentPosition = { x: event.x, y: event.y };
-        var deltaX = mouseCurrentPosition.x - this.mouseLastPosition.x;
-        var deltaY = mouseCurrentPosition.y - this.mouseLastPosition.y;
-        if (this.resizedItem) {
-            this.diagram.resizeItemBy(this.resizedItem, deltaX, deltaY);
-        } else if (this.pointedItem) {
-            this.diagram.moveItemBy(this.pointedItem, deltaX, deltaY);
+        if (this._pointedItem == null && this._resizedItem == null) return;
+        var mouseCurrentPosition = new Position(event.x, event.y);
+        var deltaX = mouseCurrentPosition.x - this._mouseLastPosition.x;
+        var deltaY = mouseCurrentPosition.y - this._mouseLastPosition.y;
+        if (this._resizedItem) {
+            this._diagram.resizeItemBy(this._resizedItem, deltaX, deltaY);
+        } else if (this._pointedItem) {
+            this._diagram.moveItemBy(this._pointedItem, deltaX, deltaY);
         }
-        this.mouseLastPosition = mouseCurrentPosition;
+        this._mouseLastPosition = mouseCurrentPosition;
     }
 
     onMouseUp(event): void {
-        if (this.pointedItem) {
-            if (this.pointedItem.hasMoved) {
-                this.apiService.diagramItemMove(this.pointedItem);
+        if (this._pointedItem) {
+            if (this._pointedItem.hasMoved) {
+                this._apiService.diagramItemMove(this._pointedItem);
             }
-            this.pointedItem.clearPointed();
-            this.pointedItem = null;
+            this._pointedItem.isPointed = false;
+            this._pointedItem = null;
         }
-        if (this.resizedItem) {
-            if (this.resizedItem.hasResized) {
-                this.apiService.diagramItemResize(this.resizedItem);
+        if (this._resizedItem) {
+            if (this._resizedItem.hasResized) {
+                this._apiService.diagramItemResize(this._resizedItem);
             }
-            this.resizedItem.clearResize();
-            this.resizedItem = null;
+            this._resizedItem.clearResize();
+            this._resizedItem = null;
         }
     }
 
     onResize(event: ResizedEvent): void {
-        this.diagram.size.width = event.newWidth;
-        this.diagram.size.height = event.newHeight;
+        this._diagram.setSize(event.newWidth, event.newHeight);
     }
 }

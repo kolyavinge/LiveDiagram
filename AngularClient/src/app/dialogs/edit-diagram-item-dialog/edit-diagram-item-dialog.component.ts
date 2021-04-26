@@ -9,8 +9,8 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class EditDiagramItemDialogComponent implements OnInit {
 
-    item: DiagramItem;
-    title: string;
+    private _item: DiagramItem;
+    private _title: string;
 
     constructor(
         private apiService: ApiService,
@@ -18,13 +18,19 @@ export class EditDiagramItemDialogComponent implements OnInit {
 
     ngOnInit(): void { }
 
-    setItem(item: DiagramItem): void {
-        this.item = item;
-        this.title = this.item.title;
+    get item(): DiagramItem { return this._item; }
+
+    set item(value: DiagramItem) {
+        this._item = value;
+        this._title = this._item.title;
     }
 
+    get title(): string { return this._title; }
+
+    set title(value: string) { this._title = value; }
+
     saveChanges(): void {
-        this.item.title = this.title;
-        this.apiService.diagramItemSetTitle(this.item);
+        this._item.title = this._title;
+        this.apiService.diagramItemSetTitle(this._item);
     }
 }

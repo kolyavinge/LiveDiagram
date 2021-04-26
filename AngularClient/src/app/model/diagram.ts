@@ -5,29 +5,39 @@ import { ResizeDirection } from "./resize-direction";
 
 export class Diagram {
 
-    id: string = "12345";
-    resize: ResizeDirection = new ResizeDirection();
-    size: Size = new Size();
-    items: DiagramItem[] = [];
+    private resize: ResizeDirection = new ResizeDirection();
+
+    private _id: string = "12345";
+    private _size: Size = new Size();
+    private _items: DiagramItem[] = [];
 
     constructor() {
-        this.items.push(new DiagramItem());
+        this._items.push(new DiagramItem());
+    }
+
+    get id(): string { return this._id; }
+
+    get items(): DiagramItem[] { return this._items; }
+
+    setSize(width: number, height: number): void {
+        this._size.width = width;
+        this._size.height = height;
     }
 
     getItemById(id: string): DiagramItem {
-        return this.items.find(item => item.id == id);
+        return this._items.find(item => item.id == id);
     }
 
     getPointedItem(): DiagramItem {
-        return this.items.find(item => item.isPointed);
+        return this._items.find(item => item.isPointed);
     }
 
     getResizedItem(): DiagramItem {
-        return this.items.find(item => item.resizeDirectionValue > 0);
+        return this._items.find(item => item.resizeDirectionValue > 0);
     }
 
     clearSelectionBut(item: DiagramItem): void {
-        this.items.filter(i => i.isEquals(item) == false).forEach(i => i.isSelected = false);
+        this._items.filter(i => i.isEquals(item) == false).forEach(i => i.isSelected = false);
     }
 
     setItemPosition(item: DiagramItem, x: number, y: number): void {
@@ -48,11 +58,11 @@ export class Diagram {
         this.correctItemPosition(item);
     }
 
-    correctItemPosition(item: DiagramItem): void {
+    private correctItemPosition(item: DiagramItem): void {
         if (item.position.x < 0) item.position.x = 0;
         if (item.position.y < 0) item.position.y = 0;
-        if (item.position.x + item.size.width > this.size.width) item.position.x = this.size.width - item.size.width;
-        if (item.position.y + item.size.height > this.size.height) item.position.y = this.size.height - item.size.height;
+        if (item.position.x + item.size.width > this._size.width) item.position.x = this._size.width - item.size.width;
+        if (item.position.y + item.size.height > this._size.height) item.position.y = this._size.height - item.size.height;
     }
 
     resizeItemBy(item: DiagramItem, deltaWidth: number, deltaHeight: number): void {
@@ -97,7 +107,7 @@ export class Diagram {
         this.correctItemSize(item);
     }
 
-    correctItemSize(item: DiagramItem): void {
+    private correctItemSize(item: DiagramItem): void {
         if (item.size.width <= item.minSize.width) item.size.width = item.minSize.width;
         if (item.size.height <= item.minSize.height) item.size.height = item.minSize.height;
     }

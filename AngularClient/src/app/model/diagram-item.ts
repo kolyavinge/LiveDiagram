@@ -4,58 +4,80 @@ import { ResizeDirection } from './resize-direction';
 
 export class DiagramItem {
 
-    minSize: Size = new Size(100, 100);
+    private _minSize: Size = new Size(100, 100);
 
-    id: string;
-    title: string;
-    position: Position;
-    size: Size;
-    isPointed: boolean;
-    isSelected: boolean;
-    resizeDirectionValue: number;
-    hasMoved: boolean;
-    hasResized: boolean;
+    private _id: string;
+    private _title: string;
+    private _position: Position;
+    private _size: Size;
+    private _isPointed: boolean;
+    private _isSelected: boolean;
+    private _resizeDirectionValue: number;
+    private _hasMoved: boolean;
+    private _hasResized: boolean;
 
     constructor() {
-        this.id = "123";
-        this.title = "new item";
-        this.position = { x: 100, y: 100 };
-        this.size = { width: 120, height: 160 };
-        this.isPointed = false;
-        this.isSelected = false;
-        this.resizeDirectionValue = 0;
-        this.hasMoved = false;
-        this.hasResized = false;
+        this._id = "123";
+        this._title = "new item";
+        this._position = new Position(100, 100);
+        this._size = new Size(120, 160);
+        this._isPointed = false;
+        this._isSelected = false;
+        this._resizeDirectionValue = 0;
+        this._hasMoved = false;
+        this._hasResized = false;
     }
+
+    get minSize(): Size { return this._minSize; }
+
+    get id(): string { return this._id; }
+
+    get title(): string { return this._title; }
+
+    set title(value: string) { this._title = value; }
 
     isEquals(x: DiagramItem): boolean {
         if (x == undefined || x == null) return false;
-        return this.id == x.id;
+        return this._id == x._id;
     }
-    
+
+    get position(): Position { return this._position; }
+
     setPosition(x: number, y: number): void {
-        this.position.x = x;
-        this.position.y = y;
-        this.hasMoved = true;
+        this._position.x = x;
+        this._position.y = y;
+        this._hasMoved = true;
     }
+
+    get size(): Size { return this._size; }
 
     setSize(width: number, height: number): void {
-        this.size.width = width;
-        this.size.height = height;
-        this.hasResized = true;
+        this._size.width = width;
+        this._size.height = height;
+        this._hasResized = true;
     }
 
-    clearPointed(): void {
-        this.isPointed = false;
-        this.hasMoved = false;
+    get isPointed(): boolean { return this._isPointed; }
+
+    set isPointed(value: boolean) {
+        this._isPointed = value;
+        if (!value) this._hasMoved = false;
     }
 
-    clearSelected(): void {
-        this.isSelected = false;
-    }
+    get hasMoved(): boolean { return this._hasMoved; }
+
+    get isSelected(): boolean { return this._isSelected };
+
+    set isSelected(value: boolean) { this._isSelected = value; }
+
+    get resizeDirectionValue(): number { return this._resizeDirectionValue; }
+
+    set resizeDirectionValue(value: number) { this._resizeDirectionValue = value; }
 
     clearResize(): void {
-        this.resizeDirectionValue = 0;
-        this.hasResized = false;
+        this._resizeDirectionValue = 0;
+        this._hasResized = false;
     }
+
+    get hasResized(): boolean { return this._hasResized; }
 }

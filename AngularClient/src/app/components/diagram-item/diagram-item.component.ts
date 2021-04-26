@@ -11,14 +11,16 @@ import { EditDiagramItemDialogComponent } from 'src/app/dialogs/edit-diagram-ite
 })
 export class DiagramItemComponent implements OnInit {
 
-    resize: ResizeDirection = new ResizeDirection();
     @Input() item: DiagramItem;
+    private _resize: ResizeDirection = new ResizeDirection();
 
     constructor(
-        private dialogService: MatDialog
+        private _dialogService: MatDialog
     ) { }
 
     ngOnInit(): void { }
+
+    get resize(): ResizeDirection { return this._resize; }
 
     onMouseDown(): void {
         this.item.isPointed = true;
@@ -35,8 +37,8 @@ export class DiagramItemComponent implements OnInit {
 
     editItem(): void {
         var self = this;
-        var dialog = self.dialogService.open(EditDiagramItemDialogComponent);
-        dialog.componentInstance.setItem(this.item);
+        var dialog = self._dialogService.open(EditDiagramItemDialogComponent);
+        dialog.componentInstance.item = this.item;
         dialog.afterClosed().subscribe(result => {
             if (result) {
                 dialog.componentInstance.saveChanges();
