@@ -28,18 +28,21 @@ export class ApiNotifierService {
     onDiagramItemMove(handler: any): void {
         var self = this;
         self.signalrClient.addHandler("DiagramItemMoveResponse", function (response) {
-            if (self.authData.clientId != response.clientId) {
-                handler(response);
-            }
+            if (self.authData.clientId != response.clientId) handler(response);
         });
     }
 
     onDiagramItemResize(handler: any): void {
         var self = this;
         self.signalrClient.addHandler("DiagramItemResizeResponse", function (response) {
-            if (self.authData.clientId != response.clientId) {
-                handler(response);
-            }
+            if (self.authData.clientId != response.clientId) handler(response);
+        });
+    }
+
+    onDiagramItemSetTitle(handler: any): void {
+        var self = this;
+        self.signalrClient.addHandler("DiagramItemSetTitleResponse", function (response) {
+            if (self.authData.clientId != response.clientId) handler(response);
         });
     }
 }

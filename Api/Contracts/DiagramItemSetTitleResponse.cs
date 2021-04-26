@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace LiveDiagram.Api.Contracts
 {
-    public class DiagramItemMoveResponse : DiagramItemResponse
+    public class DiagramItemSetTitleResponse : DiagramItemResponse
     {
         [JsonPropertyName("success")]
         public bool Success { get; set; }
 
-        [JsonPropertyName("x")]
-        public int DiagramItemX { get; set; }
-
-        [JsonPropertyName("y")]
-        public int DiagramItemY { get; set; }
+        [JsonPropertyName("itemTitle")]
+        public string DiagramItemTitle { get; set; }
     }
 }

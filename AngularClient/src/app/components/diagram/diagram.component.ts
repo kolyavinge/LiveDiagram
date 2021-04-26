@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
 import { ApiService } from 'src/app/services/api.service';
-import { ApiNotifierService } from 'src/app/services/api-notifier.service';
+import { DiagramUpdaterService } from 'src/app/services/diagram-updater.service';
 import { Position } from 'src/app/model/position';
 import { DiagramItem } from 'src/app/model/diagram-item';
 import { Diagram } from 'src/app/model/diagram';
+import { DiagramService } from 'src/app/services/diagram.service';
 
 @Component({
     selector: 'app-diagram',
@@ -20,10 +21,11 @@ export class DiagramComponent implements OnInit {
 
     constructor(
         private apiService: ApiService,
-        private apiNotifierService: ApiNotifierService
+        private diagramService: DiagramService,
+        private diagramServiceUpdater: DiagramUpdaterService,
     ) {
-        this.diagram = new Diagram();
-        this.connectToDiagram();
+        this.diagram = this.diagramService.getCurrentDiagram();
+        this.diagramServiceUpdater.connectToDiagram(this.diagram);
     }
 
     ngOnInit(): void { }
@@ -53,14 +55,14 @@ export class DiagramComponent implements OnInit {
     onMouseUp(event): void {
         if (this.pointedItem) {
             if (this.pointedItem.hasMoved) {
-                this.apiService.diagramItemMove(this.diagram, this.pointedItem);
+                this.apiService.diagramItemMove(this.pointedItem);
             }
             this.pointedItem.clearPointed();
             this.pointedItem = null;
         }
         if (this.resizedItem) {
             if (this.resizedItem.hasResized) {
-                this.apiService.diagramItemResize(this.diagram, this.resizedItem);
+                this.apiService.diagramItemResize(this.resizedItem);
             }
             this.resizedItem.clearResize();
             this.resizedItem = null;
@@ -70,27 +72,5 @@ export class DiagramComponent implements OnInit {
     onResize(event: ResizedEvent): void {
         this.diagram.size.width = event.newWidth;
         this.diagram.size.height = event.newHeight;
-    }
-
-    connectToDiagram(): void {
-        var self = this;
-        self.apiNotifierService.clearHandlers();
-
-        self.apiNotifierService.onDiagramItemMove(function (response) {
-            var movedItem = self.diagram.getItemById(response.itemId);
-            if (movedItem) {
-                self.diagram.moveItemTo(movedItem, response.x, response.y);
-            }
-        });
-
-        self.apiNotifierService.onDiagramItemResize(function (response) {
-            var resizedItem = self.diagram.getItemById(response.itemId);
-            if (resizedItem) {
-                self.diagram.setItemPosition(resizedItem, response.x, response.y);
-                self.diagram.setItemSize(resizedItem, response.width, response.height);
-            }
-        });
-
-        self.apiNotifierService.connectToDiagram(self.diagram.id);
     }
 }

@@ -5,4 +5,5 @@ export default {
     host: host,
     diagramItemMovePath: apiPath + 'diagramItemMove',
     diagramItemResizePath: apiPath + 'diagramItemResize',
+    diagramItemSetTitlePath: apiPath + 'diagramItemSetTitle',
 }
