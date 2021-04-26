@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { AngularResizedEventModule } from 'angular-resize-event';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -23,6 +24,7 @@ import { EditDiagramItemDialogComponent } from './dialogs/edit-diagram-item-dial
     ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         AngularResizedEventModule,
         BrowserAnimationsModule,
         MatDialogModule,

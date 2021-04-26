@@ -28,7 +28,6 @@ export class DiagramItemComponent implements OnInit {
     onMouseUp(): void { }
 
     onResizeMouseDown(resizeDirectionValue: number): void {
-        this.item.isPointed = true;
         this.item.resizeDirectionValue = resizeDirectionValue;
     }
 

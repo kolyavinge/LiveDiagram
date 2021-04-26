@@ -5,6 +5,7 @@ import { ResizeDirection } from "./resize-direction";
 
 export class Diagram {
 
+    id: string = "12345";
     resize: ResizeDirection = new ResizeDirection();
     size: Size = new Size();
     items: DiagramItem[] = [];
@@ -13,23 +14,37 @@ export class Diagram {
         this.items.push(new DiagramItem());
     }
 
+    getItemById(id: string): DiagramItem {
+        return this.items.find(item => item.id == id);
+    }
+
     getPointedItem(): DiagramItem {
         return this.items.find(item => item.isPointed);
+    }
+
+    getResizedItem(): DiagramItem {
+        return this.items.find(item => item.resizeDirectionValue > 0);
     }
 
     clearSelectionBut(item: DiagramItem): void {
         this.items.filter(i => i.isEquals(item) == false).forEach(i => i.isSelected = false);
     }
 
+    setItemPosition(item: DiagramItem, x: number, y: number): void {
+        item.setPosition(x, y);
+    }
+
+    setItemSize(item: DiagramItem, width: number, height: number): void {
+        item.setSize(width, height);
+    }
+
     moveItemBy(item: DiagramItem, deltaX: number, deltaY: number): void {
-        item.position.x += deltaX;
-        item.position.y += deltaY;
+        item.setPosition(item.position.x + deltaX, item.position.y + deltaY);
         this.correctItemPosition(item);
     }
 
     moveItemTo(item: DiagramItem, x: number, y: number): void {
-        item.position.x = x;
-        item.position.y = y;
+        item.setPosition(x, y);
         this.correctItemPosition(item);
     }
 
@@ -41,38 +56,44 @@ export class Diagram {
     }
 
     resizeItemBy(item: DiagramItem, deltaWidth: number, deltaHeight: number): void {
+        var newX = item.position.x;
+        var newY = item.position.y;
+        var newWidth = item.size.width;
+        var newHeight = item.size.height;
         if (item.resizeDirectionValue == this.resize.upLeft) {
             // deltaWidth и deltaHeight меньше нуля
-            item.position.x += deltaWidth;
-            item.position.y += deltaHeight;
-            item.size.width -= deltaWidth;
-            item.size.height -= deltaHeight;
+            newX += deltaWidth;
+            newY += deltaHeight;
+            newWidth -= deltaWidth;
+            newHeight -= deltaHeight;
         } else if (item.resizeDirectionValue == this.resize.upMiddle) {
             // deltaHeight меньше нуля
-            item.position.y += deltaHeight;
-            item.size.height -= deltaHeight;
+            newY += deltaHeight;
+            newHeight -= deltaHeight;
         } else if (item.resizeDirectionValue == this.resize.upRight) {
             // deltaHeight меньше нуля
-            item.position.y += deltaHeight;
-            item.size.width += deltaWidth;
-            item.size.height -= deltaHeight;
+            newY += deltaHeight;
+            newWidth += deltaWidth;
+            newHeight -= deltaHeight;
         } else if (item.resizeDirectionValue == this.resize.middleLeft) {
             // deltaWidth меньше нуля
-            item.position.x += deltaWidth;
-            item.size.width -= deltaWidth;
+            newX += deltaWidth;
+            newWidth -= deltaWidth;
         } else if (item.resizeDirectionValue == this.resize.middleRight) {
-            item.size.width += deltaWidth;
+            newWidth += deltaWidth;
         } else if (item.resizeDirectionValue == this.resize.downLeft) {
             // deltaWidth меньше нуля
-            item.position.x += deltaWidth;
-            item.size.width -= deltaWidth;
-            item.size.height += deltaHeight;
+            newX += deltaWidth;
+            newWidth -= deltaWidth;
+            newHeight += deltaHeight;
         } else if (item.resizeDirectionValue == this.resize.downMiddle) {
-            item.size.height += deltaHeight;
+            newHeight += deltaHeight;
         } else if (item.resizeDirectionValue == this.resize.downRight) {
-            item.size.width += deltaWidth;
-            item.size.height += deltaHeight;
+            newWidth += deltaWidth;
+            newHeight += deltaHeight;
         }
+        item.setPosition(newX, newY);
+        item.setSize(newWidth, newHeight);
         this.correctItemSize(item);
     }
 

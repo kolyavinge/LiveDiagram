@@ -1,1 +1,4 @@
-/AngularClient/node_modules
+.vs
+AngularClient/node_modules
+Api/bin
+Api/obj
