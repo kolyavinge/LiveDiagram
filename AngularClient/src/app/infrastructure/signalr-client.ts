@@ -11,9 +11,6 @@ export class SignalRClient {
     connection: HubConnection
     handlers: EventHandler[] = []
 
-    constructor() {
-    }
-
     addHandler(methodName: string, handler: any): void {
         this.handlers.push({ methodName: methodName, handler: handler });
     }

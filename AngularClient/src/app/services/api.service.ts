@@ -9,24 +9,24 @@ import ApiPath from 'src/app/infrastructure/api-path';
 export class ApiService {
 
     constructor(
-        private localStorage: LocalStorageService,
-        private httpClient: HttpClient
+        private _localStorage: LocalStorageService,
+        private _httpClient: HttpClient
     ) { }
 
     diagramItemMove(diagram: Diagram, item: DiagramItem): void {
         var postData = {
-            clientId: this.localStorage.authData.clientId,
+            clientId: this._localStorage.authData.clientId,
             diagramId: diagram.id,
             itemId: item.id,
             x: item.position.x,
             y: item.position.y
         };
-        this.httpClient.post(ApiPath.diagramItemMovePath, postData).toPromise();
+        this._httpClient.post(ApiPath.diagramItemMovePath, postData).toPromise();
     }
 
     diagramItemResize(diagram: Diagram, item: DiagramItem): void {
         var postData = {
-            clientId: this.localStorage.authData.clientId,
+            clientId: this._localStorage.authData.clientId,
             diagramId: diagram.id,
             itemId: item.id,
             x: item.position.x,
@@ -34,16 +34,16 @@ export class ApiService {
             width: item.size.width,
             height: item.size.height,
         };
-        this.httpClient.post(ApiPath.diagramItemResizePath, postData).toPromise();
+        this._httpClient.post(ApiPath.diagramItemResizePath, postData).toPromise();
     }
 
     diagramItemSetTitle(diagram: Diagram, item: DiagramItem): void {
         var postData = {
-            clientId: this.localStorage.authData.clientId,
+            clientId: this._localStorage.authData.clientId,
             diagramId: diagram.id,
             itemId: item.id,
             itemTitle: item.title
         };
-        this.httpClient.post(ApiPath.diagramItemSetTitlePath, postData).toPromise();
+        this._httpClient.post(ApiPath.diagramItemSetTitlePath, postData).toPromise();
     }
 }

@@ -1,10 +1,9 @@
 import { Position } from 'src/app/model/position';
 import { Size } from 'src/app/model/size';
-import { ResizeDirection } from './resize-direction';
+
+const minSize: Size = new Size(100, 100);
 
 export class DiagramItem {
-
-    private _minSize: Size = new Size(100, 100);
 
     private _id: string;
     private _title: string;
@@ -28,7 +27,7 @@ export class DiagramItem {
         this._hasResized = false;
     }
 
-    get minSize(): Size { return this._minSize; }
+    get minSize(): Size { return minSize; }
 
     get id(): string { return this._id; }
 
