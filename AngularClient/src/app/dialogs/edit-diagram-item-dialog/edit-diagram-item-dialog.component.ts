@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DiagramItem } from 'src/app/model/diagram-item';
-import { ApiService } from 'src/app/services/api.service';
+import { DiagramEventsService } from 'src/app/services/diagram-events.service';
 
 @Component({
     selector: 'app-edit-diagram-item-dialog',
@@ -13,7 +13,7 @@ export class EditDiagramItemDialogComponent implements OnInit {
     private _title: string;
 
     constructor(
-        private apiService: ApiService,
+        private _diagramEventsService: DiagramEventsService,
     ) { }
 
     ngOnInit(): void { }
@@ -31,6 +31,6 @@ export class EditDiagramItemDialogComponent implements OnInit {
 
     saveChanges(): void {
         this._item.title = this._title;
-        this.apiService.diagramItemSetTitle(this._item);
+        this._diagramEventsService.diagramItemSetTitleEvent.raise(this._item);
     }
 }

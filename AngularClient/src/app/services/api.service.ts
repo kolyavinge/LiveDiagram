@@ -13,11 +13,10 @@ export class ApiService {
         private httpClient: HttpClient
     ) { }
 
-    diagramItemMove(item: DiagramItem): void {
-        var authData = this.localStorage.getAuthData();
+    diagramItemMove(diagram: Diagram, item: DiagramItem): void {
         var postData = {
-            clientId: authData.clientId,
-            diagramId: this.localStorage.getCurrentDiagram().id,
+            clientId: this.localStorage.authData.clientId,
+            diagramId: diagram.id,
             itemId: item.id,
             x: item.position.x,
             y: item.position.y
@@ -25,11 +24,10 @@ export class ApiService {
         this.httpClient.post(ApiPath.diagramItemMovePath, postData).toPromise();
     }
 
-    diagramItemResize(item: DiagramItem): void {
-        var authData = this.localStorage.getAuthData();
+    diagramItemResize(diagram: Diagram, item: DiagramItem): void {
         var postData = {
-            clientId: authData.clientId,
-            diagramId: this.localStorage.getCurrentDiagram().id,
+            clientId: this.localStorage.authData.clientId,
+            diagramId: diagram.id,
             itemId: item.id,
             x: item.position.x,
             y: item.position.y,
@@ -39,11 +37,10 @@ export class ApiService {
         this.httpClient.post(ApiPath.diagramItemResizePath, postData).toPromise();
     }
 
-    diagramItemSetTitle(item: DiagramItem): void {
-        var authData = this.localStorage.getAuthData();
+    diagramItemSetTitle(diagram: Diagram, item: DiagramItem): void {
         var postData = {
-            clientId: authData.clientId,
-            diagramId: this.localStorage.getCurrentDiagram().id,
+            clientId: this.localStorage.authData.clientId,
+            diagramId: diagram.id,
             itemId: item.id,
             itemTitle: item.title
         };

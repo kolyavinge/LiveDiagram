@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
-import { ApiService } from 'src/app/services/api.service';
-import { DiagramUpdaterService } from 'src/app/services/diagram-updater.service';
 import { Position } from 'src/app/model/position';
 import { DiagramItem } from 'src/app/model/diagram-item';
 import { Diagram } from 'src/app/model/diagram';
 import { DiagramService } from 'src/app/services/diagram.service';
+import { DiagramEventsService } from 'src/app/services/diagram-events.service';
 
 @Component({
     selector: 'app-diagram',
@@ -20,12 +19,10 @@ export class DiagramComponent implements OnInit {
     private _mouseLastPosition: Position;
 
     constructor(
-        private _apiService: ApiService,
+        private _diagramEventsService: DiagramEventsService,
         private _diagramService: DiagramService,
-        private _diagramServiceUpdater: DiagramUpdaterService,
     ) {
-        this._diagram = this._diagramService.getCurrentDiagram();
-        this._diagramServiceUpdater.connectToDiagram(this._diagram);
+        this._diagram = this._diagramService.diagram;
     }
 
     ngOnInit(): void { }
@@ -57,14 +54,14 @@ export class DiagramComponent implements OnInit {
     onMouseUp(event): void {
         if (this._pointedItem) {
             if (this._pointedItem.hasMoved) {
-                this._apiService.diagramItemMove(this._pointedItem);
+                this._diagramEventsService.diagramItemMoveEvent.raise(this._pointedItem);
             }
             this._pointedItem.isPointed = false;
             this._pointedItem = null;
         }
         if (this._resizedItem) {
             if (this._resizedItem.hasResized) {
-                this._apiService.diagramItemResize(this._resizedItem);
+                this._diagramEventsService.diagramItemResizeEvent.raise(this._resizedItem);
             }
             this._resizedItem.clearResize();
             this._resizedItem = null;

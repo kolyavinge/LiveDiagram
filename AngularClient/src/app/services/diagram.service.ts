@@ -1,29 +1,42 @@
 import { Injectable } from '@angular/core';
 import { Diagram } from '../model/diagram';
-import { LocalStorageService } from './local-storage.service';
+import { DiagramItem } from '../model/diagram-item';
+import { ApiService } from './api.service';
+import { DiagramEventsService } from './diagram-events.service';
+import { DiagramUpdaterService } from './diagram-updater.service';
 
 @Injectable({ providedIn: 'root' })
 export class DiagramService {
 
-    diagram: Diagram;
-    diagramChangeEventHandlers: any[] = [];
+    private _diagram: Diagram;
 
     constructor(
-        private localStorage: LocalStorageService
+        private _apiService: ApiService,
+        private _diagramEventsService: DiagramEventsService,
+        private _diagramUpdaterService: DiagramUpdaterService
     ) {
-        this.diagram = new Diagram();
-        this.localStorage.setCurrentDiagram(this.diagram);
+        this._diagram = new Diagram();
+        this._diagramUpdaterService.connectToDiagram(this._diagram);
+        this.addHandlers();
     }
 
-    getCurrentDiagram(): Diagram {
-        return this.diagram;
+    get diagram(): Diagram {
+        return this._diagram;
     }
 
-    addDiagramChangeEventHandler(handler: any) {
-        this.diagramChangeEventHandlers.push(handler);
-    }
+    addHandlers(): void {
+        var self = this;
 
-    raiseDiagramChangeEventHandlers() {
-        this.diagramChangeEventHandlers.forEach(handler => handler(this.diagram));
+        self._diagramEventsService.diagramItemMoveEvent.addHandler((diagramItem: DiagramItem) => {
+            self._apiService.diagramItemMove(self._diagram, diagramItem);
+        });
+
+        self._diagramEventsService.diagramItemResizeEvent.addHandler((diagramItem: DiagramItem) => {
+            self._apiService.diagramItemResize(self._diagram, diagramItem);
+        });
+
+        self._diagramEventsService.diagramItemSetTitleEvent.addHandler((diagramItem: DiagramItem) => {
+            self._apiService.diagramItemSetTitle(self._diagram, diagramItem);
+        });
     }
 }

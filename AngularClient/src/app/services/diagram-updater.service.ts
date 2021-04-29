@@ -5,42 +5,40 @@ import { Diagram } from '../model/diagram';
 @Injectable({ providedIn: 'root' })
 export class DiagramUpdaterService {
 
-    diagram: Diagram;
+    private _diagram: Diagram;
 
     constructor(
-        private apiNotifierService: ApiNotifierService
-    ) {
-    }
+        private _apiNotifierService: ApiNotifierService
+    ) { }
 
     connectToDiagram(diagram: Diagram): void {
         var self = this;
-        self.diagram = diagram;
+        self._diagram = diagram;
 
-        self.apiNotifierService.clearHandlers();
+        self._apiNotifierService.clearHandlers();
 
-        self.apiNotifierService.onDiagramItemMove(function (response) {
-            var movedItem = self.diagram.getItemById(response.itemId);
+        self._apiNotifierService.onDiagramItemMove(function (response) {
+            var movedItem = self._diagram.getItemById(response.itemId);
             if (movedItem) {
-                self.diagram.moveItemTo(movedItem, response.x, response.y);
+                self._diagram.moveItemTo(movedItem, response.x, response.y);
             }
         });
 
-        self.apiNotifierService.onDiagramItemResize(function (response) {
-            var resizedItem = self.diagram.getItemById(response.itemId);
+        self._apiNotifierService.onDiagramItemResize(function (response) {
+            var resizedItem = self._diagram.getItemById(response.itemId);
             if (resizedItem) {
-                self.diagram.setItemPosition(resizedItem, response.x, response.y);
-                self.diagram.setItemSize(resizedItem, response.width, response.height);
+                self._diagram.setItemPosition(resizedItem, response.x, response.y);
+                self._diagram.setItemSize(resizedItem, response.width, response.height);
             }
         });
 
-        self.apiNotifierService.onDiagramItemSetTitle(function (response) {
-            var item = self.diagram.getItemById(response.itemId);
+        self._apiNotifierService.onDiagramItemSetTitle(function (response) {
+            var item = self._diagram.getItemById(response.itemId);
             if (item) {
-                console.log('onDiagramItemSetTitle');
                 item.title = response.itemTitle;
             }
         });
 
-        self.apiNotifierService.connectToDiagram(self.diagram.id);
+        self._apiNotifierService.connectToDiagram(self._diagram.id);
     }
 }

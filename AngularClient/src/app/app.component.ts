@@ -11,9 +11,9 @@ export class AppComponent {
     title = 'Live diagram';
 
     constructor(
-        private localStorage: LocalStorageService
+        private _localStorage: LocalStorageService
     ) {
         var authData = { clientId: Date.now().toString() };
-        localStorage.setAuthData(authData);
+        _localStorage.authData = authData;
     }
 }

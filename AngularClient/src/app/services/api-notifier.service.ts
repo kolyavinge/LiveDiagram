@@ -6,43 +6,43 @@ import { AuthData } from 'src/app/services/local-storage.service'
 @Injectable({ providedIn: 'root' })
 export class ApiNotifierService {
 
-    signalrClient: SignalRClient = new SignalRClient();
-    authData: AuthData;
-    diagramId: string;
+    private _signalrClient: SignalRClient = new SignalRClient();
+    private _authData: AuthData;
+    private _diagramId: string;
 
     constructor(
-        private localStorage: LocalStorageService
+        private _localStorage: LocalStorageService
     ) {
-        this.authData = this.localStorage.getAuthData();
+        this._authData = this._localStorage.authData;
     }
 
     connectToDiagram(diagramId: string): void {
-        this.diagramId = diagramId;
-        this.signalrClient.start(this.authData.clientId, this.diagramId);
+        this._diagramId = diagramId;
+        this._signalrClient.start(this._authData.clientId, this._diagramId);
     }
 
     clearHandlers(): void {
-        this.signalrClient.clearHandlers();
+        this._signalrClient.clearHandlers();
     }
 
     onDiagramItemMove(handler: any): void {
         var self = this;
-        self.signalrClient.addHandler("DiagramItemMoveResponse", function (response) {
-            if (self.authData.clientId != response.clientId) handler(response);
+        self._signalrClient.addHandler("DiagramItemMoveResponse", function (response) {
+            if (self._authData.clientId != response.clientId) handler(response);
         });
     }
 
     onDiagramItemResize(handler: any): void {
         var self = this;
-        self.signalrClient.addHandler("DiagramItemResizeResponse", function (response) {
-            if (self.authData.clientId != response.clientId) handler(response);
+        self._signalrClient.addHandler("DiagramItemResizeResponse", function (response) {
+            if (self._authData.clientId != response.clientId) handler(response);
         });
     }
 
     onDiagramItemSetTitle(handler: any): void {
         var self = this;
-        self.signalrClient.addHandler("DiagramItemSetTitleResponse", function (response) {
-            if (self.authData.clientId != response.clientId) handler(response);
+        self._signalrClient.addHandler("DiagramItemSetTitleResponse", function (response) {
+            if (self._authData.clientId != response.clientId) handler(response);
         });
     }
 }

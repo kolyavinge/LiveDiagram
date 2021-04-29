@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Diagram } from '../model/diagram';
 
 export interface AuthData {
     clientId: string;
@@ -8,22 +7,13 @@ export interface AuthData {
 @Injectable({ providedIn: 'root' })
 export class LocalStorageService {
 
-    authData: AuthData;
-    diagram: Diagram;
+    private _authData: AuthData;
 
-    public getAuthData(): AuthData {
-        return this.authData;
+    get authData(): AuthData {
+        return this._authData;
     }
 
-    public setAuthData(authData: AuthData): void {
-        this.authData = authData;
-    }
-
-    public getCurrentDiagram(): Diagram {
-        return this.diagram;
-    }
-
-    public setCurrentDiagram(diagram: Diagram) {
-        this.diagram = diagram;
+    set authData(value: AuthData) {
+        this._authData = value;
     }
 }
