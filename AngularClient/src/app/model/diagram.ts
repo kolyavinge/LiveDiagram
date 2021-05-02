@@ -35,6 +35,10 @@ export class Diagram {
         return this._items.find(item => item.resizeDirectionValue > 0);
     }
 
+    getSelectedItem(): DiagramItem {
+        return this._items.find(item => item.isSelected);
+    }
+
     clearSelectionBut(item: DiagramItem): void {
         this._items.filter(i => i.isEquals(item) == false).forEach(i => i.isSelected = false);
     }
@@ -59,6 +63,10 @@ export class Diagram {
 
     addItem(item: DiagramItem): void {
         this._items.push(item);
+    }
+
+    deleteItem(item: DiagramItem): void {
+        this._items = this._items.filter(i => i.isEquals(item) == false);
     }
 
     private correctItemPosition(item: DiagramItem): void {

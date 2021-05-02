@@ -8,4 +8,5 @@ export class DiagramEventsService {
     diagramItemResizeEvent: Event = new Event();
     diagramItemSetTitleEvent: Event = new Event();
     diagramItemAddEvent: Event = new Event();
+    diagramItemDeleteEvent: Event = new Event();
 }

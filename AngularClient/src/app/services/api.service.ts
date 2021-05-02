@@ -60,4 +60,13 @@ export class ApiService {
         };
         this._httpClient.post(ApiPath.diagramItemAddPath, postData).toPromise();
     }
+
+    diagramItemDelete(diagram: Diagram, item: DiagramItem): void {
+        var postData = {
+            clientId: this._localStorage.authData.clientId,
+            diagramId: diagram.id,
+            itemId: item.id
+        };
+        this._httpClient.post(ApiPath.diagramItemDeletePath, postData).toPromise();
+    }
 }

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/dialogs/confirm-dialog/confirm-dialog.component';
 import { EditDiagramItemDialogComponent } from 'src/app/dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
 import { DiagramItem } from 'src/app/model/diagram-item';
 import { DiagramEventsService } from 'src/app/services/diagram-events.service';
+import { DiagramService } from 'src/app/services/diagram.service';
 
 @Component({
     selector: 'app-main-menu',
@@ -12,14 +14,14 @@ import { DiagramEventsService } from 'src/app/services/diagram-events.service';
 export class MainMenuComponent implements OnInit {
 
     constructor(
+        private _diagramService: DiagramService,
         private _diagramEventsService: DiagramEventsService,
         private _dialogService: MatDialog
     ) { }
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void { }
 
-    createDiagramElement(): void {
+    createDiagramItem(): void {
         var self = this;
         var newDiagramItem = new DiagramItem();
         newDiagramItem.setPosition(100, 100);
@@ -32,5 +34,19 @@ export class MainMenuComponent implements OnInit {
                 self._diagramEventsService.diagramItemAddEvent.raise(newDiagramItem);
             }
         });
+    }
+
+    deleteDiagramItem(): void {
+        var self = this;
+        var selectedItem = self._diagramService.diagram.getSelectedItem();
+        if (selectedItem) {
+            var dialog = self._dialogService.open(ConfirmDialogComponent);
+            dialog.componentInstance.message = 'Вы действительно хотите удалить выбранный элемент?';
+            dialog.afterClosed().subscribe(result => {
+                if (result) {
+                    self._diagramEventsService.diagramItemDeleteEvent.raise(selectedItem);
+                }
+            });
+        }
     }
 }

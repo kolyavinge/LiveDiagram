@@ -13,6 +13,7 @@ import { DiagramItemComponent } from './components/diagram-item/diagram-item.com
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { StatusBarComponent } from './components/status-bar/status-bar.component';
 import { EditDiagramItemDialogComponent } from './dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
     declarations: [
@@ -22,6 +23,7 @@ import { EditDiagramItemDialogComponent } from './dialogs/edit-diagram-item-dial
         MainMenuComponent,
         StatusBarComponent,
         EditDiagramItemDialogComponent,
+        ConfirmDialogComponent,
     ],
     imports: [
         BrowserModule,

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LiveDiagram.Api.Contracts
 {
-    public abstract class DiagramItemResponse : Response
+    public class DiagramItemDeleteRequest
     {
         [JsonPropertyName("clientId")]
         public string ClientId { get; set; }

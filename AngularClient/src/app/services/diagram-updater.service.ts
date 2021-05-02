@@ -50,6 +50,13 @@ export class DiagramUpdaterService {
             self._diagram.addItem(item);
         });
 
+        self._apiNotifierService.onDiagramItemDelete(function (response) {
+            var item = self._diagram.getItemById(response.itemId);
+            if (item) {
+                self._diagram.deleteItem(item);
+            }
+        });
+
         self._apiNotifierService.connectToDiagram(self._diagram.id);
     }
 }

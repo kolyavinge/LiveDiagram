@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LiveDiagram.Api.Contracts
 {
-    public class DiagramItemSetTitleResponse : DiagramItemResponse
+    public class Response
     {
-        [JsonPropertyName("itemTitle")]
-        public string DiagramItemTitle { get; set; }
+        [JsonPropertyName("success")]
+        public bool Success { get; set; }
     }
 }

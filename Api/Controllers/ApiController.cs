@@ -106,5 +106,21 @@ namespace LiveDiagram.Api.Controllers
 
             return Ok();
         }
+
+        [HttpPost]
+        [Route("DiagramItemDelete")]
+        public IActionResult DiagramItemDelete(DiagramItemDeleteRequest request)
+        {
+            var response = new DiagramItemDeleteResponse
+            {
+                Success = true,
+                ClientId = request.ClientId,
+                DiagramId = request.DiagramId,
+                DiagramItemId = request.DiagramItemId
+            };
+            _mainNotifier.DiagramItemDeleteResponse(response);
+
+            return Ok();
+        }
     }
 }

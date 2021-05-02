@@ -8,9 +8,6 @@ namespace LiveDiagram.Api.Contracts
 {
     public class DiagramItemResizeResponse : DiagramItemResponse
     {
-        [JsonPropertyName("success")]
-        public bool Success { get; set; }
-
         [JsonPropertyName("itemX")]
         public int DiagramItemX { get; set; }
 

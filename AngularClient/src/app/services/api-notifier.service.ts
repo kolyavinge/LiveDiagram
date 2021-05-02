@@ -52,4 +52,11 @@ export class ApiNotifierService {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
+
+    onDiagramItemDelete(handler: any): void {
+        var self = this;
+        self._signalrClient.addHandler("DiagramItemDeleteResponse", function (response) {
+            if (self._authData.clientId != response.clientId) handler(response);
+        });
+    }
 }

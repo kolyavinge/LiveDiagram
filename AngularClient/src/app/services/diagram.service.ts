@@ -43,5 +43,10 @@ export class DiagramService {
             self._diagram.addItem(diagramItem);
             self._apiService.diagramItemAdd(self._diagram, diagramItem);
         });
+
+        self._diagramEventsService.diagramItemDeleteEvent.addHandler((diagramItem: DiagramItem) => {
+            self._diagram.deleteItem(diagramItem);
+            self._apiService.diagramItemDelete(self._diagram, diagramItem);
+        });
     }
 }

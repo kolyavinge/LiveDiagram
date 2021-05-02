@@ -7,4 +7,5 @@ export default {
     diagramItemResizePath: apiPath + 'diagramItemResize',
     diagramItemSetTitlePath: apiPath + 'diagramItemSetTitle',
     diagramItemAddPath: apiPath + 'diagramItemAdd',
+    diagramItemDeletePath: apiPath + 'diagramItemDelete',
 }
