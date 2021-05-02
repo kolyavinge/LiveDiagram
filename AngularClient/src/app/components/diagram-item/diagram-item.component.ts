@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ResizeDirection } from 'src/app/model/resize-direction';
 import { DiagramItem } from 'src/app/model/diagram-item';
 import { EditDiagramItemDialogComponent } from 'src/app/dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
+import { DiagramEventsService } from 'src/app/services/diagram-events.service';
 
 @Component({
     selector: 'app-diagram-item',
@@ -15,6 +16,7 @@ export class DiagramItemComponent implements OnInit {
     private _resize: ResizeDirection = new ResizeDirection();
 
     constructor(
+        private _diagramEventsService: DiagramEventsService,
         private _dialogService: MatDialog
     ) { }
 
@@ -42,6 +44,7 @@ export class DiagramItemComponent implements OnInit {
         dialog.afterClosed().subscribe(result => {
             if (result) {
                 dialog.componentInstance.saveChanges();
+                self._diagramEventsService.diagramItemSetTitleEvent.raise(this.item);
             }
         });
     }

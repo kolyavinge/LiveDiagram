@@ -18,8 +18,8 @@ export class ApiService {
             clientId: this._localStorage.authData.clientId,
             diagramId: diagram.id,
             itemId: item.id,
-            x: item.position.x,
-            y: item.position.y
+            itemX: item.position.x,
+            itemY: item.position.y
         };
         this._httpClient.post(ApiPath.diagramItemMovePath, postData).toPromise();
     }
@@ -29,10 +29,10 @@ export class ApiService {
             clientId: this._localStorage.authData.clientId,
             diagramId: diagram.id,
             itemId: item.id,
-            x: item.position.x,
-            y: item.position.y,
-            width: item.size.width,
-            height: item.size.height,
+            itemX: item.position.x,
+            itemY: item.position.y,
+            itemWidth: item.size.width,
+            itemHeight: item.size.height
         };
         this._httpClient.post(ApiPath.diagramItemResizePath, postData).toPromise();
     }
@@ -45,5 +45,19 @@ export class ApiService {
             itemTitle: item.title
         };
         this._httpClient.post(ApiPath.diagramItemSetTitlePath, postData).toPromise();
+    }
+
+    diagramItemAdd(diagram: Diagram, item: DiagramItem): void {
+        var postData = {
+            clientId: this._localStorage.authData.clientId,
+            diagramId: diagram.id,
+            itemId: item.id,
+            itemTitle: item.title,
+            itemX: item.position.x,
+            itemY: item.position.y,
+            itemWidth: item.size.width,
+            itemHeight: item.size.height
+        };
+        this._httpClient.post(ApiPath.diagramItemAddPath, postData).toPromise();
     }
 }

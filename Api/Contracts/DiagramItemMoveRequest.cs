@@ -17,10 +17,10 @@ namespace LiveDiagram.Api.Contracts
         [JsonPropertyName("itemId")]
         public string DiagramItemId { get; set; }
 
-        [JsonPropertyName("x")]
+        [JsonPropertyName("itemX")]
         public int DiagramItemX { get; set; }
 
-        [JsonPropertyName("y")]
+        [JsonPropertyName("itemY")]
         public int DiagramItemY { get; set; }
     }
 }

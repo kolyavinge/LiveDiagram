@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Threading.Tasks;
 using LiveDiagram.Api.Contracts;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -14,6 +11,7 @@ namespace LiveDiagram.Api.SignalR
         void DiagramItemMoveResponse(DiagramItemMoveResponse response);
         void DiagramItemResizeResponse(DiagramItemResizeResponse response);
         void DiagramItemSetTitleResponse(DiagramItemSetTitleResponse response);
+        void DiagramItemAddResponse(DiagramItemAddResponse response);
     }
 
     public class MainNotifier : IMainNotifier
@@ -37,6 +35,11 @@ namespace LiveDiagram.Api.SignalR
         }
 
         public async void DiagramItemSetTitleResponse(DiagramItemSetTitleResponse response)
+        {
+            await SendResponse(response);
+        }
+
+        public async void DiagramItemAddResponse(DiagramItemAddResponse response)
         {
             await SendResponse(response);
         }

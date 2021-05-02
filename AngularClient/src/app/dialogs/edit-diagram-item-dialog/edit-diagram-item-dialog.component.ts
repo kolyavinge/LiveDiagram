@@ -12,9 +12,7 @@ export class EditDiagramItemDialogComponent implements OnInit {
     private _item: DiagramItem;
     private _title: string;
 
-    constructor(
-        private _diagramEventsService: DiagramEventsService,
-    ) { }
+    constructor() { }
 
     ngOnInit(): void { }
 
@@ -31,6 +29,5 @@ export class EditDiagramItemDialogComponent implements OnInit {
 
     saveChanges(): void {
         this._item.title = this._title;
-        this._diagramEventsService.diagramItemSetTitleEvent.raise(this._item);
     }
 }

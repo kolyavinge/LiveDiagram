@@ -45,4 +45,11 @@ export class ApiNotifierService {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
+
+    onDiagramItemAdd(handler: any): void {
+        var self = this;
+        self._signalrClient.addHandler("DiagramItemAddResponse", function (response) {
+            if (self._authData.clientId != response.clientId) handler(response);
+        });
+    }
 }

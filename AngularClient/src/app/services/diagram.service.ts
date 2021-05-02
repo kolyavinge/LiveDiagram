@@ -38,5 +38,10 @@ export class DiagramService {
         self._diagramEventsService.diagramItemSetTitleEvent.addHandler((diagramItem: DiagramItem) => {
             self._apiService.diagramItemSetTitle(self._diagram, diagramItem);
         });
+
+        self._diagramEventsService.diagramItemAddEvent.addHandler((diagramItem: DiagramItem) => {
+            self._diagram.addItem(diagramItem);
+            self._apiService.diagramItemAdd(self._diagram, diagramItem);
+        });
     }
 }

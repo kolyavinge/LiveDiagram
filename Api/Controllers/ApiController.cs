@@ -85,5 +85,26 @@ namespace LiveDiagram.Api.Controllers
 
             return Ok();
         }
+
+        [HttpPost]
+        [Route("DiagramItemAdd")]
+        public IActionResult DiagramItemAdd(DiagramItemAddRequest request)
+        {
+            var response = new DiagramItemAddResponse
+            {
+                Success = true,
+                ClientId = request.ClientId,
+                DiagramId = request.DiagramId,
+                DiagramItemId = request.DiagramItemId,
+                DiagramItemTitle = request.DiagramItemTitle,
+                DiagramItemX = request.DiagramItemX,
+                DiagramItemY = request.DiagramItemY,
+                DiagramItemWidth = request.DiagramItemWidth,
+                DiagramItemHeight = request.DiagramItemHeight
+            };
+            _mainNotifier.DiagramItemAddResponse(response);
+
+            return Ok();
+        }
     }
 }

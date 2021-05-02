@@ -5,6 +5,7 @@ import { AngularResizedEventModule } from 'angular-resize-event';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AppComponent } from './app.component';
 import { DiagramComponent } from './components/diagram/diagram.component';
@@ -29,6 +30,7 @@ import { EditDiagramItemDialogComponent } from './dialogs/edit-diagram-item-dial
         BrowserAnimationsModule,
         MatDialogModule,
         MatButtonModule,
+        MatMenuModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

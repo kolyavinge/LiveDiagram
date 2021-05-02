@@ -15,11 +15,11 @@ export class DiagramItem {
     private _hasMoved: boolean;
     private _hasResized: boolean;
 
-    constructor() {
-        this._id = "123";
-        this._title = "new item";
-        this._position = new Position(100, 100);
-        this._size = new Size(120, 160);
+    constructor(id: string = null) {
+        this._id = id ?? Date.now().toString();
+        this._title = "";
+        this._position = new Position(0, 0);
+        this._size = new Size(0, 0);
         this._isPointed = false;
         this._isSelected = false;
         this._resizeDirectionValue = 0;

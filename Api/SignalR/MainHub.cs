@@ -45,6 +45,11 @@ namespace LiveDiagram.Api.SignalR
             await SendAsync("DiagramItemSetTitleResponse", responseContainerJson);
         }
 
+        public async Task DiagramItemAddResponse(object responseContainerJson)
+        {
+            await SendAsync("DiagramItemAddResponse", responseContainerJson);
+        }
+
         private async Task SendAsync(string methodName, object responseContainerJson)
         {
             List<string> connectionsId;

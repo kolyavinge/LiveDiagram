@@ -12,7 +12,6 @@ export class Diagram {
     private _items: DiagramItem[] = [];
 
     constructor() {
-        this._items.push(new DiagramItem());
     }
 
     get id(): string { return this._id; }
@@ -56,6 +55,10 @@ export class Diagram {
     moveItemTo(item: DiagramItem, x: number, y: number): void {
         item.setPosition(x, y);
         this.correctItemPosition(item);
+    }
+
+    addItem(item: DiagramItem): void {
+        this._items.push(item);
     }
 
     private correctItemPosition(item: DiagramItem): void {

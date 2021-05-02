@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiNotifierService } from 'src/app/services/api-notifier.service';
 import { Diagram } from '../model/diagram';
+import { DiagramItem } from '../model/diagram-item';
 
 @Injectable({ providedIn: 'root' })
 export class DiagramUpdaterService {
@@ -20,15 +21,15 @@ export class DiagramUpdaterService {
         self._apiNotifierService.onDiagramItemMove(function (response) {
             var movedItem = self._diagram.getItemById(response.itemId);
             if (movedItem) {
-                self._diagram.moveItemTo(movedItem, response.x, response.y);
+                self._diagram.moveItemTo(movedItem, response.itemX, response.itemY);
             }
         });
 
         self._apiNotifierService.onDiagramItemResize(function (response) {
             var resizedItem = self._diagram.getItemById(response.itemId);
             if (resizedItem) {
-                self._diagram.setItemPosition(resizedItem, response.x, response.y);
-                self._diagram.setItemSize(resizedItem, response.width, response.height);
+                self._diagram.setItemPosition(resizedItem, response.itemX, response.itemY);
+                self._diagram.setItemSize(resizedItem, response.itemWidth, response.itemHeight);
             }
         });
 
@@ -37,6 +38,16 @@ export class DiagramUpdaterService {
             if (item) {
                 item.title = response.itemTitle;
             }
+        });
+
+        self._apiNotifierService.onDiagramItemAdd(function (response) {
+            var item = new DiagramItem(response.itemId);
+            item.title = response.itemTitle;
+            item.position.x = response.itemX;
+            item.position.y = response.itemY;
+            item.size.width = response.itemWidth;
+            item.size.height = response.itemHeight;
+            self._diagram.addItem(item);
         });
 
         self._apiNotifierService.connectToDiagram(self._diagram.id);
