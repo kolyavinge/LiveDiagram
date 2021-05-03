@@ -2,4 +2,5 @@
     (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp($event)"
     (resized)="onResize($event)">
     <app-diagram-item *ngFor="let item of diagram.items" [item]="item"></app-diagram-item>
+    <app-relation *ngFor="let relation of diagram.relations" [relation]="relation"></app-relation>
 </div>

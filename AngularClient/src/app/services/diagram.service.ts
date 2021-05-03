@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Diagram } from '../model/diagram';
 import { DiagramItem } from '../model/diagram-item';
+import { Relation } from '../model/relation';
 import { ApiService } from './api.service';
 import { DiagramEventsService } from './diagram-events.service';
 import { DiagramUpdaterService } from './diagram-updater.service';
@@ -32,7 +33,14 @@ export class DiagramService {
             item.title = i.title;
             item.setPosition(i.x, i.y);
             item.setSize(i.width, i.height);
-            diagram.items.push(item);
+            diagram.addItem(item);
+        });
+        response.diagram.relations.forEach(r => {
+            var from = diagram.getItemById(r.itemIdFrom);
+            var to = diagram.getItemById(r.itemIdTo);
+            var relation = new Relation(r.id);
+            relation.setDiagramItems(from, to);
+            diagram.addRelation(relation);
         });
 
         return diagram;

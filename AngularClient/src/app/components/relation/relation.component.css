@@ -1,0 +1,5 @@
+div.segment {
+    position: absolute;
+    background-color: rgba(209, 227, 255, 1.0);
+    box-shadow: rgb(0 0 0 / 50%) 0px 0px 5px;
+}

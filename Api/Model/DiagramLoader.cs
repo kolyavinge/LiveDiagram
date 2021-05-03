@@ -32,6 +32,15 @@ namespace LiveDiagram.Api.Model
                         Width = 100,
                         Height = 100
                     },
+                },
+                Relations = new List<Relation>
+                {
+                    new Relation
+                    {
+                        Id = "123",
+                        DiagramItemIdFrom = "789",
+                        DiagramItemIdTo = "987"
+                    }
                 }
             };
         }

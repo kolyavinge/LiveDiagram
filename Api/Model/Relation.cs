@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace LiveDiagram.Api.Model
 {
-    public class Diagram
+    public class Relation
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("items")]
-        public List<DiagramItem> Items { get; set; }
+        [JsonPropertyName("itemIdFrom")]
+        public string DiagramItemIdFrom { get; set; }
 
-        [JsonPropertyName("relations")]
-        public List<Relation> Relations { get; set; }
+        [JsonPropertyName("itemIdTo")]
+        public string DiagramItemIdTo { get; set; }
     }
 }

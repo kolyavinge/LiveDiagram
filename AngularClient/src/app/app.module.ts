@@ -14,6 +14,7 @@ import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { StatusBarComponent } from './components/status-bar/status-bar.component';
 import { EditDiagramItemDialogComponent } from './dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
+import { RelationComponent } from './components/relation/relation.component';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.
         StatusBarComponent,
         EditDiagramItemDialogComponent,
         ConfirmDialogComponent,
+        RelationComponent,
     ],
     imports: [
         BrowserModule,
