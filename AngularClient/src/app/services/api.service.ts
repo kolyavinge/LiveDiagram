@@ -13,6 +13,14 @@ export class ApiService {
         private _httpClient: HttpClient
     ) { }
 
+    getDiagramById(id: string): Promise<any> {
+        var postData = {
+            clientId: this._localStorage.authData.clientId,
+            diagramId: id
+        };
+        return this._httpClient.post(ApiPath.getDiagramByIdPath, postData).toPromise();
+    }
+
     diagramItemMove(diagram: Diagram, item: DiagramItem): void {
         var postData = {
             clientId: this._localStorage.authData.clientId,

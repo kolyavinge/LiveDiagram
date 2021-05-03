@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LiveDiagram.Api.Contracts;
+using LiveDiagram.Api.Model;
 using LiveDiagram.Api.SignalR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,20 @@ namespace LiveDiagram.Api.Controllers
         public IActionResult TestAction()
         {
             return new JsonResult(new { ok = true });
+        }
+
+        [HttpPost]
+        [Route("GetDiagramById")]
+        public IActionResult GetDiagramById(GetDiagramByIdRequest request)
+        {
+            var diagramLoader = new DiagramLoader();
+            var response = new GetDiagramByIdResponse
+            {
+                Success = true,
+                Diagram = diagramLoader.LoadDiagramById(request.DiagramId)
+            };
+
+            return new JsonResult(response);
         }
 
         [HttpPost]

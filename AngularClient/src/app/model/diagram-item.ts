@@ -1,5 +1,6 @@
 import { Position } from 'src/app/model/position';
 import { Size } from 'src/app/model/size';
+import Utils from 'src/app/infrastructure/utils';
 
 const minSize: Size = new Size(100, 100);
 
@@ -16,7 +17,7 @@ export class DiagramItem {
     private _hasResized: boolean;
 
     constructor(id: string = null) {
-        this._id = id ?? Date.now().toString();
+        this._id = id ?? Utils.generateId();
         this._title = "";
         this._position = new Position(0, 0);
         this._size = new Size(0, 0);

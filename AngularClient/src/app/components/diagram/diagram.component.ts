@@ -22,7 +22,11 @@ export class DiagramComponent implements OnInit {
         private _diagramEventsService: DiagramEventsService,
         private _diagramService: DiagramService,
     ) {
-        this._diagram = this._diagramService.diagram;
+        var self = this;
+        self._diagram = self._diagramService.diagram;
+        self._diagramEventsService.diagramLoadedEvent.addHandler((diagram: Diagram) => {
+            self._diagram = diagram;
+        })
     }
 
     ngOnInit(): void { }

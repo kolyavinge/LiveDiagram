@@ -8,4 +8,5 @@ export default {
     diagramItemSetTitlePath: apiPath + 'diagramItemSetTitle',
     diagramItemAddPath: apiPath + 'diagramItemAdd',
     diagramItemDeletePath: apiPath + 'diagramItemDelete',
+    getDiagramByIdPath: apiPath + 'getDiagramById',
 }

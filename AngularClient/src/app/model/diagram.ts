@@ -1,17 +1,18 @@
-import { Position } from "./position";
 import { Size } from "./size";
 import { DiagramItem } from "./diagram-item";
 import { ResizeDirection } from "./resize-direction";
+import Utils from 'src/app/infrastructure/utils';
 
 export class Diagram {
 
     private resize: ResizeDirection = new ResizeDirection();
 
-    private _id: string = "12345";
+    private _id: string;
     private _size: Size = new Size();
     private _items: DiagramItem[] = [];
 
-    constructor() {
+    constructor(id: string = null) {
+        this._id = id ?? Utils.generateId();
     }
 
     get id(): string { return this._id; }

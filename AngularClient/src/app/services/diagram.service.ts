@@ -15,9 +15,27 @@ export class DiagramService {
         private _diagramEventsService: DiagramEventsService,
         private _diagramUpdaterService: DiagramUpdaterService
     ) {
-        this._diagram = new Diagram();
-        this._diagramUpdaterService.connectToDiagram(this._diagram);
-        this.addHandlers();
+        var self = this;
+        self._diagram = new Diagram();
+        self._apiService.getDiagramById("12345").then(response => {
+            self._diagram = self.makeDiagramFromResponse(response);
+            self._diagramUpdaterService.connectToDiagram(self._diagram);
+            self.addHandlers();
+            self._diagramEventsService.diagramLoadedEvent.raise(self._diagram);
+        });
+    }
+
+    private makeDiagramFromResponse(response): Diagram {
+        var diagram = new Diagram(response.diagram.id);
+        response.diagram.items.forEach(i => {
+            var item = new DiagramItem(i.id);
+            item.title = i.title;
+            item.setPosition(i.x, i.y);
+            item.setSize(i.width, i.height);
+            diagram.items.push(item);
+        });
+
+        return diagram;
     }
 
     get diagram(): Diagram {
