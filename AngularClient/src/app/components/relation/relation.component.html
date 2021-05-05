@@ -1,8 +1,21 @@
 <div class="root">
-    <div class="segment"
-        *ngFor="let segment of relation.segments"
-        [style.left.px]="segment.position.x"
-        [style.top.px]="segment.position.y"
-        [style.width.px]="segment.size.width"
-        [style.height.px]="segment.size.height">
+    <div class="segment-line"
+        *ngFor="let line of lines"
+        [style.left.px]="line.position.x"
+        [style.top.px]="line.position.y"
+        [style.width.px]="line.size.width"
+        [style.height.px]="line.size.height">
+    </div>
+    <div class="segment-arrow"
+        *ngIf="arrowDown"
+        [style.left.px]="arrowDown.position.x"
+        [style.top.px]="arrowDown.position.y">
+        <span>▼</span>
+    </div>
+    <div class="segment-arrow"
+        *ngIf="arrowUp"
+        [style.left.px]="arrowUp.position.x"
+        [style.top.px]="arrowUp.position.y">
+        <span>▲</span>
+    </div>
 </div>

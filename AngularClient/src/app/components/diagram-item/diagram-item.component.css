@@ -1,5 +1,6 @@
 div.root {
     position: absolute;
+    z-index: 1;
 }
 
 div.item {
@@ -42,6 +43,7 @@ img.edit {
 
 div.resize {
     position: absolute;
+    z-index: 1;
     width: 5px;
     height: 5px;
     border-width: 1px;
