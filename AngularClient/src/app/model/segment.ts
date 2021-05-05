@@ -6,9 +6,9 @@ export class Segment {
     private _position: Position;
     private _size: Size;
 
-    constructor(position: Position, size: Size) {
-        this._position = position;
-        this._size = size;
+    constructor(x: number, y: number, width: number, height: number) {
+        this._position = new Position(x, y);
+        this._size = new Size(width, height);
     }
 
     get position(): Position {

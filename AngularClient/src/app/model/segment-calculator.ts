@@ -1,21 +1,40 @@
 import { DiagramItem } from "./diagram-item";
-import { Position } from "./position";
 import { Segment } from "./segment";
-import { Size } from "./size";
 
 export class SegmentCalculator {
 
     calculateSegments(from: DiagramItem, to: DiagramItem): Segment[] {
-        return [
-            new Segment(
-                new Position(from.position.x + from.size.width / 2 - 3, from.position.y + from.size.height),
-                new Size(6, 20)),
-            new Segment(
-                new Position(from.position.x + from.size.width / 2 - 3, from.position.y + from.size.height + 20),
-                new Size(to.position.x - from.position.x, 6)),
-            new Segment(
-                new Position(from.position.x + from.size.width / 2 - 3 + to.position.x - from.position.x, from.position.y + from.size.height + 20),
-                new Size(6, to.position.y - from.position.y - to.size.height - 20)),
-        ];
+        var toY = to.position.y;
+        var fromMiddleX = from.position.x + from.size.width / 2;
+        var fromBottomY = from.position.y + from.size.height;
+        var toMiddleX = to.position.x + to.size.width / 2;
+        var result = [];
+        if (fromMiddleX < toMiddleX) {
+            result = [
+                new Segment(
+                    fromMiddleX - 2, fromBottomY,
+                    5, 20),
+                new Segment(
+                    fromMiddleX - 2, fromBottomY + 20,
+                    toMiddleX - fromMiddleX, 5),
+                new Segment(
+                    toMiddleX - 2, fromBottomY + 20,
+                    5, toY - fromBottomY - 20),
+            ];
+        } else {
+            result = [
+                new Segment(
+                    fromMiddleX - 2, fromBottomY,
+                    5, 20),
+                new Segment(
+                    toMiddleX - 2, fromBottomY + 20,
+                    fromMiddleX - toMiddleX + 5, 5),
+                new Segment(
+                    toMiddleX - 2, fromBottomY + 20,
+                    5, toY - fromBottomY - 20),
+            ];
+        }
+
+        return result;
     }
 }

@@ -9,6 +9,7 @@ export class Relation {
     private _from: DiagramItem;
     private _to: DiagramItem;
     private _segments: Segment[] = [];
+    private _segmentCalculator = new SegmentCalculator();
 
     constructor(id: string = null) {
         this._id = id ?? Utils.generateId();
@@ -33,7 +34,6 @@ export class Relation {
     }
 
     calculateSegments(): void {
-        var segmentCalculator = new SegmentCalculator();
-        this._segments = segmentCalculator.calculateSegments(this._from, this._to);
+        this._segments = this._segmentCalculator.calculateSegments(this._from, this._to);
     }
 }
