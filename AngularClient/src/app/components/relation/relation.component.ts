@@ -65,11 +65,11 @@ export class RelationComponent implements OnInit {
         this.arrowUp = null;
         var last = this._segments[this._segments.length - 1];
         if (last.direction == this._direction.up) {
-            this.arrowUp = { x: last.position.x - 5, y: last.position.y - 3 };
+            this.arrowUp = { x: last.position.x - 5, y: last.position.y - 2 };
             last.position.y += 10;
             last.size.height -= 10;
         } else if (last.direction == this._direction.down) {
-            this.arrowDown = { x: last.position.x - 5, y: last.position.y + last.size.height - 16 };
+            this.arrowDown = { x: last.position.x - 5, y: last.position.y + last.size.height - 17 };
             last.size.height -= 10;
         }
     }

@@ -18,8 +18,13 @@ div.cap {
     cursor: default;
 }
 
-div.selected {
+div.selected-segment {
     background-color: rgb(255, 234, 209);
+    z-index: 1;
+}
+
+div.selected {
+    z-index: 1;
 }
 
 span.selected {
