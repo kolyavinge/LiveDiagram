@@ -8,3 +8,7 @@ button {
     width: 150px;
     height: 100%;
 }
+
+button:disabled {
+    background: #dddddd;
+}

@@ -1,4 +1,4 @@
 <div class="root">
     <button (click)="createDiagramItem()">Новый элемент</button>
-    <button (click)="deleteDiagramItem()">Удалить элемент</button>
+    <button (click)="delete()" [disabled]="deleteIsDisabled">{{ deleteTitle }}</button>
 </div>

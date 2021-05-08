@@ -44,6 +44,14 @@ export class DiagramComponent implements OnInit {
         if (this._pointedItem || this._resizedItem) {
             this._mouseLastPosition = new Position(event.x, event.y);
         }
+        // selection events
+        if (this._pointedItem || this._resizedItem) {
+            this._diagramEventsService.diagramItemSetSelectionEvent.raise(this._pointedItem ?? this._resizedItem);
+        } else if (this._pointedRelation) {
+            this._diagramEventsService.relationSetSelectionEvent.raise(this._pointedRelation);
+        } else {
+            this._diagramEventsService.diagramClearSelectionEvent.raise();
+        }
     }
 
     onMouseMove(event): void {

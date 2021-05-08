@@ -6,7 +6,7 @@ export class Event {
         this._handlers.push(handler);
     }
 
-    raise(args): void {
+    raise(args = null): void {
         this._handlers.forEach(h => h(args));
     }
 }

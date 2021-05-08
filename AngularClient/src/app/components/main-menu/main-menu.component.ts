@@ -13,11 +13,27 @@ import { DiagramService } from 'src/app/services/diagram.service';
 })
 export class MainMenuComponent implements OnInit {
 
+    deleteTitle: string = "Удалить элемент";
+    deleteIsDisabled: boolean = true;
+
     constructor(
         private _diagramService: DiagramService,
         private _diagramEventsService: DiagramEventsService,
         private _dialogService: MatDialog
-    ) { }
+    ) {
+        var self = this;
+        self._diagramEventsService.diagramItemSetSelectionEvent.addHandler((item) => {
+            self.deleteTitle = "Удалить элемент";
+            self.deleteIsDisabled = false;
+        });
+        self._diagramEventsService.relationSetSelectionEvent.addHandler((relation) => {
+            self.deleteTitle = "Удалить связь";
+            self.deleteIsDisabled = false;
+        });
+        self._diagramEventsService.diagramClearSelectionEvent.addHandler(() => {
+            self.deleteIsDisabled = true;
+        });
+    }
 
     ngOnInit(): void { }
 
@@ -36,7 +52,7 @@ export class MainMenuComponent implements OnInit {
         });
     }
 
-    deleteDiagramItem(): void {
+    delete(): void {
         var self = this;
         var selectedItem = self._diagramService.diagram.getSelectedItem();
         if (selectedItem) {
