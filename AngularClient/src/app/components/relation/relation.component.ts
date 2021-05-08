@@ -17,6 +17,8 @@ export class RelationComponent implements OnInit {
     private _segments: Segment[] = [];
     arrowUp: Point;
     arrowDown: Point;
+    cap1: Point;
+    cap2: Point;
 
     constructor() { }
 
@@ -31,9 +33,11 @@ export class RelationComponent implements OnInit {
         self._relation = value;
         self.calculateSegments(self._relation.segments);
         self.calculateArrows();
+        self.calculateCaps();
         self._relation.calculateSegmentsEvent.addHandler((segments) => {
             self.calculateSegments(segments);
             self.calculateArrows();
+            self.calculateCaps();
         });
     }
 
@@ -67,6 +71,20 @@ export class RelationComponent implements OnInit {
         } else if (last.direction == this._direction.down) {
             this.arrowDown = { x: last.position.x - 5, y: last.position.y + last.size.height - 16 };
             last.size.height -= 10;
+        }
+    }
+
+    calculateCaps(): void {
+        this.cap1 = null;
+        this.cap2 = null;
+        if (this._segments.length == 1) return;
+        var first = this._segments[0];
+        var second = this._segments[1];
+        this.cap1 = { x: first.position.x - 2, y: first.position.y + first.size.height - 10 };
+        if (second.direction == this._direction.left) {
+            this.cap2 = { x: second.position.x - 4, y: second.position.y - 8 };
+        } else if (second.direction == this._direction.right) {
+            this.cap2 = { x: second.position.x + second.size.width - 4, y: second.position.y - 8 };
         }
     }
 }

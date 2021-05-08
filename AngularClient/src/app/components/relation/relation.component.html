@@ -18,4 +18,16 @@
         [style.top.px]="arrowUp.y">
         <span>▲</span>
     </div>
+    <div class="cap"
+        *ngIf="cap1"
+        [style.left.px]="cap1.x"
+        [style.top.px]="cap1.y">
+        <span>●</span>
+    </div>
+    <div class="cap"
+        *ngIf="cap2"
+        [style.left.px]="cap2.x"
+        [style.top.px]="cap2.y">
+        <span>●</span>
+    </div>
 </div>
