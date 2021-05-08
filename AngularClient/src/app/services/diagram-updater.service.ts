@@ -57,6 +57,11 @@ export class DiagramUpdaterService {
             }
         });
 
+        self._apiNotifierService.onRelationDelete(function (response) {
+            var relations = self._diagram.getRelationsById(response.relationsId);
+            self._diagram.deleteRelations(relations);
+        });
+
         self._apiNotifierService.connectToDiagram(self._diagram.id);
     }
 }

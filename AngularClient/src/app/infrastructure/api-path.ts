@@ -3,10 +3,11 @@ var apiPath = host + "api/";
 
 export default {
     host: host,
+    getDiagramByIdPath: apiPath + 'getDiagramById',
     diagramItemMovePath: apiPath + 'diagramItemMove',
     diagramItemResizePath: apiPath + 'diagramItemResize',
     diagramItemSetTitlePath: apiPath + 'diagramItemSetTitle',
     diagramItemAddPath: apiPath + 'diagramItemAdd',
     diagramItemDeletePath: apiPath + 'diagramItemDelete',
-    getDiagramByIdPath: apiPath + 'getDiagramById',
+    relationDeletePath: apiPath + 'relationDelete',
 }

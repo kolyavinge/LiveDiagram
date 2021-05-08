@@ -72,7 +72,10 @@ export class DiagramService {
 
         self._diagramEventsService.diagramItemDeleteEvent.addHandler((diagramItem: DiagramItem) => {
             self._diagram.deleteItem(diagramItem);
+            var relations = self._diagram.getItemRelations(diagramItem);
+            self._diagram.deleteRelations(relations);
             self._apiService.diagramItemDelete(self._diagram, diagramItem);
+            self._apiService.relationDelete(self._diagram, relations);
         });
     }
 }

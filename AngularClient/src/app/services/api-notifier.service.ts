@@ -59,4 +59,11 @@ export class ApiNotifierService {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
+
+    onRelationDelete(handler: any): void {
+        var self = this;
+        self._signalrClient.addHandler("RelationDeleteResponse", function (response) {
+            if (self._authData.clientId != response.clientId) handler(response);
+        });
+    }
 }

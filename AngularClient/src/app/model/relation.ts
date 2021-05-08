@@ -23,6 +23,15 @@ export class Relation {
         this.calculateSegments();
     }
 
+    isEquals(x: Relation): boolean {
+        if (x == undefined || x == null) return false;
+        return this._id == x._id;
+    }
+
+    get id(): string {
+        return this._id;
+    }
+
     get from(): DiagramItem {
         return this._from;
     }

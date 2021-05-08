@@ -13,6 +13,7 @@ namespace LiveDiagram.Api.SignalR
         void DiagramItemSetTitleResponse(DiagramItemSetTitleResponse response);
         void DiagramItemAddResponse(DiagramItemAddResponse response);
         void DiagramItemDeleteResponse(DiagramItemDeleteResponse response);
+        void RelationDeleteResponse(RelationDeleteResponse response);
     }
 
     public class MainNotifier : IMainNotifier
@@ -50,7 +51,12 @@ namespace LiveDiagram.Api.SignalR
             await SendResponse(response);
         }
 
-        private async Task SendResponse(DiagramItemResponse response)
+        public async void RelationDeleteResponse(RelationDeleteResponse response)
+        {
+            await SendResponse(response);
+        }
+
+        private async Task SendResponse(DiagramResponse response)
         {
             var callbackMethodName = response.GetType().Name;
             var reponseContainer = new ReponseContainer { ClientId = response.ClientId, DiagramId = response.DiagramId, Response = response };

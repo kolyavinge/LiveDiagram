@@ -4,6 +4,7 @@ import { DiagramItem } from '../model/diagram-item';
 import { LocalStorageService } from './local-storage.service';
 import { Diagram } from '../model/diagram';
 import ApiPath from 'src/app/infrastructure/api-path';
+import { Relation } from '../model/relation';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -76,5 +77,14 @@ export class ApiService {
             itemId: item.id
         };
         this._httpClient.post(ApiPath.diagramItemDeletePath, postData).toPromise();
+    }
+
+    relationDelete(diagram: Diagram, relations: Relation[]): void {
+        var postData = {
+            clientId: this._localStorage.authData.clientId,
+            diagramId: diagram.id,
+            relationsId: relations.map(r => r.id)
+        };
+        this._httpClient.post(ApiPath.relationDeletePath, postData).toPromise();
     }
 }

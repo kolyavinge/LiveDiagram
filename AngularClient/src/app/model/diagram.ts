@@ -76,12 +76,25 @@ export class Diagram {
         this._items = this._items.filter(i => i.isEquals(item) == false);
     }
 
+    getRelationsById(relationsId: string[]): Relation[] {
+        return this._relations.filter(r => relationsId.includes(r.id));
+    }
+
     addRelation(relation: Relation): void {
         this._relations.push(relation);
     }
 
+    deleteRelations(relations: Relation[]): void {
+        var includeInDeleteRelations = (relation: Relation) => relations.find(r => r.isEquals(relation)) != null;
+        this._relations = this._relations.filter(r => includeInDeleteRelations(r) == false);
+    }
+
+    getItemRelations(item: DiagramItem): Relation[] {
+        return this._relations.filter(r => r.from.isEquals(item) || r.to.isEquals(item));
+    }
+
     private calculateRelationsSegments(item: DiagramItem): void {
-        var itemRelations = this._relations.filter(r => r.from.isEquals(item) || r.to.isEquals(item));
+        var itemRelations = this.getItemRelations(item);
         itemRelations.forEach(r => r.calculateSegments());
     }
 

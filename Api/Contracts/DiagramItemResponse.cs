@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace LiveDiagram.Api.Contracts
 {
-    public abstract class DiagramItemResponse : Response
+    public abstract class DiagramItemResponse : DiagramResponse
     {
-        [JsonPropertyName("clientId")]
-        public string ClientId { get; set; }
-
-        [JsonPropertyName("diagramId")]
-        public string DiagramId { get; set; }
-
         [JsonPropertyName("itemId")]
         public string DiagramItemId { get; set; }
     }

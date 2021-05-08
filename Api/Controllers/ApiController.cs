@@ -137,5 +137,21 @@ namespace LiveDiagram.Api.Controllers
 
             return Ok();
         }
+
+        [HttpPost]
+        [Route("RelationDelete")]
+        public IActionResult RelationDelete(RelationDeleteRequest request)
+        {
+            var response = new RelationDeleteResponse
+            {
+                Success = true,
+                ClientId = request.ClientId,
+                DiagramId = request.DiagramId,
+                RelationsId = request.RelationsId
+            };
+            _mainNotifier.RelationDeleteResponse(response);
+
+            return Ok();
+        }
     }
 }

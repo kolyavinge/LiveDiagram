@@ -2,11 +2,8 @@
 
 namespace LiveDiagram.Api.Contracts
 {
-    public class Response
+    public class Request
     {
-        [JsonPropertyName("success")]
-        public bool Success { get; set; }
-
         [JsonPropertyName("clientId")]
         public string ClientId { get; set; }
     }
