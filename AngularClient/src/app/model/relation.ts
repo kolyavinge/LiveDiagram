@@ -10,11 +10,15 @@ export class Relation {
     private _from: DiagramItem;
     private _to: DiagramItem;
     private _segments: Segment[] = [];
+    private _isPointed: boolean;
+    private _isSelected: boolean;
     private _segmentCalculator = new SegmentCalculator();
     private _calculateSegmentsEvent: Event = new Event();
 
     constructor(id: string = null) {
         this._id = id ?? Utils.generateId();
+        this._isPointed = false;
+        this._isSelected = false;
     }
 
     setDiagramItems(from: DiagramItem, to: DiagramItem) {
@@ -28,25 +32,23 @@ export class Relation {
         return this._id == x._id;
     }
 
-    get id(): string {
-        return this._id;
-    }
+    get id(): string { return this._id; }
 
-    get from(): DiagramItem {
-        return this._from;
-    }
+    get from(): DiagramItem { return this._from; }
 
-    get to(): DiagramItem {
-        return this._to;
-    }
+    get to(): DiagramItem { return this._to; }
 
-    get segments(): Segment[] {
-        return this._segments;
-    }
+    get segments(): Segment[] { return this._segments; }
 
-    get calculateSegmentsEvent(): Event {
-        return this._calculateSegmentsEvent;
-    }
+    get isPointed(): boolean { return this._isPointed };
+
+    set isPointed(value: boolean) { this._isPointed = value; }
+
+    get isSelected(): boolean { return this._isSelected };
+
+    set isSelected(value: boolean) { this._isSelected = value; }
+
+    get calculateSegmentsEvent(): Event { return this._calculateSegmentsEvent; }
 
     calculateSegments(): void {
         this._segments = this._segmentCalculator.calculateSegments(this._from, this._to);

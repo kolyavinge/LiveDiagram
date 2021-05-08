@@ -8,6 +8,7 @@
         [style.top.px]="5"
         [style.width.px]="item.size.width"
         [style.height.px]="item.size.height"
+        [class.selected]="item.isSelected"
         (mousedown)="onMouseDown()"
         (mouseup)="onMouseUp()">
         <div class="edit"><a class="edit" (click)="editItem()"><img class="edit" src="/assets/ico/edit.png" /></a></div>

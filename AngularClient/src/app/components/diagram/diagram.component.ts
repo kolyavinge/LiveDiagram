@@ -5,6 +5,7 @@ import { DiagramItem } from 'src/app/model/diagram-item';
 import { Diagram } from 'src/app/model/diagram';
 import { DiagramService } from 'src/app/services/diagram.service';
 import { DiagramEventsService } from 'src/app/services/diagram-events.service';
+import { Relation } from 'src/app/model/relation';
 
 @Component({
     selector: 'app-diagram',
@@ -17,6 +18,7 @@ export class DiagramComponent implements OnInit {
     private _pointedItem: DiagramItem;
     private _resizedItem: DiagramItem;
     private _mouseLastPosition: Position;
+    private _pointedRelation: Relation;
 
     constructor(
         private _diagramEventsService: DiagramEventsService,
@@ -36,7 +38,9 @@ export class DiagramComponent implements OnInit {
     onMouseDown(event): void {
         this._pointedItem = this._diagram.getPointedItem();
         this._resizedItem = this._diagram.getResizedItem();
-        this._diagram.clearSelectionBut(this._pointedItem ?? this._resizedItem);
+        this._pointedRelation = this._diagram.getPointedRelation();
+        this._diagram.clearItemSelectionBut(this._pointedItem ?? this._resizedItem);
+        this._diagram.clearRelationSelectionBut(this._pointedRelation);
         if (this._pointedItem || this._resizedItem) {
             this._mouseLastPosition = new Position(event.x, event.y);
         }
@@ -69,6 +73,10 @@ export class DiagramComponent implements OnInit {
             }
             this._resizedItem.clearResize();
             this._resizedItem = null;
+        }
+        if (this._pointedRelation) {
+            this._pointedRelation.isPointed = false;
+            this._pointedRelation = null;
         }
     }
 

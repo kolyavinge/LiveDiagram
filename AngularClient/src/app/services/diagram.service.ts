@@ -78,5 +78,10 @@ export class DiagramService {
             self._apiService.diagramItemDelete(self._diagram, diagramItems);
             self._apiService.relationDelete(self._diagram, relationsDistinct);
         });
+
+        self._diagramEventsService.relationDeleteEvent.addHandler((relations: Relation[]) => {
+            self._diagram.deleteRelations(relations);
+            self._apiService.relationDelete(self._diagram, relations);
+        });
     }
 }

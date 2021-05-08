@@ -48,7 +48,7 @@ export class Diagram {
         return this._items.find(item => item.isSelected);
     }
 
-    clearSelectionBut(item: DiagramItem): void {
+    clearItemSelectionBut(item: DiagramItem): void {
         this._items.filter(i => i.isEquals(item) == false).forEach(i => i.isSelected = false);
     }
 
@@ -83,6 +83,18 @@ export class Diagram {
 
     getRelationsById(relationsId: string[]): Relation[] {
         return this._relations.filter(r => relationsId.includes(r.id));
+    }
+
+    getPointedRelation(): Relation {
+        return this._relations.find(x => x.isPointed);
+    }
+
+    getSelectedRelation(): Relation {
+        return this._relations.find(x => x.isSelected);
+    }
+
+    clearRelationSelectionBut(relation: Relation): void {
+        this._relations.filter(r => r.isEquals(relation) == false).forEach(r => r.isSelected = false);
     }
 
     addRelation(relation: Relation): void {

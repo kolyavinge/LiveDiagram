@@ -48,5 +48,15 @@ export class MainMenuComponent implements OnInit {
                 }
             });
         }
+        var selectedRelation = self._diagramService.diagram.getSelectedRelation();
+        if (selectedRelation) {
+            var dialog = self._dialogService.open(ConfirmDialogComponent);
+            dialog.componentInstance.message = 'Вы действительно хотите удалить выбранную связь?';
+            dialog.afterClosed().subscribe(result => {
+                if (result) {
+                    self._diagramEventsService.relationDeleteEvent.raise([selectedRelation]);
+                }
+            });
+        }
     }
 }

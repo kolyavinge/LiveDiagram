@@ -7,7 +7,11 @@ div.item {
     position: relative;
     border-radius: 5px;
     box-shadow: rgb(0 0 0 / 50%) 0px 0px 5px;
-    background-color: rgba(209, 227, 255, 1.0);
+    background-color: rgb(209, 227, 255);
+}
+
+div.selected {
+    background-color: rgb(255, 234, 209);
 }
 
 div.title {

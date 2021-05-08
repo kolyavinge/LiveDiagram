@@ -4,30 +4,32 @@
         [style.left.px]="segment.position.x"
         [style.top.px]="segment.position.y"
         [style.width.px]="segment.size.width"
-        [style.height.px]="segment.size.height">
+        [style.height.px]="segment.size.height"
+        [class.selected]="relation.isSelected"
+        (mousedown)="onMouseDown()">
     </div>
     <div class="arrow"
         *ngIf="arrowDown"
         [style.left.px]="arrowDown.x"
         [style.top.px]="arrowDown.y">
-        <span>▼</span>
+        <span [class.selected]="relation.isSelected">▼</span>
     </div>
     <div class="arrow"
         *ngIf="arrowUp"
         [style.left.px]="arrowUp.x"
         [style.top.px]="arrowUp.y">
-        <span>▲</span>
+        <span [class.selected]="relation.isSelected">▲</span>
     </div>
     <div class="cap"
         *ngIf="cap1"
         [style.left.px]="cap1.x"
         [style.top.px]="cap1.y">
-        <span>●</span>
+        <span [class.selected]="relation.isSelected">●</span>
     </div>
     <div class="cap"
         *ngIf="cap2"
         [style.left.px]="cap2.x"
         [style.top.px]="cap2.y">
-        <span>●</span>
+        <span [class.selected]="relation.isSelected">●</span>
     </div>
 </div>

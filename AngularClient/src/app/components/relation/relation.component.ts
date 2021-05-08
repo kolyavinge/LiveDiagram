@@ -87,4 +87,9 @@ export class RelationComponent implements OnInit {
             this.cap2 = { x: second.position.x + second.size.width - 4, y: second.position.y - 8 };
         }
     }
+
+    onMouseDown(): void {
+        this.relation.isPointed = true;
+        this.relation.isSelected = true;
+    }
 }
