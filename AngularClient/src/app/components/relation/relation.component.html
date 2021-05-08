@@ -1,21 +1,21 @@
 <div class="root">
-    <div class="segment-line"
-        *ngFor="let line of lines"
-        [style.left.px]="line.position.x"
-        [style.top.px]="line.position.y"
-        [style.width.px]="line.size.width"
-        [style.height.px]="line.size.height">
+    <div class="segment"
+        *ngFor="let segment of segments"
+        [style.left.px]="segment.position.x"
+        [style.top.px]="segment.position.y"
+        [style.width.px]="segment.size.width"
+        [style.height.px]="segment.size.height">
     </div>
-    <div class="segment-arrow"
+    <div class="arrow"
         *ngIf="arrowDown"
-        [style.left.px]="arrowDown.position.x"
-        [style.top.px]="arrowDown.position.y">
+        [style.left.px]="arrowDown.x"
+        [style.top.px]="arrowDown.y">
         <span>▼</span>
     </div>
-    <div class="segment-arrow"
+    <div class="arrow"
         *ngIf="arrowUp"
-        [style.left.px]="arrowUp.position.x"
-        [style.top.px]="arrowUp.position.y">
+        [style.left.px]="arrowUp.x"
+        [style.top.px]="arrowUp.y">
         <span>▲</span>
     </div>
 </div>

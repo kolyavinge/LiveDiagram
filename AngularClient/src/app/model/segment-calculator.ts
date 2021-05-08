@@ -1,9 +1,10 @@
+import { Direction } from "src/app/model/direction";
 import { DiagramItem } from "./diagram-item";
-import { Segment, SegmentKind } from "./segment";
+import { Segment } from "./segment";
 
 export class SegmentCalculator {
 
-    private _kind = new SegmentKind();
+    private _direction: Direction = new Direction();
 
     calculateSegments(from: DiagramItem, to: DiagramItem): Segment[] {
         var fromY = from.position.y;
@@ -20,60 +21,51 @@ export class SegmentCalculator {
 
         if (toBelow && toOnMiddle) {
             return [
-                new Segment(fromMiddleX - 2, fromBottomY, 5, toY - fromBottomY - 10),
-                new Segment(fromMiddleX - 7, toY - 16, 0, 0, this._kind.arrowDown)
+                new Segment(fromMiddleX, fromBottomY, 1, toY - fromBottomY, this._direction.down)
             ];
         } else if (toBelow && toOnLeft) {
             return [
-                new Segment(fromMiddleX - 2, fromBottomY, 5, 20),
-                new Segment(toMiddleX - 2, fromBottomY + 20, fromMiddleX - toMiddleX + 5, 5),
-                new Segment(toMiddleX - 2, fromBottomY + 20, 5, toY - fromBottomY - 20 - 10),
-                new Segment(toMiddleX - 7, toY - 16, 0, 0, this._kind.arrowDown)
+                new Segment(fromMiddleX, fromBottomY, 1, 20, this._direction.down),
+                new Segment(toMiddleX, fromBottomY + 20, fromMiddleX - toMiddleX, 1, this._direction.left),
+                new Segment(toMiddleX, fromBottomY + 20, 1, toY - fromBottomY - 20, this._direction.down)
             ];
         } else if (toBelow && toOnRight) {
             return [
-                new Segment(fromMiddleX - 2, fromBottomY, 5, 20),
-                new Segment(fromMiddleX - 2, fromBottomY + 20, toMiddleX - fromMiddleX, 5),
-                new Segment(toMiddleX - 2, fromBottomY + 20, 5, toY - fromBottomY - 20 - 10),
-                new Segment(toMiddleX - 7, toY - 16, 0, 0, this._kind.arrowDown)
+                new Segment(fromMiddleX, fromBottomY, 1, 20, this._direction.down),
+                new Segment(fromMiddleX, fromBottomY + 20, toMiddleX - fromMiddleX, 1, this._direction.right),
+                new Segment(toMiddleX, fromBottomY + 20, 1, toY - fromBottomY - 20, this._direction.down)
             ];
         } else if (toAbove && toOnMiddle) {
             return [
-                new Segment(toMiddleX - 2, toBottomY + 10, 5, fromY - toBottomY - 10),
-                new Segment(toMiddleX - 7, toBottomY - 3, 0, 0, this._kind.arrowUp)
+                new Segment(toMiddleX, toBottomY, 1, fromY - toBottomY, this._direction.up)
             ];
         } else if (toAbove && toOnLeft) {
             return [
-                new Segment(fromMiddleX - 2, fromBottomY, 5, 20),
-                new Segment(toMiddleX - 2, fromBottomY + 20, fromMiddleX - toMiddleX + 5, 5),
-                new Segment(toMiddleX - 2, toBottomY + 10, 5, fromBottomY - toBottomY + 20 - 10),
-                new Segment(toMiddleX - 7, toBottomY - 3, 0, 0, this._kind.arrowUp)
+                new Segment(fromMiddleX, fromBottomY, 1, 20, this._direction.down),
+                new Segment(toMiddleX, fromBottomY + 20, fromMiddleX - toMiddleX, 1, this._direction.left),
+                new Segment(toMiddleX, toBottomY, 1, fromBottomY - toBottomY + 20, this._direction.up)
             ];
         } else if (toAbove && toOnRight) {
             return [
-                new Segment(fromMiddleX - 2, fromBottomY, 5, 20),
-                new Segment(fromMiddleX - 2, fromBottomY + 20, toMiddleX - fromMiddleX + 5, 5),
-                new Segment(toMiddleX - 2, toBottomY + 10, 5, fromBottomY - toBottomY + 20 - 10),
-                new Segment(toMiddleX - 7, toBottomY - 3, 0, 0, this._kind.arrowUp)
+                new Segment(fromMiddleX, fromBottomY, 1, 20, this._direction.down),
+                new Segment(fromMiddleX, fromBottomY + 20, toMiddleX - fromMiddleX, 1, this._direction.right),
+                new Segment(toMiddleX, toBottomY, 1, fromBottomY - toBottomY + 20, this._direction.up)
             ];
         } else if (toOnLeft) {
             return [
-                new Segment(fromMiddleX - 2, fromBottomY, 5, toBottomY - fromBottomY + 20),
-                new Segment(toMiddleX - 2, toBottomY + 20, fromMiddleX - toMiddleX + 5, 5),
-                new Segment(toMiddleX - 2, toBottomY + 10, 5, 20 - 10),
-                new Segment(toMiddleX - 7, toBottomY - 3, 0, 0, this._kind.arrowUp)
+                new Segment(fromMiddleX, fromBottomY, 1, toBottomY - fromBottomY + 20, this._direction.down),
+                new Segment(toMiddleX, toBottomY + 20, fromMiddleX - toMiddleX, 1, this._direction.left),
+                new Segment(toMiddleX, toBottomY, 1, 20, this._direction.up)
             ];
         } else if (toOnRight) {
             return [
-                new Segment(fromMiddleX - 2, fromBottomY, 5, toBottomY - fromBottomY + 20),
-                new Segment(fromMiddleX - 2, toBottomY + 20, toMiddleX - fromMiddleX + 5, 5),
-                new Segment(toMiddleX - 2, toBottomY + 10, 5, 20 - 10),
-                new Segment(toMiddleX - 7, toBottomY - 3, 0, 0, this._kind.arrowUp)
+                new Segment(fromMiddleX, fromBottomY, 1, toBottomY - fromBottomY + 20, this._direction.down),
+                new Segment(fromMiddleX, toBottomY + 20, toMiddleX - fromMiddleX, 1, this._direction.right),
+                new Segment(toMiddleX, toBottomY, 1, 20, this._direction.up)
             ];
         } else {
             return [
-                new Segment(fromMiddleX - 2, fromBottomY, 5, toY - fromBottomY - 10),
-                new Segment(fromMiddleX - 7, toY - 16, 0, 0, this._kind.arrowDown)
+                new Segment(fromMiddleX, fromBottomY, 1, toY - fromBottomY, this._direction.down)
             ];
         }
     }
