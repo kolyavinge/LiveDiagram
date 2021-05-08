@@ -2,8 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ResizeDirection } from 'src/app/model/resize-direction';
 import { DiagramItem } from 'src/app/model/diagram-item';
-import { EditDiagramItemDialogComponent } from 'src/app/dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
 import { DiagramEventsService } from 'src/app/services/diagram-events.service';
+import { EditDiagramItemDialogComponent } from 'src/app/dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
 
 @Component({
     selector: 'app-diagram-item',
@@ -29,13 +29,9 @@ export class DiagramItemComponent implements OnInit {
         this.item.isSelected = true;
     }
 
-    onMouseUp(): void { }
-
     onResizeMouseDown(resizeDirectionValue: number): void {
         this.item.resizeDirectionValue = resizeDirectionValue;
     }
-
-    onResizeMouseUp(): void { }
 
     editItem(): void {
         var self = this;
