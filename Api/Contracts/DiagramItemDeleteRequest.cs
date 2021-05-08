@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace LiveDiagram.Api.Contracts
 {
@@ -7,7 +8,7 @@ namespace LiveDiagram.Api.Contracts
         [JsonPropertyName("diagramId")]
         public string DiagramId { get; set; }
 
-        [JsonPropertyName("itemId")]
-        public string DiagramItemId { get; set; }
+        [JsonPropertyName("itemsId")]
+        public IEnumerable<string> DiagramItemsId { get; set; }
     }
 }

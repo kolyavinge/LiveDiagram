@@ -44,7 +44,7 @@ export class MainMenuComponent implements OnInit {
             dialog.componentInstance.message = 'Вы действительно хотите удалить выбранный элемент?';
             dialog.afterClosed().subscribe(result => {
                 if (result) {
-                    self._diagramEventsService.diagramItemDeleteEvent.raise(selectedItem);
+                    self._diagramEventsService.diagramItemDeleteEvent.raise([selectedItem]);
                 }
             });
         }

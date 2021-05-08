@@ -70,12 +70,13 @@ export class DiagramService {
             self._apiService.diagramItemAdd(self._diagram, diagramItem);
         });
 
-        self._diagramEventsService.diagramItemDeleteEvent.addHandler((diagramItem: DiagramItem) => {
-            self._diagram.deleteItem(diagramItem);
-            var relations = self._diagram.getItemRelations(diagramItem);
-            self._diagram.deleteRelations(relations);
-            self._apiService.diagramItemDelete(self._diagram, diagramItem);
-            self._apiService.relationDelete(self._diagram, relations);
+        self._diagramEventsService.diagramItemDeleteEvent.addHandler((diagramItems: DiagramItem[]) => {
+            self._diagram.deleteItems(diagramItems);
+            var relations = diagramItems.map(i => self._diagram.getItemRelations(i)).reduce((x, y) => x.concat(y), []); // flat array
+            var relationsDistinct = Array.from(new Set(relations));
+            self._diagram.deleteRelations(relationsDistinct);
+            self._apiService.diagramItemDelete(self._diagram, diagramItems);
+            self._apiService.relationDelete(self._diagram, relationsDistinct);
         });
     }
 }

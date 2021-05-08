@@ -51,10 +51,8 @@ export class DiagramUpdaterService {
         });
 
         self._apiNotifierService.onDiagramItemDelete(function (response) {
-            var item = self._diagram.getItemById(response.itemId);
-            if (item) {
-                self._diagram.deleteItem(item);
-            }
+            var items = self._diagram.getItemsById(response.itemsId);
+            self._diagram.deleteItems(items);
         });
 
         self._apiNotifierService.onRelationDelete(function (response) {

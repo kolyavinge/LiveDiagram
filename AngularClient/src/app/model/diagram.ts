@@ -32,6 +32,10 @@ export class Diagram {
         return this._items.find(item => item.id == id);
     }
 
+    getItemsById(ids: string[]): DiagramItem[] {
+        return this._items.filter(item => ids.includes(item.id));
+    }
+
     getPointedItem(): DiagramItem {
         return this._items.find(item => item.isPointed);
     }
@@ -72,8 +76,9 @@ export class Diagram {
         this._items.push(item);
     }
 
-    deleteItem(item: DiagramItem): void {
-        this._items = this._items.filter(i => i.isEquals(item) == false);
+    deleteItems(items: DiagramItem[]): void {
+        var includeInDeleteItems = (item: DiagramItem) => items.find(i => i.isEquals(item)) != null;
+        this._items = this._items.filter(i => includeInDeleteItems(i) == false);
     }
 
     getRelationsById(relationsId: string[]): Relation[] {

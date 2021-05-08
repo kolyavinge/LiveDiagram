@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DiagramItem } from '../model/diagram-item';
 import { LocalStorageService } from './local-storage.service';
 import { Diagram } from '../model/diagram';
-import ApiPath from 'src/app/infrastructure/api-path';
+import { DiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';
+import ApiPath from 'src/app/infrastructure/api-path';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -70,11 +70,11 @@ export class ApiService {
         this._httpClient.post(ApiPath.diagramItemAddPath, postData).toPromise();
     }
 
-    diagramItemDelete(diagram: Diagram, item: DiagramItem): void {
+    diagramItemDelete(diagram: Diagram, items: DiagramItem[]): void {
         var postData = {
             clientId: this._localStorage.authData.clientId,
             diagramId: diagram.id,
-            itemId: item.id
+            itemsId: items.map(x => x.id)
         };
         this._httpClient.post(ApiPath.diagramItemDeletePath, postData).toPromise();
     }

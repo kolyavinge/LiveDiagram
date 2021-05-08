@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace LiveDiagram.Api.Contracts
 {
-    public class DiagramItemDeleteResponse : DiagramItemResponse
+    public class DiagramItemDeleteResponse : DiagramResponse
     {
+        [JsonPropertyName("itemsId")]
+        public IEnumerable<string> DiagramItemsId { get; set; }
     }
 }

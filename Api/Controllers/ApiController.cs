@@ -131,7 +131,7 @@ namespace LiveDiagram.Api.Controllers
                 Success = true,
                 ClientId = request.ClientId,
                 DiagramId = request.DiagramId,
-                DiagramItemId = request.DiagramItemId
+                DiagramItemsId = request.DiagramItemsId
             };
             _mainNotifier.DiagramItemDeleteResponse(response);
 
