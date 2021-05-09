@@ -6,6 +6,7 @@ import { Diagram } from 'src/app/model/diagram';
 import { DiagramService } from 'src/app/services/diagram.service';
 import { DiagramEventsService } from 'src/app/services/diagram-events.service';
 import { Relation } from 'src/app/model/relation';
+import { InheritanceLogic } from 'src/app/model/inheritance-logic';
 
 @Component({
     selector: 'app-diagram',
@@ -28,7 +29,7 @@ export class DiagramComponent implements OnInit {
         self._diagram = self._diagramService.diagram;
         self._diagramEventsService.diagramLoadedEvent.addHandler((diagram: Diagram) => {
             self._diagram = diagram;
-        })
+        });
     }
 
     ngOnInit(): void { }
