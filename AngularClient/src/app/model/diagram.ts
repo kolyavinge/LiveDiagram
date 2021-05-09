@@ -110,6 +110,14 @@ export class Diagram {
         return this._relations.filter(r => r.from.isEquals(item) || r.to.isEquals(item));
     }
 
+    getRelationsFromItem(item: DiagramItem): Relation[] {
+        return this._relations.filter(r => r.from.isEquals(item));
+    }
+
+    getRelationsToItem(item: DiagramItem): Relation[] {
+        return this._relations.filter(r => r.to.isEquals(item));
+    }
+
     private calculateRelationsSegments(item: DiagramItem): void {
         var itemRelations = this.getItemRelations(item);
         itemRelations.forEach(r => r.calculateSegments());
