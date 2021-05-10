@@ -60,6 +60,13 @@ export class ApiNotifierService {
         });
     }
 
+    onRelationAdd(handler: any): void {
+        var self = this;
+        self._signalrClient.addHandler("RelationAddResponse", function (response) {
+            if (self._authData.clientId != response.clientId) handler(response);
+        });
+    }
+
     onRelationDelete(handler: any): void {
         var self = this;
         self._signalrClient.addHandler("RelationDeleteResponse", function (response) {

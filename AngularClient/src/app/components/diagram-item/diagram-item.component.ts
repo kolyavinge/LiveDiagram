@@ -41,6 +41,13 @@ export class DiagramItemComponent implements OnInit {
             if (result) {
                 dialog.componentInstance.saveChanges();
                 self._diagramEventsService.diagramItemSetTitleEvent.raise(this.item);
+                if (dialog.componentInstance.parentHasChanged()) {
+                    self._diagramEventsService.relationDeleteEvent.raise([dialog.componentInstance.oldParentRelation]);
+                    var newParentRelation = dialog.componentInstance.newParentRelation;
+                    if (newParentRelation) {
+                        self._diagramEventsService.relationAddEvent.raise([newParentRelation]);
+                    }
+                }
             }
         });
     }

@@ -1,6 +1,7 @@
 import { Diagram } from "./diagram";
 import { DiagramItem } from "./diagram-item";
 import { InheritanceTree } from "./inheritance-tree";
+import { Relation } from "./relation";
 
 export class InheritanceLogic {
 
@@ -12,5 +13,23 @@ export class InheritanceLogic {
         });
         var allItems = trees.map(tree => tree.getAllDiagramItems()).reduce((x, y) => x.concat(y), []);
         return allItems;
+    }
+
+    getParentRelation(diagram: Diagram, item: DiagramItem): Relation {
+        var parentRelations = diagram.getRelationsToItem(item);
+        if (parentRelations) {
+            return parentRelations[0];
+        } else {
+            return null;
+        }
+    }
+
+    getParent(diagram: Diagram, item: DiagramItem): DiagramItem {
+        var parentRelations = diagram.getRelationsToItem(item);
+        if (parentRelations) {
+            return parentRelations[0].from;
+        } else {
+            return null;
+        }
     }
 }

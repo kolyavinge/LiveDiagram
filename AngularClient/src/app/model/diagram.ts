@@ -101,6 +101,10 @@ export class Diagram {
         this._relations.push(relation);
     }
 
+    addRelations(relations: Relation[]): void {
+        relations.forEach(r => this.addRelation(r));
+    }
+
     deleteRelations(relations: Relation[]): void {
         var includeInDeleteRelations = (relation: Relation) => relations.find(r => r.isEquals(relation)) != null;
         this._relations = this._relations.filter(r => includeInDeleteRelations(r) == false);
