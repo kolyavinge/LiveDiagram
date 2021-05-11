@@ -74,10 +74,12 @@ export class DiagramService {
             item.title = result.titleNew;
             self._diagram.addItem(item);
             self._apiService.diagramItemAdd(self._diagram, item);
-            var parentRelationNew = new Relation();
-            parentRelationNew.setDiagramItems(result.parentNew, item);
-            self._diagram.addRelations([parentRelationNew]);
-            self._apiService.relationAdd(self._diagram, [parentRelationNew]);
+            if (result.parentNew) {
+                var parentRelationNew = new Relation();
+                parentRelationNew.setDiagramItems(result.parentNew, item);
+                self._diagram.addRelations([parentRelationNew]);
+                self._apiService.relationAdd(self._diagram, [parentRelationNew]);
+            }
         });
 
         self._diagramEventsService.diagramItemDeleteEvent.addHandler((diagramItems: DiagramItem[]) => {
@@ -101,10 +103,12 @@ export class DiagramService {
                     self._diagram.deleteRelations([parentRelationOld]);
                     self._apiService.relationDelete(self._diagram, [parentRelationOld]);
                 }
-                var parentRelationNew = new Relation();
-                parentRelationNew.setDiagramItems(result.parentNew, item);
-                self._diagram.addRelations([parentRelationNew]);
-                self._apiService.relationAdd(self._diagram, [parentRelationNew]);
+                if (result.parentNew) {
+                    var parentRelationNew = new Relation();
+                    parentRelationNew.setDiagramItems(result.parentNew, item);
+                    self._diagram.addRelations([parentRelationNew]);
+                    self._apiService.relationAdd(self._diagram, [parentRelationNew]);
+                }
             }
         });
 
