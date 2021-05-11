@@ -17,7 +17,7 @@ export class InheritanceLogic {
 
     getParentRelation(diagram: Diagram, item: DiagramItem): Relation {
         var parentRelations = diagram.getRelationsToItem(item);
-        if (parentRelations) {
+        if (parentRelations.length > 0) {
             return parentRelations[0];
         } else {
             return null;
@@ -26,7 +26,7 @@ export class InheritanceLogic {
 
     getParent(diagram: Diagram, item: DiagramItem): DiagramItem {
         var parentRelations = diagram.getRelationsToItem(item);
-        if (parentRelations) {
+        if (parentRelations.length > 0) {
             return parentRelations[0].from;
         } else {
             return null;

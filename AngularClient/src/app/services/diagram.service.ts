@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { EditDiagramItemResult } from '../contracts/edit-diagram-item-result';
 import { Diagram } from '../model/diagram';
 import { DiagramItem } from '../model/diagram-item';
+import { InheritanceLogic } from '../model/inheritance-logic';
 import { Relation } from '../model/relation';
 import { ApiService } from './api.service';
 import { DiagramEventsService } from './diagram-events.service';
@@ -65,9 +67,17 @@ export class DiagramService {
             self._apiService.diagramItemSetTitle(self._diagram, diagramItem);
         });
 
-        self._diagramEventsService.diagramItemAddEvent.addHandler((diagramItem: DiagramItem) => {
-            self._diagram.addItem(diagramItem);
-            self._apiService.diagramItemAdd(self._diagram, diagramItem);
+        self._diagramEventsService.diagramItemAddEvent.addHandler((result: EditDiagramItemResult) => {
+            var item = new DiagramItem();
+            item.setPosition(100, 100);
+            item.setSize(120, 160);
+            item.title = result.titleNew;
+            self._diagram.addItem(item);
+            self._apiService.diagramItemAdd(self._diagram, item);
+            var parentRelationNew = new Relation();
+            parentRelationNew.setDiagramItems(result.parentNew, item);
+            self._diagram.addRelations([parentRelationNew]);
+            self._apiService.relationAdd(self._diagram, [parentRelationNew]);
         });
 
         self._diagramEventsService.diagramItemDeleteEvent.addHandler((diagramItems: DiagramItem[]) => {
@@ -77,6 +87,25 @@ export class DiagramService {
             self._diagram.deleteRelations(relationsDistinct);
             self._apiService.diagramItemDelete(self._diagram, diagramItems);
             self._apiService.relationDelete(self._diagram, relationsDistinct);
+        });
+
+        self._diagramEventsService.diagramItemEditEvent.addHandler((result: EditDiagramItemResult) => {
+            var item = result.item;
+            if (result.titleHasChanged) {
+                item.title = result.titleNew;
+            }
+            if (result.parentHasChanged) {
+                var logic = new InheritanceLogic();
+                var parentRelationOld = logic.getParentRelation(self._diagram, item);
+                if (parentRelationOld) {
+                    self._diagram.deleteRelations([parentRelationOld]);
+                    self._apiService.relationDelete(self._diagram, [parentRelationOld]);
+                }
+                var parentRelationNew = new Relation();
+                parentRelationNew.setDiagramItems(result.parentNew, item);
+                self._diagram.addRelations([parentRelationNew]);
+                self._apiService.relationAdd(self._diagram, [parentRelationNew]);
+            }
         });
 
         self._diagramEventsService.relationAddEvent.addHandler((relations: Relation[]) => {

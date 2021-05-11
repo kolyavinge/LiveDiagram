@@ -37,17 +37,10 @@ export class DiagramItemComponent implements OnInit {
         var self = this;
         var dialog = self._dialogService.open(EditDiagramItemDialogComponent);
         dialog.componentInstance.item = this.item;
-        dialog.afterClosed().subscribe(result => {
-            if (result) {
-                dialog.componentInstance.saveChanges();
-                self._diagramEventsService.diagramItemSetTitleEvent.raise(this.item);
-                if (dialog.componentInstance.parentHasChanged()) {
-                    self._diagramEventsService.relationDeleteEvent.raise([dialog.componentInstance.oldParentRelation]);
-                    var newParentRelation = dialog.componentInstance.newParentRelation;
-                    if (newParentRelation) {
-                        self._diagramEventsService.relationAddEvent.raise([newParentRelation]);
-                    }
-                }
+        dialog.afterClosed().subscribe(dialogResult => {
+            if (dialogResult) {
+                var editItemResult = dialog.componentInstance.getResult();
+                self._diagramEventsService.diagramItemEditEvent.raise(editItemResult);
             }
         });
     }

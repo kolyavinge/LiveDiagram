@@ -39,15 +39,11 @@ export class MainMenuComponent implements OnInit {
 
     createDiagramItem(): void {
         var self = this;
-        var newDiagramItem = new DiagramItem();
-        newDiagramItem.setPosition(100, 100);
-        newDiagramItem.setSize(120, 160);
         var dialog = self._dialogService.open(EditDiagramItemDialogComponent);
-        dialog.componentInstance.item = newDiagramItem;
-        dialog.afterClosed().subscribe(result => {
-            if (result) {
-                dialog.componentInstance.saveChanges();
-                self._diagramEventsService.diagramItemAddEvent.raise(newDiagramItem);
+        dialog.afterClosed().subscribe(dialogResult => {
+            if (dialogResult) {
+                var editItemResult = dialog.componentInstance.getResult();
+                self._diagramEventsService.diagramItemAddEvent.raise(editItemResult);
             }
         });
     }

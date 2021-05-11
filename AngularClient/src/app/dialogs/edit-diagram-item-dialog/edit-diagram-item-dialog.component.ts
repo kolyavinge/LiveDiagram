@@ -3,7 +3,7 @@ import { DiagramItem } from 'src/app/model/diagram-item';
 import { InheritanceLogic } from 'src/app/model/inheritance-logic';
 import { DiagramService } from 'src/app/services/diagram.service';
 import { diagramItemTitleAsc } from 'src/app/infrastructure/compare-funcs';
-import { Relation } from 'src/app/model/relation';
+import { EditDiagramItemResult } from 'src/app/contracts/edit-diagram-item-result';
 
 @Component({
     selector: 'app-edit-diagram-item-dialog',
@@ -13,11 +13,9 @@ import { Relation } from 'src/app/model/relation';
 export class EditDiagramItemDialogComponent implements OnInit {
 
     private _item: DiagramItem;
-    private _title: string;
+    private _title: string = "";
     private _availableParents: DiagramItem[] = [];
-    private _oldParentRelation: Relation;
-    private _oldParent: DiagramItem;
-    private _newParent: DiagramItem;
+    private _currentParent: DiagramItem;
 
     constructor(
         private _diagramService: DiagramService
@@ -30,53 +28,44 @@ export class EditDiagramItemDialogComponent implements OnInit {
     set item(value: DiagramItem) {
         this._item = value;
         this._title = this._item.title;
-        this.setAvailableParentsAndCurrentParent();
+        var logic = new InheritanceLogic();
+        this._currentParent = logic.getParent(this._diagramService.diagram, this._item);
     }
 
     get title(): string { return this._title; }
 
     set title(value: string) { this._title = value; }
 
-    get availableParents(): DiagramItem[] { return this._availableParents; }
-
-    get oldParentRelation(): Relation { return this._oldParentRelation; }
-
-    get oldParent(): DiagramItem { return this._oldParent; }
-
-    get newParentRelation(): Relation {
-        if (!this._newParent) return null;
-        var relation = new Relation();
-        relation.setDiagramItems(this._newParent, this._item);
-        return relation;
+    get availableParents(): DiagramItem[] {
+        if (this._availableParents) {
+            var logic = new InheritanceLogic();
+            this._availableParents = logic.getAvailableParents(this._diagramService.diagram, this._item);
+            this._availableParents.sort(diagramItemTitleAsc);
+        }
+        return this._availableParents;
     }
 
-    get newParent(): DiagramItem { return this._newParent; }
+    get currentParentId(): string { return this._currentParent ? this._currentParent.id : ""; }
 
-    parentHasChanged(): boolean {
-        if (!this._oldParent && !this._newParent) return false;
-        if (!this._oldParent && this._newParent) return true;
-        if (this._oldParent && !this._newParent) return true;
-        return this._oldParent.isEquals(this._newParent) == false;
+    get okEnable(): boolean {
+        return (this._title ?? "").trim().length > 0;
     }
 
     onParentChange(id: string): void {
-        if (id == "0") {
-            this._newParent = null;
-        } else {
-            this._newParent = this._diagramService.diagram.getItemById(id);
-        }
+        this._currentParent = id == "0" ? null : this._diagramService.diagram.getItemById(id);
     }
 
-    saveChanges(): void {
-        this._item.title = this._title;
-    }
-
-    private setAvailableParentsAndCurrentParent(): void {
+    getResult(): EditDiagramItemResult {
         var logic = new InheritanceLogic();
-        this._availableParents = logic.getAvailableParents(this._diagramService.diagram, this._item);
-        this._availableParents.sort(diagramItemTitleAsc);
-        this._oldParentRelation = logic.getParentRelation(this._diagramService.diagram, this._item);
-        this._oldParent = logic.getParent(this._diagramService.diagram, this._item);
-        this._newParent = this._oldParent;
+        var titleNew = this._title.trim();
+        return {
+            item: this._item,
+            titleOld: this._item ? this.item.title : "",
+            titleNew: titleNew,
+            titleHasChanged: this._item ? this._item.title.localeCompare(titleNew) != 0 : true,
+            parentOld: logic.getParent(this._diagramService.diagram, this._item),
+            parentNew: this._currentParent,
+            parentHasChanged: !DiagramItem.isEquals(this._currentParent, this._item)
+        };
     }
 }

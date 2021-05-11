@@ -6,14 +6,14 @@
         </div>
         <div class="input-parent">
             <span class="label">Наследует</span>
-            <select (change)="onParentChange($event.target.value)">
+            <select (change)="onParentChange($event.target.value)" [disabled]="availableParents.length == 0">
                 <option value="0">-- не выбран --</option>
-                <option *ngFor="let parent of availableParents" [value]="parent.id" [selected]="parent.id == newParent.id">{{ parent.title }}</option>
+                <option *ngFor="let parent of availableParents" [value]="parent.id" [selected]="parent.id == currentParentId">{{ parent.title }}</option>
             </select>
         </div>
     </div>
     <div class="buttons">
-        <div class="button-ok"><button [mat-dialog-close]="true">OK</button></div>
+        <div class="button-ok"><button [mat-dialog-close]="true" [disabled]="!okEnable">OK</button></div>
         <div class="button-cancel"><button mat-dialog-close>Отмена</button></div>
     </div>
 </div>

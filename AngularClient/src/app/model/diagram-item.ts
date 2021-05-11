@@ -41,6 +41,13 @@ export class DiagramItem {
         return this._id == x._id;
     }
 
+    static isEquals(x: DiagramItem, y: DiagramItem): boolean {
+        if (!x && !y) return true;
+        if (x && !y) return true;
+        if (!x && y) return true;
+        return x.isEquals(y);
+    }
+
     get position(): Position { return this._position; }
 
     setPosition(x: number, y: number): void {
