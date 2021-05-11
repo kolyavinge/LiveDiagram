@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from 'src/app/dialogs/confirm-dialog/confirm-dialog.component';
-import { EditDiagramItemDialogComponent } from 'src/app/dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
-import { DiagramItem } from 'src/app/model/diagram-item';
+import { CommandService } from 'src/app/services/command.service';
 import { DiagramEventsService } from 'src/app/services/diagram-events.service';
 import { DiagramService } from 'src/app/services/diagram.service';
 
@@ -19,7 +16,7 @@ export class MainMenuComponent implements OnInit {
     constructor(
         private _diagramService: DiagramService,
         private _diagramEventsService: DiagramEventsService,
-        private _dialogService: MatDialog
+        private _commandService: CommandService
     ) {
         var self = this;
         self._diagramEventsService.diagramItemSetSelectionEvent.addHandler((item) => {
@@ -38,37 +35,20 @@ export class MainMenuComponent implements OnInit {
     ngOnInit(): void { }
 
     createDiagramItem(): void {
-        var self = this;
-        var dialog = self._dialogService.open(EditDiagramItemDialogComponent);
-        dialog.afterClosed().subscribe(dialogResult => {
-            if (dialogResult) {
-                var editItemResult = dialog.componentInstance.getResult();
-                self._diagramEventsService.diagramItemAddEvent.raise(editItemResult);
-            }
-        });
+        var cmd = this._commandService.makeCreateDiagramItemCommand();
+        cmd.exec();
     }
 
     delete(): void {
-        var self = this;
-        var selectedItem = self._diagramService.diagram.getSelectedItem();
+        var selectedItem = this._diagramService.diagram.getSelectedItem();
         if (selectedItem) {
-            var dialog = self._dialogService.open(ConfirmDialogComponent);
-            dialog.componentInstance.message = 'Вы действительно хотите удалить выбранный элемент?';
-            dialog.afterClosed().subscribe(result => {
-                if (result) {
-                    self._diagramEventsService.diagramItemDeleteEvent.raise([selectedItem]);
-                }
-            });
+            let cmd = this._commandService.makeDeleteDiagramItemCommand();
+            cmd.exec(selectedItem);
         }
-        var selectedRelation = self._diagramService.diagram.getSelectedRelation();
+        var selectedRelation = this._diagramService.diagram.getSelectedRelation();
         if (selectedRelation) {
-            var dialog = self._dialogService.open(ConfirmDialogComponent);
-            dialog.componentInstance.message = 'Вы действительно хотите удалить выбранную связь?';
-            dialog.afterClosed().subscribe(result => {
-                if (result) {
-                    self._diagramEventsService.relationDeleteEvent.raise([selectedRelation]);
-                }
-            });
+            let cmd = this._commandService.makeDeleteRelationCommand();
+            cmd.exec(selectedRelation);
         }
     }
 }
