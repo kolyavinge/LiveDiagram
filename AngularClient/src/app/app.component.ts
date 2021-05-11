@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LocalStorageService } from './services/local-storage.service';
+import { KeyboardService } from './services/keyboard.service';
 
 @Component({
     selector: 'app-root',
@@ -11,9 +11,10 @@ export class AppComponent {
     title = 'Live diagram';
 
     constructor(
-        private _localStorage: LocalStorageService
-    ) {
-        var authData = { clientId: Date.now().toString() };
-        _localStorage.authData = authData;
+        private _keyboardService: KeyboardService
+    ) { }
+
+    onKeyDown(event: KeyboardEvent) {
+        this._keyboardService.onKeyDown(event);
     }
 }

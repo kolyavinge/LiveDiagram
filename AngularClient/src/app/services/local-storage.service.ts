@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
+import Utils from 'src/app/infrastructure/utils';
 
-export interface AuthData {
-    clientId: string;
+export class AuthData {
+    clientId: string = Utils.generateId();
 }
 
 @Injectable({ providedIn: 'root' })
 export class LocalStorageService {
 
-    private _authData: AuthData;
+    private _authData: AuthData = new AuthData();
 
     get authData(): AuthData {
         return this._authData;

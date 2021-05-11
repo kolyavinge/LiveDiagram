@@ -6,7 +6,6 @@ import { Diagram } from 'src/app/model/diagram';
 import { DiagramService } from 'src/app/services/diagram.service';
 import { DiagramEventsService } from 'src/app/services/diagram-events.service';
 import { Relation } from 'src/app/model/relation';
-import { InheritanceLogic } from 'src/app/model/inheritance-logic';
 
 @Component({
     selector: 'app-diagram',
@@ -23,7 +22,7 @@ export class DiagramComponent implements OnInit {
 
     constructor(
         private _diagramEventsService: DiagramEventsService,
-        private _diagramService: DiagramService,
+        private _diagramService: DiagramService
     ) {
         var self = this;
         self._diagram = self._diagramService.diagram;
