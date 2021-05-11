@@ -139,6 +139,23 @@ namespace LiveDiagram.Api.Controllers
         }
 
         [HttpPost]
+        [Route("DiagramItemSetMethods")]
+        public IActionResult DiagramItemSetMethods(DiagramItemSetMethodsRequest request)
+        {
+            var response = new DiagramItemSetMethodsResponse
+            {
+                Success = true,
+                ClientId = request.ClientId,
+                DiagramId = request.DiagramId,
+                DiagramItemId = request.DiagramItemId,
+                Methods = request.Methods
+            };
+            _mainNotifier.DiagramItemSetMethodsResponse(response);
+
+            return Ok();
+        }
+
+        [HttpPost]
         [Route("RelationAdd")]
         public IActionResult RelationAdd(RelationAddRequest request)
         {

@@ -14,7 +14,7 @@ span.label {
 }
 
 div.input-title>input {
-    width: 250px;
+    width: 256px;
 }
 
 div.input-parent {
@@ -22,7 +22,23 @@ div.input-parent {
 }
 
 div.input-parent>select {
-    width: 254px;
+    width: 260px;
+}
+
+div.input-methods {
+    margin-top: 8px;
+}
+
+div.input-methods>select {
+    width: 350px;
+    height: 220px;
+    padding: 1px;
+    font-family: Consolas;
+}
+
+div.input-methods>input {
+    width: 346px;
+    margin-top: 8px;
 }
 
 div.buttons {

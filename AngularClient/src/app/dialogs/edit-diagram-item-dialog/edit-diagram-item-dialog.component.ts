@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { EditDiagramItemResult } from 'src/app/contracts/edit-diagram-item-result';
 import { DiagramItem } from 'src/app/model/diagram-item';
+import { Method } from 'src/app/model/method';
 import { InheritanceLogic } from 'src/app/model/inheritance-logic';
 import { DiagramService } from 'src/app/services/diagram.service';
 import { diagramItemTitleAsc } from 'src/app/infrastructure/compare-funcs';
-import { EditDiagramItemResult } from 'src/app/contracts/edit-diagram-item-result';
 
 @Component({
     selector: 'app-edit-diagram-item-dialog',
@@ -15,9 +17,12 @@ export class EditDiagramItemDialogComponent implements OnInit {
     private _item: DiagramItem;
     private _title: string = "";
     private _availableParents: DiagramItem[] = [];
-    private _currentParent: DiagramItem;
+    private _currentParent: DiagramItem = null;
+    private _methods: Method[] = [];
+    private _currentMethod: Method = null;
 
     constructor(
+        private _dialogRef: MatDialogRef<EditDiagramItemDialogComponent>,
         private _diagramService: DiagramService
     ) { }
 
@@ -30,6 +35,7 @@ export class EditDiagramItemDialogComponent implements OnInit {
         this._title = this._item.title;
         var logic = new InheritanceLogic();
         this._currentParent = logic.getParent(this._diagramService.diagram, this._item);
+        this._methods = this._item.methods.map(m => m.copy());
     }
 
     get title(): string { return this._title; }
@@ -47,6 +53,10 @@ export class EditDiagramItemDialogComponent implements OnInit {
 
     get currentParentId(): string { return this._currentParent ? this._currentParent.id : ""; }
 
+    get methods(): Method[] { return this._methods };
+
+    get currentMethod(): Method { return this._currentMethod; }
+
     get okEnable(): boolean {
         return (this._title ?? "").trim().length > 0;
     }
@@ -55,9 +65,20 @@ export class EditDiagramItemDialogComponent implements OnInit {
         this._currentParent = id == "0" ? null : this._diagramService.diagram.getItemById(id);
     }
 
+    onMethodChange(id: string): void {
+        this._currentMethod = this._methods.find(m => m.id == id);
+    }
+
+    onKeyDown(event: KeyboardEvent): void {
+        if (event.code == "Enter" || event.code == "NumpadEnter") {
+            this._dialogRef.close(true);
+        }
+    }
+
     getResult(): EditDiagramItemResult {
         var logic = new InheritanceLogic();
         var titleNew = this._title.trim();
+        var methodsOld = this.item ? this.item.methods : [];
         return {
             item: this._item,
             titleOld: this._item ? this.item.title : "",
@@ -65,7 +86,10 @@ export class EditDiagramItemDialogComponent implements OnInit {
             titleHasChanged: this._item ? this._item.title.localeCompare(titleNew) != 0 : true,
             parentOld: logic.getParent(this._diagramService.diagram, this._item),
             parentNew: this._currentParent,
-            parentHasChanged: !DiagramItem.isEquals(this._currentParent, this._item)
+            parentHasChanged: !DiagramItem.isEquals(this._currentParent, this._item),
+            methodsOld: methodsOld,
+            methodsNew: this._methods,
+            methodsHasChanged: !Method.isEqualsMethods(methodsOld, this._methods)
         };
     }
 }

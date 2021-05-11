@@ -79,6 +79,18 @@ export class ApiService {
         this._httpClient.post(ApiPath.diagramItemDeletePath, postData).toPromise();
     }
 
+    diagramItemSetMethods(diagram: Diagram, item: DiagramItem): void {
+        var postData = {
+            clientId: this._localStorage.authData.clientId,
+            diagramId: diagram.id,
+            itemId: item.id,
+            methods: item.methods.map(function(m) {
+                return { id: m.id, signature: m.signature };
+            })
+        };
+        this._httpClient.post(ApiPath.diagramItemSetMethodsPath, postData).toPromise();
+    }
+
     relationAdd(diagram: Diagram, relations: Relation[]): void {
         var postData = {
             clientId: this._localStorage.authData.clientId,

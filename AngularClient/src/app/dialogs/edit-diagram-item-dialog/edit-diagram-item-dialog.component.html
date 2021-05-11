@@ -1,15 +1,23 @@
-<div class="root">
+<div class="root"
+    (keydown)="onKeyDown($event)">
     <div class="container">
         <div class="input-title">
             <span class="label">Название</span>
             <input type="text" [value]="title" (input)="title = $event.target.value" />
         </div>
         <div class="input-parent">
-            <span class="label">Наследует</span>
+            <span class="label">Родитель</span>
             <select (change)="onParentChange($event.target.value)" [disabled]="availableParents.length == 0">
                 <option value="0">-- не выбран --</option>
                 <option *ngFor="let parent of availableParents" [value]="parent.id" [selected]="parent.id == currentParentId">{{ parent.title }}</option>
             </select>
+        </div>
+        <div class="input-methods">
+            <span class="label">Методы</span>
+            <select multiple (change)="onMethodChange($event.target.value)">
+                <option *ngFor="let method of methods" [value]="method.id">{{ method.signature }}</option>
+            </select>
+            <input type="text" [value]="currentMethod ? currentMethod.signature : ''" (input)="currentMethod.signature = $event.target.value" [disabled]="currentMethod == null" />
         </div>
     </div>
     <div class="buttons">

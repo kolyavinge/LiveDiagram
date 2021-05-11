@@ -60,6 +60,13 @@ export class ApiNotifierService {
         });
     }
 
+    onDiagramItemSetMethods(handler: any): void {
+        var self = this;
+        self._signalrClient.addHandler("DiagramItemSetMethodsResponse", function (response) {
+            if (self._authData.clientId != response.clientId) handler(response);
+        });
+    }
+
     onRelationAdd(handler: any): void {
         var self = this;
         self._signalrClient.addHandler("RelationAddResponse", function (response) {

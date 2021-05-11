@@ -1,4 +1,5 @@
 import { DiagramItem } from "../model/diagram-item";
+import { Method } from "../model/method";
 
 export interface EditDiagramItemResult {
 
@@ -11,4 +12,8 @@ export interface EditDiagramItemResult {
     parentOld: DiagramItem;
     parentNew: DiagramItem;
     parentHasChanged: boolean;
+
+    methodsOld: Method[];
+    methodsNew: Method[];
+    methodsHasChanged: boolean;
 }

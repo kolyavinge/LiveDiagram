@@ -110,6 +110,10 @@ export class DiagramService {
                     self._apiService.relationAdd(self._diagram, [parentRelationNew]);
                 }
             }
+            if (result.methodsHasChanged) {
+                item.methods = result.methodsNew;
+                self._apiService.diagramItemSetMethods(self._diagram, item);
+            }
         });
 
         self._diagramEventsService.relationAddEvent.addHandler((relations: Relation[]) => {

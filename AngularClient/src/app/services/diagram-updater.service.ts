@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiNotifierService } from 'src/app/services/api-notifier.service';
 import { Diagram } from '../model/diagram';
 import { DiagramItem } from '../model/diagram-item';
+import { Method } from '../model/method';
 import { Relation } from '../model/relation';
 
 @Injectable({ providedIn: 'root' })
@@ -54,6 +55,17 @@ export class DiagramUpdaterService {
         self._apiNotifierService.onDiagramItemDelete(function (response) {
             var items = self._diagram.getItemsById(response.itemsId);
             self._diagram.deleteItems(items);
+        });
+
+        self._apiNotifierService.onDiagramItemSetMethods(function (response) {
+            var item = self._diagram.getItemById(response.itemId);
+            if (item) {
+                item.methods = response.methods.map(m => {
+                    var method = new Method(m.id);
+                    method.signature = m.signature;
+                    return method;
+                });
+            }
         });
 
         self._apiNotifierService.onRelationAdd(function (response) {
