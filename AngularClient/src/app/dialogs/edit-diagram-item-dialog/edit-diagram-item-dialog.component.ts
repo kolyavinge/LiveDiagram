@@ -69,6 +69,19 @@ export class EditDiagramItemDialogComponent implements OnInit {
         this._currentMethod = this._methods.find(m => m.id == id);
     }
 
+    addMethod(): void {
+        var method = new Method();
+        method.signature = "newMethod(): void";
+        this._methods.push(method);
+    }
+
+    deleteMethod(): void {
+        if (this._currentMethod) {
+            this._methods = this._methods.filter(m => m.isEquals(this._currentMethod) == false);
+            this._currentMethod = null;
+        }
+    }
+
     onKeyDown(event: KeyboardEvent): void {
         if (event.code == "Enter" || event.code == "NumpadEnter") {
             this._dialogRef.close(true);

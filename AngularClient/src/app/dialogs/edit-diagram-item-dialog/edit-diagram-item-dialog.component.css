@@ -33,12 +33,25 @@ div.input-methods>select {
     width: 350px;
     height: 220px;
     padding: 1px;
+    margin-top: 2px;
     font-family: Consolas;
 }
 
-div.input-methods>input {
+div.input-methods>input[type="text"] {
     width: 346px;
     margin-top: 8px;
+}
+
+div.input-methods>.buttons {
+    float: right;
+    width: fit-content;
+    margin-top: 8px;
+}
+
+div.input-methods>.buttons>button {
+    width: 75px;
+    height: 22px;
+    margin-left: 8px;
 }
 
 div.buttons {
