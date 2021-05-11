@@ -29,6 +29,10 @@ export class DiagramItemComponent implements OnInit {
         this.item.isSelected = true;
     }
 
+    onMouseDoubleClick(): void {
+        this.editItem();
+    }
+
     onResizeMouseDown(resizeDirectionValue: number): void {
         this.item.resizeDirectionValue = resizeDirectionValue;
     }
