@@ -8,28 +8,28 @@
         [class.selected-segment]="relation.isSelected"
         (mousedown)="onMouseDown()">
     </div>
-    <div class="arrow"
+    <div class="arrow noselect"
         *ngIf="arrowDown"
         [style.left.px]="arrowDown.x"
         [style.top.px]="arrowDown.y"
         [class.selected]="relation.isSelected">
         <span [class.selected]="relation.isSelected" (mousedown)="onMouseDown()">▼</span>
     </div>
-    <div class="arrow"
+    <div class="arrow noselect"
         *ngIf="arrowUp"
         [style.left.px]="arrowUp.x"
         [style.top.px]="arrowUp.y"
         [class.selected]="relation.isSelected">
         <span [class.selected]="relation.isSelected" (mousedown)="onMouseDown()">▲</span>
     </div>
-    <div class="cap"
+    <div class="cap noselect"
         *ngIf="cap1"
         [style.left.px]="cap1.x"
         [style.top.px]="cap1.y"
         [class.selected]="relation.isSelected">
         <span [class.selected]="relation.isSelected" (mousedown)="onMouseDown()">●</span>
     </div>
-    <div class="cap"
+    <div class="cap noselect"
         *ngIf="cap2"
         [style.left.px]="cap2.x"
         [style.top.px]="cap2.y"

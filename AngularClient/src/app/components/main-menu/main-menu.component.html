@@ -1,4 +1,4 @@
 <div class="root">
-    <button (click)="createDiagramItem()">Новый элемент</button>
-    <button (click)="delete()" [disabled]="deleteIsDisabled">{{ deleteTitle }}</button>
+    <button (click)="createDiagramItem()" class="noselect">Новый элемент</button>
+    <button (click)="delete()" class="noselect" [disabled]="deleteIsDisabled">{{ deleteTitle }}</button>
 </div>

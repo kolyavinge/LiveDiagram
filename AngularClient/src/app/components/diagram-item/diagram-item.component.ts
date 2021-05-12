@@ -8,7 +8,7 @@ import { EditDiagramItemDialogComponent } from 'src/app/dialogs/edit-diagram-ite
 @Component({
     selector: 'app-diagram-item',
     templateUrl: './diagram-item.component.html',
-    styleUrls: ['./diagram-item.component.css']
+    styleUrls: ['./diagram-item.component.css', '../../common.css']
 })
 export class DiagramItemComponent implements OnInit {
 

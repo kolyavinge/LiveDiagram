@@ -8,7 +8,7 @@ interface Point { x: number, y: number }
 @Component({
     selector: 'app-relation',
     templateUrl: './relation.component.html',
-    styleUrls: ['./relation.component.css']
+    styleUrls: ['./relation.component.css', '../../common.css']
 })
 export class RelationComponent implements OnInit {
 
