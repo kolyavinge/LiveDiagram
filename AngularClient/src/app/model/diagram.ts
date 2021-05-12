@@ -1,23 +1,18 @@
 import { Size } from "./size";
+import { Identifiable } from 'src/app/model/identifiable';
 import { DiagramItem } from "./diagram-item";
 import { Relation } from "./relation";
-import { ResizeDirection } from "./resize-direction";
-import Utils from 'src/app/infrastructure/utils';
+import { ResizeLogic } from "./resize-logic";
 
-export class Diagram {
+export class Diagram extends Identifiable {
 
-    private resize: ResizeDirection = new ResizeDirection();
-
-    private _id: string;
     private _size: Size = new Size();
     private _items: DiagramItem[] = [];
     private _relations: Relation[] = [];
 
     constructor(id: string = null) {
-        this._id = id ?? Utils.generateId();
+        super(id);
     }
-
-    get id(): string { return this._id; }
 
     get items(): DiagramItem[] { return this._items; }
 
@@ -135,44 +130,10 @@ export class Diagram {
     }
 
     resizeItemBy(item: DiagramItem, deltaWidth: number, deltaHeight: number): void {
-        var newX = item.position.x;
-        var newY = item.position.y;
-        var newWidth = item.size.width;
-        var newHeight = item.size.height;
-        if (item.resizeDirectionValue == this.resize.upLeft) {
-            // deltaWidth и deltaHeight меньше нуля
-            newX += deltaWidth;
-            newY += deltaHeight;
-            newWidth -= deltaWidth;
-            newHeight -= deltaHeight;
-        } else if (item.resizeDirectionValue == this.resize.upMiddle) {
-            // deltaHeight меньше нуля
-            newY += deltaHeight;
-            newHeight -= deltaHeight;
-        } else if (item.resizeDirectionValue == this.resize.upRight) {
-            // deltaHeight меньше нуля
-            newY += deltaHeight;
-            newWidth += deltaWidth;
-            newHeight -= deltaHeight;
-        } else if (item.resizeDirectionValue == this.resize.middleLeft) {
-            // deltaWidth меньше нуля
-            newX += deltaWidth;
-            newWidth -= deltaWidth;
-        } else if (item.resizeDirectionValue == this.resize.middleRight) {
-            newWidth += deltaWidth;
-        } else if (item.resizeDirectionValue == this.resize.downLeft) {
-            // deltaWidth меньше нуля
-            newX += deltaWidth;
-            newWidth -= deltaWidth;
-            newHeight += deltaHeight;
-        } else if (item.resizeDirectionValue == this.resize.downMiddle) {
-            newHeight += deltaHeight;
-        } else if (item.resizeDirectionValue == this.resize.downRight) {
-            newWidth += deltaWidth;
-            newHeight += deltaHeight;
-        }
-        item.setPosition(newX, newY);
-        item.setSize(newWidth, newHeight);
+        var logic = new ResizeLogic();
+        var result = logic.resizeItemBy(item, deltaWidth, deltaHeight);
+        item.setPosition(result.newX, result.newY);
+        item.setSize(result.newWidth, result.newHeight);
         this.correctItemSize(item);
         this.calculateRelationsSegments(item);
     }

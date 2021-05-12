@@ -1,19 +1,11 @@
-import Utils from 'src/app/infrastructure/utils';
+import { Identifiable } from 'src/app/model/identifiable';
 
-export class Method {
+export class Method extends Identifiable {
 
-    private _id: string;
     private _signature: string;
 
     constructor(id: string = null) {
-        this._id = id ?? Utils.generateId();
-    }
-
-    get id(): string { return this._id; }
-
-    isEquals(x: Method): boolean {
-        if (!x) return false;
-        return this._id == x._id;
+        super(id);
     }
 
     static isEqualsMethods(x: Method[], y: Method[]): boolean {
@@ -37,7 +29,7 @@ export class Method {
     set signature(value: string) { this._signature = value; }
 
     copy(): Method {
-        var copyMethod = new Method(this._id);
+        var copyMethod = new Method(this.id);
         copyMethod._signature = this._signature;
 
         return copyMethod;

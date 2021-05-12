@@ -1,12 +1,11 @@
+import { Identifiable } from 'src/app/model/identifiable';
 import { DiagramItem } from "./diagram-item";
 import { Segment } from "./segment";
 import { SegmentCalculator } from "./segment-calculator";
 import { Event } from 'src/app/infrastructure/event';
-import Utils from 'src/app/infrastructure/utils';
 
-export class Relation {
+export class Relation extends Identifiable {
 
-    private _id: string;
     private _from: DiagramItem;
     private _to: DiagramItem;
     private _segments: Segment[] = [];
@@ -16,7 +15,7 @@ export class Relation {
     private _calculateSegmentsEvent: Event = new Event();
 
     constructor(id: string = null) {
-        this._id = id ?? Utils.generateId();
+        super(id);
         this._isPointed = false;
         this._isSelected = false;
     }
@@ -26,13 +25,6 @@ export class Relation {
         this._to = to;
         this.calculateSegments();
     }
-
-    isEquals(x: Relation): boolean {
-        if (x == undefined || x == null) return false;
-        return this._id == x._id;
-    }
-
-    get id(): string { return this._id; }
 
     get from(): DiagramItem { return this._from; }
 
