@@ -15,8 +15,8 @@ export class Method extends Identifiable {
         if (x.length != y.length) return false;
         for (var i = 0; i < x.length; i++) {
             var xm = x[i];
-            var ym = y.find(m => m.isEquals(xm));
-            if (!ym) return false;
+            var ym = y[i];
+            if (xm.isEquals(ym) == false) return false;
             var signatureEquals = xm.signature.localeCompare(ym.signature) == 0;
             if (signatureEquals == false) return false;
         }

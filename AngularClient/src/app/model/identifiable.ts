@@ -1,6 +1,6 @@
 import Utils from 'src/app/infrastructure/utils';
 
-export class Identifiable {
+export abstract class Identifiable {
 
     private _id: string;
 

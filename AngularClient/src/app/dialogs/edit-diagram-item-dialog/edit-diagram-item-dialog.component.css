@@ -34,7 +34,7 @@ div.input-methods>select {
     height: 220px;
     padding: 1px;
     margin-top: 2px;
-    font-family: Consolas;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 div.input-methods>input[type="text"] {
@@ -42,13 +42,25 @@ div.input-methods>input[type="text"] {
     margin-top: 8px;
 }
 
-div.input-methods>.buttons {
-    float: right;
-    width: fit-content;
+div.method-buttons {
     margin-top: 8px;
 }
 
-div.input-methods>.buttons>button {
+div.up-down-buttons {
+    float: left;
+}
+
+div.up-down-buttons>button {
+    width: 22px;
+    height: 22px;
+}
+
+div.add-delete-buttons {
+    float: right;
+    width: 166px;
+}
+
+div.add-delete-buttons>button {
     width: 75px;
     height: 22px;
     margin-left: 8px;

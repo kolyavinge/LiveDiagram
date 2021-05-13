@@ -20,7 +20,7 @@ namespace LiveDiagram.Api.Model
                         Title = "Object",
                         X = 900,
                         Y = 10,
-                        Width = 100,
+                        Width = 200,
                         Height = 100
                     },
                     new DiagramItem
@@ -29,16 +29,16 @@ namespace LiveDiagram.Api.Model
                         Title = "Collection",
                         X = 300,
                         Y = 250,
-                        Width = 140,
+                        Width = 100,
                         Height = 100
                     },
                     new DiagramItem
                     {
                         Id = "100",
                         Title = "Array",
-                        X = 100,
+                        X = 10,
                         Y = 450,
-                        Width = 100,
+                        Width = 200,
                         Height = 100
                     },
                     new DiagramItem
@@ -47,16 +47,16 @@ namespace LiveDiagram.Api.Model
                         Title = "List",
                         X = 250,
                         Y = 450,
-                        Width = 100,
+                        Width = 200,
                         Height = 100
                     },
                     new DiagramItem
                     {
                         Id = "102",
                         Title = "HashSet",
-                        X = 450,
+                        X = 500,
                         Y = 450,
-                        Width = 100,
+                        Width = 200,
                         Height = 100
                     },
                     new DiagramItem
@@ -65,7 +65,7 @@ namespace LiveDiagram.Api.Model
                         Title = "FrameworkElement",
                         X = 900,
                         Y = 250,
-                        Width = 180,
+                        Width = 200,
                         Height = 100
                     },
                     new DiagramItem
@@ -74,7 +74,7 @@ namespace LiveDiagram.Api.Model
                         Title = "Component",
                         X = 900,
                         Y = 450,
-                        Width = 100,
+                        Width = 200,
                         Height = 100
                     },
                     new DiagramItem
@@ -83,7 +83,7 @@ namespace LiveDiagram.Api.Model
                         Title = "DataGrid",
                         X = 900,
                         Y = 650,
-                        Width = 100,
+                        Width = 200,
                         Height = 100
                     },
                     new DiagramItem
@@ -92,7 +92,7 @@ namespace LiveDiagram.Api.Model
                         Title = "Regex",
                         X = 1200,
                         Y = 200,
-                        Width = 100,
+                        Width = 200,
                         Height = 100
                     },
                 },

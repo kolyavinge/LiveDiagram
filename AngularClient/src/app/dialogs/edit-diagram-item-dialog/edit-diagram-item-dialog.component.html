@@ -18,9 +18,15 @@
                 <option *ngFor="let method of methods" [id]="method.id" [value]="method.id">{{ method.signature }}</option>
             </select>
             <input type="text" [value]="currentMethod ? currentMethod.signature : ''" (input)="currentMethod.signature = $event.target.value" [disabled]="currentMethod == null" />
-            <div class="buttons">
-                <button (click)="addMethod()">добавить</button>
-                <button (click)="deleteMethod()" [disabled]="currentMethod == null">удалить</button>
+            <div class="method-buttons">
+                <div class="up-down-buttons">
+                    <button (click)="upMethod()" [disabled]="upMethodEnable() == false">▲</button>
+                    <button (click)="downMethod()" [disabled]="downMethodEnable() == false">▼</button>
+                </div>
+                <div class="add-delete-buttons">
+                    <button (click)="addMethod()">добавить</button>
+                    <button (click)="deleteMethod()" [disabled]="currentMethod == null">удалить</button>
+                </div>
             </div>
         </div>
     </div>

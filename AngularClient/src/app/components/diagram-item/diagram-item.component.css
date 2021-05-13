@@ -36,6 +36,21 @@ img.edit {
     height: 16px;
 }
 
+div.methods {
+    margin: 8px;
+}
+
+div.methods>ul {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 10pt;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+div.methods>ul>li {
+    list-style-type: none;
+}
+
 div.resize {
     position: absolute;
     z-index: 1;

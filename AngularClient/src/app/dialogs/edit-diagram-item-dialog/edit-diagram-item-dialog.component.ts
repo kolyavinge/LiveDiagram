@@ -20,6 +20,7 @@ export class EditDiagramItemDialogComponent implements OnInit {
     private _currentParent: DiagramItem = null;
     private _methods: Method[] = [];
     private _currentMethod: Method = null;
+    private _currentMethodIndex: number;
 
     constructor(
         private _dialogRef: MatDialogRef<EditDiagramItemDialogComponent>,
@@ -67,6 +68,27 @@ export class EditDiagramItemDialogComponent implements OnInit {
 
     onMethodChange(id: string): void {
         this._currentMethod = this._methods.find(m => m.id == id);
+        this._currentMethodIndex = this._methods.indexOf(this._currentMethod);
+    }
+
+    upMethod(): void {
+        this._methods.splice(this._currentMethodIndex, 1);
+        this._currentMethodIndex--;
+        this._methods.splice(this._currentMethodIndex, 0, this._currentMethod);
+    }
+
+    upMethodEnable(): boolean {
+        return this._currentMethodIndex > 0;
+    }
+
+    downMethod(): void {
+        this._methods.splice(this._currentMethodIndex, 1);
+        this._currentMethodIndex++;
+        this._methods.splice(this._currentMethodIndex, 0, this._currentMethod);
+    }
+
+    downMethodEnable(): boolean {
+        return this._currentMethodIndex < this._methods.length - 1;
     }
 
     addMethod(): void {
