@@ -1,5 +1,5 @@
 import { Identifiable } from 'src/app/model/identifiable';
-import { Position } from 'src/app/model/position';
+import { Point } from 'src/app/model/point';
 import { Size } from 'src/app/model/size';
 
 const minSize: Size = new Size(100, 100);
@@ -7,7 +7,7 @@ const minSize: Size = new Size(100, 100);
 export abstract class DiagramItemBase extends Identifiable {
 
     private _title: string = "";
-    private _position: Position = new Position(0, 0);
+    private _position: Point = new Point(0, 0);
     private _size: Size = new Size(0, 0);
     private _isPointed: boolean = false;
     private _isSelected: boolean = false;
@@ -25,7 +25,7 @@ export abstract class DiagramItemBase extends Identifiable {
 
     set title(value: string) { this._title = value; }
 
-    get position(): Position { return this._position; }
+    get position(): Point { return this._position; }
 
     setPosition(x: number, y: number): void {
         this._position.x = x;

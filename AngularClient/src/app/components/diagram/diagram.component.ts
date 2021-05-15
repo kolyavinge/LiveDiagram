@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
-import { Position } from 'src/app/model/position';
+import { Point } from 'src/app/model/point';
 import { DiagramItem } from 'src/app/model/diagram-item';
 import { Diagram } from 'src/app/model/diagram';
 import { DiagramService } from 'src/app/services/diagram.service';
@@ -17,7 +17,7 @@ export class DiagramComponent implements OnInit {
     private _diagram: Diagram;
     private _pointedItem: DiagramItem;
     private _resizedItem: DiagramItem;
-    private _mouseLastPosition: Position;
+    private _mouseLastPosition: Point;
     private _pointedRelation: Relation;
 
     constructor(
@@ -42,7 +42,7 @@ export class DiagramComponent implements OnInit {
         this._diagram.clearItemSelectionBut(this._pointedItem ?? this._resizedItem);
         this._diagram.clearRelationSelectionBut(this._pointedRelation);
         if (this._pointedItem || this._resizedItem) {
-            this._mouseLastPosition = new Position(event.x, event.y);
+            this._mouseLastPosition = new Point(event.x, event.y);
         }
         // selection events
         if (this._pointedItem || this._resizedItem) {
@@ -56,7 +56,7 @@ export class DiagramComponent implements OnInit {
 
     onMouseMove(event): void {
         if (this._pointedItem == null && this._resizedItem == null) return;
-        var mouseCurrentPosition = new Position(event.x, event.y);
+        var mouseCurrentPosition = new Point(event.x, event.y);
         var deltaX = mouseCurrentPosition.x - this._mouseLastPosition.x;
         var deltaY = mouseCurrentPosition.y - this._mouseLastPosition.y;
         if (this._resizedItem) {
