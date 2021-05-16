@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
 import { Point } from 'src/app/model/point';
+import { Size } from 'src/app/model/size';
 import { DiagramItem } from 'src/app/model/diagram-item';
 import { Diagram } from 'src/app/model/diagram';
 import { DiagramService } from 'src/app/services/diagram.service';
@@ -89,6 +90,6 @@ export class DiagramComponent implements OnInit {
     }
 
     onResize(event: ResizedEvent): void {
-        this._diagram.setSize(event.newWidth, event.newHeight);
+        this._diagram.size = new Size(event.newWidth, event.newHeight);
     }
 }

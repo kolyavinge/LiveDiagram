@@ -1,4 +1,5 @@
 import { Size } from "./size";
+import { Point } from "./point";
 import { Identifiable } from 'src/app/model/identifiable';
 import { DiagramItem } from "./diagram-item";
 import { Relation } from "./relation";
@@ -18,10 +19,9 @@ export class Diagram extends Identifiable {
 
     get relations(): Relation[] { return this._relations; }
 
-    setSize(width: number, height: number): void {
-        this._size.width = width;
-        this._size.height = height;
-    }
+    get size(): Size { return this._size; }
+
+    set size(value: Size) { this._size = value; }
 
     getItemById(id: string): DiagramItem {
         return this._items.find(item => item.id == id);
@@ -115,6 +115,10 @@ export class Diagram extends Identifiable {
 
     getRelationsToItem(item: DiagramItem): Relation[] {
         return this._relations.filter(r => r.to.isEquals(item));
+    }
+
+    getMatchedItems(point: Point): DiagramItem[] {
+        return this._items.filter(i => i.isMatched(point));
     }
 
     private calculateRelationsSegments(item: DiagramItem): void {

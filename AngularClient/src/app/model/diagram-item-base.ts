@@ -64,4 +64,9 @@ export abstract class DiagramItemBase extends Identifiable {
     }
 
     get hasResized(): boolean { return this._hasResized; }
+
+    isMatched(point: Point): boolean {
+        return this._position.x <= point.x && point.x <= this._position.x + this._size.width &&
+            this._position.y <= point.y && point.y <= this._position.y + this._size.height;
+    }
 }

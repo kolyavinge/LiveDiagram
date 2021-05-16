@@ -3,6 +3,7 @@ import { EditDiagramItemResult } from '../contracts/edit-diagram-item-result';
 import { Diagram } from '../model/diagram';
 import { DiagramItem } from '../model/diagram-item';
 import { InheritanceLogic } from '../model/inheritance-logic';
+import { LayoutLogic } from '../model/layout-logic';
 import { Relation } from '../model/relation';
 import { ApiService } from './api.service';
 import { DiagramEventsService } from './diagram-events.service';
@@ -69,8 +70,10 @@ export class DiagramService {
 
         self._diagramEventsService.diagramItemAddEvent.addHandler((result: EditDiagramItemResult) => {
             var item = new DiagramItem();
-            item.setPosition(100, 100);
             item.setSize(120, 160);
+            var layoutLogic = new LayoutLogic();
+            var initPosition = layoutLogic.getInitialItemPosition(self._diagram, item, result.parentNew);
+            item.setPosition(initPosition.x, initPosition.y);
             item.title = result.titleNew;
             self._diagram.addItem(item);
             self._apiService.diagramItemAdd(self._diagram, item);
