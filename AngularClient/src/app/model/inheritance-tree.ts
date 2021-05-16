@@ -2,6 +2,7 @@ import { Diagram } from "./diagram";
 import { DiagramItem } from "./diagram-item";
 
 export interface TreeNode {
+    level: number;
     item: DiagramItem;
     parent: TreeNode;
     children: TreeNode[];
@@ -12,17 +13,17 @@ export class InheritanceTree {
     root: TreeNode;
 
     static fromDiagram(diagram: Diagram): InheritanceTree[] {
-        var makeNode = (parent: TreeNode, item: DiagramItem): TreeNode => {
-            var node = { item: item, parent: parent, children: [] };
+        var makeNode = (level: number, parent: TreeNode, item: DiagramItem): TreeNode => {
+            var node = { level: level, item: item, parent: parent, children: [] };
             diagram.getRelationsFromItem(node.item).forEach(relation => {
-                node.children.push(makeNode(node, relation.to));
+                node.children.push(makeNode(level + 1, node, relation.to));
             });
             return node;
         };
         var rootItems = diagram.items.filter(i => diagram.getRelationsToItem(i).length == 0);
         var trees = rootItems.map(rootItem => {
             var tree = new InheritanceTree();
-            tree.root = makeNode(null, rootItem);
+            tree.root = makeNode(0, null, rootItem);
             return tree;
         });
 
@@ -31,17 +32,16 @@ export class InheritanceTree {
 
     findNodeFor(item: DiagramItem): TreeNode {
         if (this.root == null) return null;
-        var nodes = [this.root];
-        while (nodes.length > 0) {
-            var node = nodes.pop();
+        var result: TreeNode = null;
+        this.depth((node: TreeNode) => {
             if (node.item.isEquals(item)) {
-                return node;
-            } else {
-                node.children.forEach(c => nodes.push(c));
+                result = node;
+                return false;
             }
-        }
+            return true;
+        });
 
-        return null;
+        return result;
     }
 
     deleteNode(node: TreeNode): void {
@@ -52,15 +52,37 @@ export class InheritanceTree {
         }
     }
 
+    getAllNodes(): TreeNode[] {
+        if (this.root == null) return [];
+        var result = [];
+        this.depth((node: TreeNode) => {
+            result.push(node);
+            return true;
+        });
+
+        return result;
+    }
+
     getAllDiagramItems(): DiagramItem[] {
         if (this.root == null) return [];
         var result = [];
-        var depth = (node: TreeNode) => {
+        this.depth((node: TreeNode) => {
             result.push(node.item);
-            node.children.forEach(c => depth(c));
-        };
-        depth(this.root);
+            return true;
+        });
 
         return result;
+    }
+
+    private depth(action): void {
+        var rec = (node: TreeNode, action) => {
+            var needToContinue = action(node);
+            if (needToContinue == false) return false;
+            for (var i = 0; i < node.children.length; i++) {
+                if (rec(node.children[i], action) == false) return false;
+            }
+            return true;
+        };
+        rec(this.root, action);
     }
 }
