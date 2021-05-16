@@ -16,7 +16,7 @@ export class EditDiagramItemDialogComponent implements OnInit {
 
     private _item: DiagramItem;
     private _title: string = "";
-    private _availableParents: DiagramItem[] = [];
+    private _availableParents: DiagramItem[] = null;
     private _currentParent: DiagramItem = null;
     private _methods: Method[] = [];
     private _currentMethod: Method = null;
@@ -44,7 +44,7 @@ export class EditDiagramItemDialogComponent implements OnInit {
     set title(value: string) { this._title = value; }
 
     get availableParents(): DiagramItem[] {
-        if (this._availableParents) {
+        if (this._availableParents == null) {
             var logic = new InheritanceLogic();
             this._availableParents = logic.getAvailableParents(this._diagramService.diagram, this._item);
             this._availableParents.sort(diagramItemTitleAsc);
