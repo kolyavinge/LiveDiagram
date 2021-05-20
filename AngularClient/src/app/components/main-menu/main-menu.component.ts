@@ -51,4 +51,9 @@ export class MainMenuComponent implements OnInit {
             cmd.exec(selectedRelation);
         }
     }
+
+    layout(): void {
+        var cmd = this._commandService.makeLayoutDiagramCommand();
+        cmd.exec(this._diagramService.diagram);
+    }
 }

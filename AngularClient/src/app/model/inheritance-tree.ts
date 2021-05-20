@@ -74,6 +74,30 @@ export class InheritanceTree {
         return result;
     }
 
+    getLevelsCount(): number {
+        if (this.root == null) return 0;
+        var maxLevel = 0;
+        this.depth((node: TreeNode) => {
+            maxLevel = Math.max(node.level, maxLevel);
+            return true;
+        });
+
+        return maxLevel + 1; // levels count
+    }
+
+    getNodesFromLevel(level: number): TreeNode[] {
+        if (this.root == null) return [];
+        var result = [];
+        this.depth((node: TreeNode) => {
+            if (node.level == level) {
+                result.push(node);
+            }
+            return true;
+        });
+
+        return result;
+    }
+
     private depth(action): void {
         var rec = (node: TreeNode, action) => {
             var needToContinue = action(node);

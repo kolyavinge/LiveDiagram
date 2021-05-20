@@ -14,15 +14,15 @@ namespace LiveDiagram.Api.Contracts
         public string DiagramItemTitle { get; set; }
 
         [JsonPropertyName("itemX")]
-        public int DiagramItemX { get; set; }
+        public float DiagramItemX { get; set; }
 
         [JsonPropertyName("itemY")]
-        public int DiagramItemY { get; set; }
+        public float DiagramItemY { get; set; }
 
         [JsonPropertyName("itemWidth")]
-        public int DiagramItemWidth { get; set; }
+        public float DiagramItemWidth { get; set; }
 
         [JsonPropertyName("itemHeight")]
-        public int DiagramItemHeight { get; set; }
+        public float DiagramItemHeight { get; set; }
     }
 }

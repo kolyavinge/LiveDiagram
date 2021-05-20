@@ -5,6 +5,7 @@ import { DiagramService } from './diagram.service';
 import { DeleteDiagramItemCommand } from '../commands/delete-diagram-item-command';
 import { DeleteRelationCommand } from '../commands/delete-relation-command';
 import { CreateDiagramItemCommand } from '../commands/create-diagram-item-command';
+import { LayoutDiagramCommand } from '../commands/layout-diagram-command';
 
 @Injectable({ providedIn: 'root' })
 export class CommandService {
@@ -25,5 +26,9 @@ export class CommandService {
 
     makeCreateDiagramItemCommand(): CreateDiagramItemCommand {
         return new CreateDiagramItemCommand(this._dialogService, this._diagramEventsService);
+    }
+
+    makeLayoutDiagramCommand(): LayoutDiagramCommand {
+        return new LayoutDiagramCommand();
     }
 }

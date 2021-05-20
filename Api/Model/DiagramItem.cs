@@ -15,15 +15,15 @@ namespace LiveDiagram.Api.Model
         public string Title { get; set; }
 
         [JsonPropertyName("x")]
-        public int X { get; set; }
+        public float X { get; set; }
 
         [JsonPropertyName("y")]
-        public int Y { get; set; }
+        public float Y { get; set; }
 
         [JsonPropertyName("width")]
-        public int Width { get; set; }
+        public float Width { get; set; }
 
         [JsonPropertyName("height")]
-        public int Height { get; set; }
+        public float Height { get; set; }
     }
 }
