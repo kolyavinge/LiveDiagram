@@ -3,7 +3,8 @@ import { EditDiagramItemResult } from '../contracts/edit-diagram-item-result';
 import { Diagram } from '../model/diagram';
 import { DiagramItem, UpdatedDiagramItem } from '../model/diagram-item';
 import { InheritanceLogic } from '../model/inheritance-logic';
-import { LayoutLogic } from '../model/layout-logic';
+import { DiagramLayoutLogic } from '../model/diagram-layout-logic';
+import { DiagramItemLayoutLogic } from '../model/diagram-item-layout-logic';
 import { Relation } from '../model/relation';
 import { ApiService } from './api.service';
 import { DiagramEventsService } from './diagram-events.service';
@@ -71,7 +72,7 @@ export class DiagramService {
         self._diagramEventsService.diagramItemAddEvent.addHandler((result: EditDiagramItemResult) => {
             var item = new DiagramItem();
             item.setSize(120, 160);
-            var layoutLogic = new LayoutLogic();
+            var layoutLogic = new DiagramItemLayoutLogic();
             var initPosition = layoutLogic.getInitialItemPosition(self._diagram, item, result.parentNew);
             item.setPosition(initPosition.x, initPosition.y);
             item.title = result.titleNew;
@@ -120,7 +121,7 @@ export class DiagramService {
         });
 
         self._diagramEventsService.diagramLayoutEvent.addHandler((diagram: Diagram) => {
-            var layoutLogic = new LayoutLogic();
+            var layoutLogic = new DiagramLayoutLogic();
             var result = layoutLogic.layoutDiagram(diagram);
             var updatedItems: UpdatedDiagramItem[] = result.items.map(layoutItem => {
                 return { id: layoutItem.item.id, position: layoutItem.position };
