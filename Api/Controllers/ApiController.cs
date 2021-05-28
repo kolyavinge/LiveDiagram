@@ -156,6 +156,22 @@ namespace LiveDiagram.Api.Controllers
         }
 
         [HttpPost]
+        [Route("DiagramLayout")]
+        public IActionResult DiagramLayout(DiagramLayoutRequest request)
+        {
+            var response = new DiagramLayoutResponse
+            {
+                Success = true,
+                ClientId = request.ClientId,
+                DiagramId = request.DiagramId,
+                Items = request.Items
+            };
+            _mainNotifier.DiagramLayoutResponse(response);
+
+            return Ok();
+        }
+
+        [HttpPost]
         [Route("RelationAdd")]
         public IActionResult RelationAdd(RelationAddRequest request)
         {

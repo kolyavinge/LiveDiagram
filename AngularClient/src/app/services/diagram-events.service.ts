@@ -11,6 +11,7 @@ export class DiagramEventsService {
     diagramItemAddEvent: Event = new Event();
     diagramItemDeleteEvent: Event = new Event();
     diagramItemEditEvent: Event = new Event();
+    diagramLayoutEvent: Event = new Event();
     relationAddEvent: Event = new Event();
     relationDeleteEvent: Event = new Event();
     diagramItemSetSelectionEvent: Event = new Event();

@@ -29,6 +29,6 @@ export class CommandService {
     }
 
     makeLayoutDiagramCommand(): LayoutDiagramCommand {
-        return new LayoutDiagramCommand();
+        return new LayoutDiagramCommand(this._diagramEventsService);
     }
 }

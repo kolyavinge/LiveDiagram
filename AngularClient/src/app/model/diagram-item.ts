@@ -1,5 +1,7 @@
 import { DiagramItemBase } from 'src/app/model/diagram-item-base';
 import { Method } from 'src/app/model/method';
+import { Point } from './point';
+import { Size } from './size';
 
 export class DiagramItem extends DiagramItemBase {
 
@@ -32,4 +34,10 @@ export class DiagramItem extends DiagramItemBase {
         var methodIncludeInDeleted = (method: Method) => methods.find(m => method.isEquals(m)) != null;
         this._methods = this._methods.filter(m => methodIncludeInDeleted(m) == false);
     }
+}
+
+export interface UpdatedDiagramItem {
+    id: string;
+    position?: Point;
+    size?: Size;
 }

@@ -84,11 +84,28 @@ export class ApiService {
             clientId: this._localStorage.authData.clientId,
             diagramId: diagram.id,
             itemId: item.id,
-            methods: item.methods.map(function(m) {
+            methods: item.methods.map(function (m) {
                 return { id: m.id, signature: m.signature };
             })
         };
         this._httpClient.post(ApiPath.diagramItemSetMethodsPath, postData).toPromise();
+    }
+
+    diagramLayout(diagram: Diagram): void {
+        var postData = {
+            clientId: this._localStorage.authData.clientId,
+            diagramId: diagram.id,
+            items: diagram.items.map(function (item) {
+                return {
+                    id: item.id,
+                    x: item.position.x,
+                    y: item.position.y,
+                    width: item.size.width,
+                    height: item.size.height
+                };
+            })
+        };
+        this._httpClient.post(ApiPath.diagramLayoutPath, postData).toPromise();
     }
 
     relationAdd(diagram: Diagram, relations: Relation[]): void {

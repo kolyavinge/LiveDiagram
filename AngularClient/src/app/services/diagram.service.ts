@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EditDiagramItemResult } from '../contracts/edit-diagram-item-result';
 import { Diagram } from '../model/diagram';
-import { DiagramItem } from '../model/diagram-item';
+import { DiagramItem, UpdatedDiagramItem } from '../model/diagram-item';
 import { InheritanceLogic } from '../model/inheritance-logic';
 import { LayoutLogic } from '../model/layout-logic';
 import { Relation } from '../model/relation';
@@ -117,6 +117,16 @@ export class DiagramService {
                 item.methods = result.methodsNew;
                 self._apiService.diagramItemSetMethods(self._diagram, item);
             }
+        });
+
+        self._diagramEventsService.diagramLayoutEvent.addHandler((diagram: Diagram) => {
+            var layoutLogic = new LayoutLogic();
+            var result = layoutLogic.layoutDiagram(diagram);
+            var updatedItems: UpdatedDiagramItem[] = result.items.map(layoutItem => {
+                return { id: layoutItem.item.id, position: layoutItem.position };
+            });
+            self._diagram.updateItems(updatedItems);
+            self._apiService.diagramLayout(diagram);
         });
 
         self._diagramEventsService.relationAddEvent.addHandler((relations: Relation[]) => {

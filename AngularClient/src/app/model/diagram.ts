@@ -1,7 +1,7 @@
 import { Size } from "./size";
 import { Point } from "./point";
 import { Identifiable } from 'src/app/model/identifiable';
-import { DiagramItem } from "./diagram-item";
+import { DiagramItem, UpdatedDiagramItem } from "./diagram-item";
 import { Relation } from "./relation";
 import { ResizeLogic } from "./resize-logic";
 
@@ -74,6 +74,20 @@ export class Diagram extends Identifiable {
     deleteItems(items: DiagramItem[]): void {
         var includeInDeleteItems = (item: DiagramItem) => items.find(i => i.isEquals(item)) != null;
         this._items = this._items.filter(i => includeInDeleteItems(i) == false);
+    }
+
+    updateItems(updatedItems: UpdatedDiagramItem[]): void {
+        var self = this;
+        self._items.forEach(item => {
+            var updated = updatedItems.find(ui => ui.id == item.id);
+            if (updated) {
+                if (updated.position) item.setPosition(updated.position.x, updated.position.y);
+                if (updated.size) item.setSize(updated.size.width, updated.size.height);
+            }
+        });
+        self._items.forEach(item => {
+            self.calculateRelationsSegments(item);
+        });
     }
 
     getRelationsById(relationsId: string[]): Relation[] {

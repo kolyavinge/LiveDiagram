@@ -10,6 +10,7 @@ export default {
     diagramItemAddPath: apiPath + 'diagramItemAdd',
     diagramItemDeletePath: apiPath + 'diagramItemDelete',
     diagramItemSetMethodsPath: apiPath + 'diagramItemSetMethods',
+    diagramLayoutPath: apiPath + 'diagramLayout',
     relationAddPath: apiPath + 'relationAdd',
     relationDeletePath: apiPath + 'relationDelete',
 }
