@@ -1,9 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ResizeDirection } from 'src/app/model/resize-direction';
 import { DiagramItem } from 'src/app/model/diagram-item';
-import { DiagramEventsService } from 'src/app/services/diagram-events.service';
-import { EditDiagramItemDialogComponent } from 'src/app/dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
+import { CommandService } from 'src/app/services/command.service';
 
 @Component({
     selector: 'app-diagram-item',
@@ -16,8 +14,7 @@ export class DiagramItemComponent implements OnInit {
     private _resize: ResizeDirection = new ResizeDirection();
 
     constructor(
-        private _diagramEventsService: DiagramEventsService,
-        private _dialogService: MatDialog
+        private _commandService: CommandService
     ) { }
 
     ngOnInit(): void { }
@@ -38,14 +35,7 @@ export class DiagramItemComponent implements OnInit {
     }
 
     editItem(): void {
-        var self = this;
-        var dialog = self._dialogService.open(EditDiagramItemDialogComponent);
-        dialog.componentInstance.item = this.item;
-        dialog.afterClosed().subscribe(dialogResult => {
-            if (dialogResult) {
-                var editItemResult = dialog.componentInstance.getResult();
-                self._diagramEventsService.diagramItemEditEvent.raise(editItemResult);
-            }
-        });
+        var cmd = this._commandService.makeEditDiagramItemCommand();
+        cmd.exec(this.item);
     }
 }

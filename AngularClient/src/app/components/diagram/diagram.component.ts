@@ -3,10 +3,10 @@ import { ResizedEvent } from 'angular-resize-event';
 import { Point } from 'src/app/model/point';
 import { Size } from 'src/app/model/size';
 import { DiagramItem } from 'src/app/model/diagram-item';
+import { Relation } from 'src/app/model/relation';
 import { Diagram } from 'src/app/model/diagram';
 import { DiagramService } from 'src/app/services/diagram.service';
 import { DiagramEventsService } from 'src/app/services/diagram-events.service';
-import { Relation } from 'src/app/model/relation';
 
 @Component({
     selector: 'app-diagram',
