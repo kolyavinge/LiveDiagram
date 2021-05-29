@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from './local-storage.service';
-import { Diagram } from '../model/diagram';
 import { DiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';
+import { Diagram } from '../model/diagram';
 import ApiPath from 'src/app/infrastructure/api-path';
 
 @Injectable({ providedIn: 'root' })
@@ -13,6 +13,13 @@ export class ApiService {
         private _localStorage: LocalStorageService,
         private _httpClient: HttpClient
     ) { }
+
+    getAvailableDiagrams(): Promise<any> {
+        var postData = {
+            clientId: this._localStorage.authData.clientId
+        };
+        return this._httpClient.post(ApiPath.getAvailableDiagramsPath, postData).toPromise();
+    }
 
     getDiagramById(id: string): Promise<any> {
         var postData = {

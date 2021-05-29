@@ -1,5 +1,15 @@
 <div class="root">
-    <button (click)="createDiagramItem()" class="noselect">Новый элемент</button>
-    <button (click)="delete()" class="noselect" [disabled]="deleteIsDisabled">{{ deleteTitle }}</button>
-    <button (click)="layout()" class="noselect">Выровнять диаграмму</button>
+    <div class="availableDiagrams">
+        <mat-menu #appMenu="matMenu">
+            <ul>
+                <li *ngFor="let availableDiagram of availableDiagrams">
+                    <button mat-menu-item (click)="selectDiagram(availableDiagram)">{{ availableDiagram.name }}</button>
+                </li>
+            </ul>
+        </mat-menu>
+        <button [matMenuTriggerFor]="appMenu"><img src="/assets/ico/diagram.png" /></button>
+    </div>
+    <button (click)="createDiagramItem()" class="item-button noselect">Новый элемент</button>
+    <button (click)="delete()" class="item-button noselect" [disabled]="deleteIsDisabled">{{ deleteTitle }}</button>
+    <button (click)="layout()" class="item-button noselect">Выровнять диаграмму</button>
 </div>

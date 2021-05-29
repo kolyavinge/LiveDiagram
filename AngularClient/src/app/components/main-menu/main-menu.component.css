@@ -4,7 +4,17 @@ div.root {
     background-color: rgb(44, 62, 82);
 }
 
-button {
+div.availableDiagrams {
+    float: left;
+    height: 100%;
+}
+
+div.availableDiagrams>button {
+    width: 48px;
+    height: 100%;
+}
+
+.item-button {
     width: 150px;
     height: 100%;
 }

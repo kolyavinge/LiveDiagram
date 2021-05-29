@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AvailableDiagram } from 'src/app/contracts/available-diagram';
+import { ApiService } from 'src/app/services/api.service';
 import { CommandService } from 'src/app/services/command.service';
 import { DiagramEventsService } from 'src/app/services/diagram-events.service';
 import { DiagramService } from 'src/app/services/diagram.service';
@@ -12,13 +14,18 @@ export class MainMenuComponent implements OnInit {
 
     deleteTitle: string = "Удалить элемент";
     deleteIsDisabled: boolean = true;
+    availableDiagrams: AvailableDiagram[] = [];
 
     constructor(
+        private _apiService: ApiService,
         private _diagramService: DiagramService,
         private _diagramEventsService: DiagramEventsService,
         private _commandService: CommandService
     ) {
         var self = this;
+        self._apiService.getAvailableDiagrams().then((response) => {
+            self.availableDiagrams = response.availableDiagrams;
+        });
         self._diagramEventsService.diagramItemSetSelectionEvent.addHandler((item) => {
             self.deleteTitle = self._diagramService.diagram.getSelectedItems().length == 1
                 ? "Удалить элемент" : "Удалить элементы";
@@ -35,6 +42,10 @@ export class MainMenuComponent implements OnInit {
     }
 
     ngOnInit(): void { }
+
+    selectDiagram(selectedDiagram: AvailableDiagram): void {
+        this._diagramService.loadDiagramById(selectedDiagram.id);
+    }
 
     createDiagramItem(): void {
         var cmd = this._commandService.makeCreateDiagramItemCommand();

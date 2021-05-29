@@ -9,6 +9,7 @@ import { Relation } from '../model/relation';
 import { ApiService } from './api.service';
 import { DiagramEventsService } from './diagram-events.service';
 import { DiagramUpdaterService } from './diagram-updater.service';
+import { AvailableDiagram } from '../contracts/available-diagram';
 
 @Injectable({ providedIn: 'root' })
 export class DiagramService {
@@ -20,9 +21,13 @@ export class DiagramService {
         private _diagramEventsService: DiagramEventsService,
         private _diagramUpdaterService: DiagramUpdaterService
     ) {
+        this._diagram = new Diagram();
+        this.loadDiagramById("12345");
+    }
+
+    loadDiagramById(id: string): void {
         var self = this;
-        self._diagram = new Diagram();
-        self._apiService.getDiagramById("12345").then(response => {
+        self._apiService.getDiagramById(id).then(response => {
             self._diagram = self.makeDiagramFromResponse(response);
             self._diagramUpdaterService.connectToDiagram(self._diagram);
             self.addHandlers();
@@ -32,14 +37,14 @@ export class DiagramService {
 
     private makeDiagramFromResponse(response): Diagram {
         var diagram = new Diagram(response.diagram.id);
-        response.diagram.items.forEach(i => {
+        (response.diagram.items ?? []).forEach(i => {
             var item = new DiagramItem(i.id);
             item.title = i.title;
             item.setPosition(i.x, i.y);
             item.setSize(i.width, i.height);
             diagram.addItem(item);
         });
-        response.diagram.relations.forEach(r => {
+        (response.diagram.relations ?? []).forEach(r => {
             var from = diagram.getItemById(r.itemIdFrom);
             var to = diagram.getItemById(r.itemIdTo);
             var relation = new Relation(r.id);

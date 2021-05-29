@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using LiveDiagram.Api.Contracts;
 using LiveDiagram.Api.Model;
 using LiveDiagram.Api.SignalR;
@@ -30,6 +27,20 @@ namespace LiveDiagram.Api.Controllers
         public IActionResult TestAction()
         {
             return new JsonResult(new { ok = true });
+        }
+
+        [HttpPost]
+        [Route("GetAvailableDiagrams")]
+        public IActionResult GetAvailableDiagrams(GetAvailableDiagramsRequest request)
+        {
+            var diagramLoader = new DiagramLoader();
+            var response = new GetAvailableDiagramsResponse
+            {
+                Success = true,
+                AvailableDiagrams = diagramLoader.GetAvailableDiagrams().OrderBy(x => x.Name).ToList()
+            };
+
+            return new JsonResult(response);
         }
 
         [HttpPost]
