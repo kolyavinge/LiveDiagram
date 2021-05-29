@@ -23,7 +23,6 @@ export class DiagramItemComponent implements OnInit {
 
     onMouseDown(): void {
         this.item.isPointed = true;
-        this.item.isSelected = true;
     }
 
     onMouseDoubleClick(): void {

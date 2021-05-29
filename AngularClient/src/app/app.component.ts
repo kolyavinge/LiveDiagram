@@ -17,4 +17,8 @@ export class AppComponent {
     onKeyDown(event: KeyboardEvent) {
         this._keyboardService.onKeyDown(event);
     }
+
+    onKeyUp(event: KeyboardEvent) {
+        this._keyboardService.onKeyUp(event);
+    }
 }

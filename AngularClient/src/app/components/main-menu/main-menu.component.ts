@@ -20,11 +20,13 @@ export class MainMenuComponent implements OnInit {
     ) {
         var self = this;
         self._diagramEventsService.diagramItemSetSelectionEvent.addHandler((item) => {
-            self.deleteTitle = "Удалить элемент";
+            self.deleteTitle = self._diagramService.diagram.getSelectedItems().length == 1
+                ? "Удалить элемент" : "Удалить элементы";
             self.deleteIsDisabled = false;
         });
         self._diagramEventsService.relationSetSelectionEvent.addHandler((relation) => {
-            self.deleteTitle = "Удалить связь";
+            self.deleteTitle = self._diagramService.diagram.getSelectedRelations().length == 1
+                ? "Удалить связь" : "Удалить связи";
             self.deleteIsDisabled = false;
         });
         self._diagramEventsService.diagramClearSelectionEvent.addHandler(() => {
@@ -40,15 +42,15 @@ export class MainMenuComponent implements OnInit {
     }
 
     delete(): void {
-        var selectedItem = this._diagramService.diagram.getSelectedItem();
-        if (selectedItem) {
+        var selectedItems = this._diagramService.diagram.getSelectedItems();
+        if (selectedItems.length > 0) {
             let cmd = this._commandService.makeDeleteDiagramItemCommand();
-            cmd.exec(selectedItem);
+            cmd.exec(selectedItems);
         }
-        var selectedRelation = this._diagramService.diagram.getSelectedRelation();
-        if (selectedRelation) {
+        var selectedRelations = this._diagramService.diagram.getSelectedRelations();
+        if (selectedRelations.length > 0) {
             let cmd = this._commandService.makeDeleteRelationCommand();
-            cmd.exec(selectedRelation);
+            cmd.exec(selectedRelations);
         }
     }
 

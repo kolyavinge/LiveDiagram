@@ -61,6 +61,7 @@ export abstract class DiagramItemBase extends Identifiable {
     clearResize(): void {
         this._resizeDirectionValue = 0;
         this._hasResized = false;
+        this._hasMoved = false;
     }
 
     get hasResized(): boolean { return this._hasResized; }

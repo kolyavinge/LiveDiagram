@@ -16,13 +16,14 @@ export class DeleteRelationCommand {
         this._diagramEventsService = diagramEventsService;
     }
 
-    exec(relation: Relation): void {
+    exec(relations: Relation[]): void {
         var self = this;
         var dialog = self._dialogService.open(ConfirmDialogComponent);
-        dialog.componentInstance.message = 'Вы действительно хотите удалить выбранную связь?';
+        dialog.componentInstance.message = relations.length == 1
+            ? 'Вы действительно хотите удалить выбранную связь?' : 'Вы действительно хотите удалить выбранные связи?';
         dialog.afterClosed().subscribe(result => {
             if (result) {
-                self._diagramEventsService.relationDeleteEvent.raise([relation]);
+                self._diagramEventsService.relationDeleteEvent.raise(relations);
             }
         });
     }

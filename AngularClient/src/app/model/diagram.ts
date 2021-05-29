@@ -39,8 +39,8 @@ export class Diagram extends Identifiable {
         return this._items.find(item => item.resizeDirectionValue > 0);
     }
 
-    getSelectedItem(): DiagramItem {
-        return this._items.find(item => item.isSelected);
+    getSelectedItems(): DiagramItem[] {
+        return this._items.filter(item => item.isSelected);
     }
 
     clearItemSelectionBut(item: DiagramItem): void {
@@ -98,8 +98,8 @@ export class Diagram extends Identifiable {
         return this._relations.find(x => x.isPointed);
     }
 
-    getSelectedRelation(): Relation {
-        return this._relations.find(x => x.isSelected);
+    getSelectedRelations(): Relation[] {
+        return this._relations.filter(x => x.isSelected);
     }
 
     clearRelationSelectionBut(relation: Relation): void {

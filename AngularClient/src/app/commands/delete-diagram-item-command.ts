@@ -16,13 +16,14 @@ export class DeleteDiagramItemCommand {
         this._diagramEventsService = diagramEventsService;
     }
 
-    exec(item: DiagramItem): void {
+    exec(items: DiagramItem[]): void {
         var self = this;
         var dialog = self._dialogService.open(ConfirmDialogComponent);
-        dialog.componentInstance.message = 'Вы действительно хотите удалить выбранный элемент?';
+        dialog.componentInstance.message = items.length == 1
+            ? 'Вы действительно хотите удалить выбранный элемент?' : 'Вы действительно хотите удалить выбранные элементы?';
         dialog.afterClosed().subscribe(result => {
             if (result) {
-                self._diagramEventsService.diagramItemDeleteEvent.raise([item]);
+                self._diagramEventsService.diagramItemDeleteEvent.raise(items);
             }
         });
     }

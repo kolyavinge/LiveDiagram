@@ -90,6 +90,5 @@ export class RelationComponent implements OnInit {
 
     onMouseDown(): void {
         this.relation.isPointed = true;
-        this.relation.isSelected = true;
     }
 }
