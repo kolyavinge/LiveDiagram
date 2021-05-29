@@ -56,7 +56,7 @@ export class ApiService {
         this._httpClient.post(ApiPath.diagramItemSetTitlePath, postData).toPromise();
     }
 
-    diagramItemAdd(diagram: Diagram, item: DiagramItem): void {
+    diagramItemAdd(diagram: Diagram, item: DiagramItem, parentRelation: Relation): void {
         var postData = {
             clientId: this._localStorage.authData.clientId,
             diagramId: diagram.id,
@@ -65,7 +65,8 @@ export class ApiService {
             itemX: item.position.x,
             itemY: item.position.y,
             itemWidth: item.size.width,
-            itemHeight: item.size.height
+            itemHeight: item.size.height,
+            parentRelation: parentRelation ? { id: parentRelation.id, itemIdFrom: parentRelation.from.id, itemIdTo: parentRelation.to.id } : null
         };
         this._httpClient.post(ApiPath.diagramItemAddPath, postData).toPromise();
     }

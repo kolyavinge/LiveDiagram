@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using LiveDiagram.Api.Model;
 
 namespace LiveDiagram.Api.Contracts
 {
@@ -21,5 +22,8 @@ namespace LiveDiagram.Api.Contracts
 
         [JsonPropertyName("itemHeight")]
         public float DiagramItemHeight { get; set; }
+
+        [JsonPropertyName("parentRelation")]
+        public Relation ParentRelation { get; set; }
     }
 }

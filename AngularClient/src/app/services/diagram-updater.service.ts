@@ -52,6 +52,15 @@ export class DiagramUpdaterService {
             item.size.width = response.itemWidth;
             item.size.height = response.itemHeight;
             self._diagram.addItem(item);
+            if (response.parentRelation) {
+                var from = self._diagram.getItemById(response.parentRelation.itemIdFrom);
+                var to = self._diagram.getItemById(response.parentRelation.itemIdTo);
+                if (from && to) {
+                    var relation = new Relation(response.parentRelation.id);
+                    relation.setDiagramItems(from, to);
+                    self._diagram.addRelation(relation);
+                }
+            }
         });
 
         self._apiNotifierService.onDiagramItemDelete(function (response) {

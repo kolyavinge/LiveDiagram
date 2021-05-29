@@ -115,7 +115,8 @@ namespace LiveDiagram.Api.Controllers
                 DiagramItemX = request.DiagramItemX,
                 DiagramItemY = request.DiagramItemY,
                 DiagramItemWidth = request.DiagramItemWidth,
-                DiagramItemHeight = request.DiagramItemHeight
+                DiagramItemHeight = request.DiagramItemHeight,
+                ParentRelation = request.ParentRelation
             };
             _mainNotifier.DiagramItemAddResponse(response);
 

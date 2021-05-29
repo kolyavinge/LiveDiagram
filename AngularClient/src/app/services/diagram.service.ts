@@ -77,13 +77,13 @@ export class DiagramService {
             item.setPosition(initPosition.x, initPosition.y);
             item.title = result.titleNew;
             self._diagram.addItem(item);
-            self._apiService.diagramItemAdd(self._diagram, item);
+            var parentRelation: Relation = null;
             if (result.parentNew) {
-                var parentRelationNew = new Relation();
-                parentRelationNew.setDiagramItems(result.parentNew, item);
-                self._diagram.addRelations([parentRelationNew]);
-                self._apiService.relationAdd(self._diagram, [parentRelationNew]);
+                parentRelation = new Relation();
+                parentRelation.setDiagramItems(result.parentNew, item);
+                self._diagram.addRelations([parentRelation]);
             }
+            self._apiService.diagramItemAdd(self._diagram, item, parentRelation);
         });
 
         self._diagramEventsService.diagramItemDeleteEvent.addHandler((diagramItems: DiagramItem[]) => {
