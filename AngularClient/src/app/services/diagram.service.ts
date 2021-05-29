@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { EditDiagramItemResult } from '../contracts/edit-diagram-item-result';
-import { Diagram } from '../model/diagram';
 import { DiagramItem, UpdatedDiagramItem } from '../model/diagram-item';
+import { Relation } from '../model/relation';
+import { Diagram } from '../model/diagram';
 import { InheritanceLogic } from '../model/inheritance-logic';
 import { DiagramLayoutLogic } from '../model/diagram-layout-logic';
 import { DiagramItemLayoutLogic } from '../model/diagram-item-layout-logic';
-import { Relation } from '../model/relation';
+import { EditDiagramItemResult } from '../contracts/edit-diagram-item-result';
 import { ApiService } from './api.service';
 import { DiagramEventsService } from './diagram-events.service';
 import { DiagramUpdaterService } from './diagram-updater.service';
-import { AvailableDiagram } from '../contracts/available-diagram';
 
 @Injectable({ providedIn: 'root' })
 export class DiagramService {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
 import { Point } from 'src/app/model/point';
 import { Size } from 'src/app/model/size';
@@ -16,6 +16,7 @@ import { KeyboardService } from 'src/app/services/keyboard.service';
 })
 export class DiagramComponent implements OnInit {
 
+    @ViewChild('root') _root: ElementRef;
     private _diagram: Diagram;
     private _pointedItem: DiagramItem;
     private _resizedItem: DiagramItem;
@@ -31,6 +32,7 @@ export class DiagramComponent implements OnInit {
         self._diagram = self._diagramService.diagram;
         self._diagramEventsService.diagramLoadedEvent.addHandler((diagram: Diagram) => {
             self._diagram = diagram;
+            self._diagram.size = new Size(self._root.nativeElement.offsetWidth, self._root.nativeElement.offsetHeight);
         });
     }
 
