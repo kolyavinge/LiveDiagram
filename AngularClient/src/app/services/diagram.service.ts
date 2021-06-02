@@ -68,6 +68,16 @@ export class DiagramService {
             diagramSetTitleDelayedRequest.send();
         });
 
+        self._diagramEventsService.diagramLayoutEvent.addHandler((diagram: Diagram) => {
+            var layoutLogic = new DiagramLayoutLogic();
+            var result = layoutLogic.layoutDiagram(diagram);
+            var updatedItems: UpdatedDiagramItem[] = result.items.map(layoutItem => {
+                return { id: layoutItem.item.id, position: layoutItem.position };
+            });
+            self._diagram.updateItems(updatedItems);
+            self._apiService.diagramLayout(diagram);
+        });
+
         self._diagramEventsService.diagramItemMoveEvent.addHandler((diagramItem: DiagramItem) => {
             self._apiService.diagramItemMove(self._diagram, diagramItem);
         });
@@ -97,15 +107,6 @@ export class DiagramService {
             self._apiService.diagramItemAdd(self._diagram, item, parentRelation);
         });
 
-        self._diagramEventsService.diagramItemDeleteEvent.addHandler((diagramItems: DiagramItem[]) => {
-            self._diagram.deleteItems(diagramItems);
-            var relations = diagramItems.map(i => self._diagram.getItemRelations(i)).reduce((x, y) => x.concat(y), []); // flat array
-            var relationsDistinct = Array.from(new Set(relations));
-            self._diagram.deleteRelations(relationsDistinct);
-            self._apiService.diagramItemDelete(self._diagram, diagramItems);
-            self._apiService.relationDelete(self._diagram, relationsDistinct);
-        });
-
         self._diagramEventsService.diagramItemEditEvent.addHandler((result: EditDiagramItemResult) => {
             var item = result.item;
             if (result.titleHasChanged) {
@@ -131,14 +132,13 @@ export class DiagramService {
             }
         });
 
-        self._diagramEventsService.diagramLayoutEvent.addHandler((diagram: Diagram) => {
-            var layoutLogic = new DiagramLayoutLogic();
-            var result = layoutLogic.layoutDiagram(diagram);
-            var updatedItems: UpdatedDiagramItem[] = result.items.map(layoutItem => {
-                return { id: layoutItem.item.id, position: layoutItem.position };
-            });
-            self._diagram.updateItems(updatedItems);
-            self._apiService.diagramLayout(diagram);
+        self._diagramEventsService.diagramItemDeleteEvent.addHandler((diagramItems: DiagramItem[]) => {
+            self._diagram.deleteItems(diagramItems);
+            var relations = diagramItems.map(i => self._diagram.getItemRelations(i)).reduce((x, y) => x.concat(y), []); // flat array
+            var relationsDistinct = Array.from(new Set(relations));
+            self._diagram.deleteRelations(relationsDistinct);
+            self._apiService.diagramItemDelete(self._diagram, diagramItems);
+            self._apiService.relationDelete(self._diagram, relationsDistinct);
         });
 
         self._diagramEventsService.relationAddEvent.addHandler((relations: Relation[]) => {

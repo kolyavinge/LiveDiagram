@@ -38,6 +38,23 @@ export class ApiService {
         this._httpClient.post(ApiPath.diagramSetTitlePath, postData).toPromise();
     }
 
+    diagramLayout(diagram: Diagram): void {
+        var postData = {
+            clientId: this._localStorage.authData.clientId,
+            diagramId: diagram.id,
+            items: diagram.items.map(function (item) {
+                return {
+                    id: item.id,
+                    x: item.position.x,
+                    y: item.position.y,
+                    width: item.size.width,
+                    height: item.size.height
+                };
+            })
+        };
+        this._httpClient.post(ApiPath.diagramLayoutPath, postData).toPromise();
+    }
+
     diagramItemMove(diagram: Diagram, item: DiagramItem): void {
         var postData = {
             clientId: this._localStorage.authData.clientId,
@@ -106,23 +123,6 @@ export class ApiService {
             })
         };
         this._httpClient.post(ApiPath.diagramItemSetMethodsPath, postData).toPromise();
-    }
-
-    diagramLayout(diagram: Diagram): void {
-        var postData = {
-            clientId: this._localStorage.authData.clientId,
-            diagramId: diagram.id,
-            items: diagram.items.map(function (item) {
-                return {
-                    id: item.id,
-                    x: item.position.x,
-                    y: item.position.y,
-                    width: item.size.width,
-                    height: item.size.height
-                };
-            })
-        };
-        this._httpClient.post(ApiPath.diagramLayoutPath, postData).toPromise();
     }
 
     relationAdd(diagram: Diagram, relations: Relation[]): void {

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { ApiNotifierService } from 'src/app/services/api-notifier.service';
 import { Diagram } from '../model/diagram';
 import { DiagramItem } from '../model/diagram-item';
+import { Relation } from '../model/relation';
 import { Method } from '../model/method';
 import { Point } from '../model/point';
-import { Relation } from '../model/relation';
 import { Size } from '../model/size';
 
 @Injectable({ providedIn: 'root' })
@@ -24,6 +24,12 @@ export class DiagramUpdaterService {
 
         self._apiNotifierService.onDiagramSetTitle(function (response) {
             self._diagram.title = response.diagramTitle;
+        });
+
+        self._apiNotifierService.onDiagramLayout(function (response) {
+            self._diagram.updateItems(response.items.map(function (i) {
+                return { id: i.id, position: new Point(i.x, i.y), size: new Size(i.width, i.height) };
+            }));
         });
 
         self._apiNotifierService.onDiagramItemMove(function (response) {
@@ -81,12 +87,6 @@ export class DiagramUpdaterService {
                     return method;
                 });
             }
-        });
-
-        self._apiNotifierService.onDiagramLayout(function (response) {
-            self._diagram.updateItems(response.items.map(function (i) {
-                return { id: i.id, position: new Point(i.x, i.y), size: new Size(i.width, i.height) };
-            }));
         });
 
         self._apiNotifierService.onRelationAdd(function (response) {

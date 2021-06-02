@@ -32,6 +32,13 @@ export class ApiNotifierService {
         });
     }
 
+    onDiagramLayout(handler: any): void {
+        var self = this;
+        self._signalrClient.addHandler("DiagramLayoutResponse", function (response) {
+            if (self._authData.clientId != response.clientId) handler(response);
+        });
+    }
+
     onDiagramItemMove(handler: any): void {
         var self = this;
         self._signalrClient.addHandler("DiagramItemMoveResponse", function (response) {
@@ -70,13 +77,6 @@ export class ApiNotifierService {
     onDiagramItemSetMethods(handler: any): void {
         var self = this;
         self._signalrClient.addHandler("DiagramItemSetMethodsResponse", function (response) {
-            if (self._authData.clientId != response.clientId) handler(response);
-        });
-    }
-
-    onDiagramLayout(handler: any): void {
-        var self = this;
-        self._signalrClient.addHandler("DiagramLayoutResponse", function (response) {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }

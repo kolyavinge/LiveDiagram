@@ -74,6 +74,22 @@ namespace LiveDiagram.Api.Controllers
         }
 
         [HttpPost]
+        [Route("DiagramLayout")]
+        public IActionResult DiagramLayout(DiagramLayoutRequest request)
+        {
+            var response = new DiagramLayoutResponse
+            {
+                Success = true,
+                ClientId = request.ClientId,
+                DiagramId = request.DiagramId,
+                Items = request.Items
+            };
+            _mainNotifier.DiagramLayoutResponse(response);
+
+            return Ok();
+        }
+
+        [HttpPost]
         [Route("DiagramItemMove")]
         public IActionResult DiagramItemMove(DiagramItemMoveRequest request)
         {
@@ -179,22 +195,6 @@ namespace LiveDiagram.Api.Controllers
                 Methods = request.Methods
             };
             _mainNotifier.DiagramItemSetMethodsResponse(response);
-
-            return Ok();
-        }
-
-        [HttpPost]
-        [Route("DiagramLayout")]
-        public IActionResult DiagramLayout(DiagramLayoutRequest request)
-        {
-            var response = new DiagramLayoutResponse
-            {
-                Success = true,
-                ClientId = request.ClientId,
-                DiagramId = request.DiagramId,
-                Items = request.Items
-            };
-            _mainNotifier.DiagramLayoutResponse(response);
 
             return Ok();
         }
