@@ -11,6 +11,9 @@ namespace LiveDiagram.Api.Model
         [JsonPropertyName("id")]
         public string Id { get; set; }
 
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
+
         [JsonPropertyName("items")]
         public List<DiagramItem> Items { get; set; }
 

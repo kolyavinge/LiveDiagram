@@ -7,7 +7,7 @@ namespace LiveDiagram.Api.Model
         [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
     }
 }

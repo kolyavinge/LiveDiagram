@@ -22,3 +22,10 @@ div.availableDiagrams>button {
 button:disabled {
     background: #dddddd;
 }
+
+.diagram-title {
+    display: block;
+    float: right;
+    width: 250px;
+    height: calc(100% - 4px);
+}

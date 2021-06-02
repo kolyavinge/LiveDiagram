@@ -9,6 +9,7 @@ import { EditDiagramItemResult } from '../contracts/edit-diagram-item-result';
 import { ApiService } from './api.service';
 import { DiagramEventsService } from './diagram-events.service';
 import { DiagramUpdaterService } from './diagram-updater.service';
+import { DelayedRequest } from '../infrastructure/delayed-request';
 
 @Injectable({ providedIn: 'root' })
 export class DiagramService {
@@ -36,6 +37,7 @@ export class DiagramService {
 
     private makeDiagramFromResponse(response): Diagram {
         var diagram = new Diagram(response.diagram.id);
+        diagram.title = response.diagram.title;
         (response.diagram.items ?? []).forEach(i => {
             var item = new DiagramItem(i.id);
             item.title = i.title;
@@ -60,6 +62,11 @@ export class DiagramService {
 
     addHandlers(): void {
         var self = this;
+
+        var diagramSetTitleDelayedRequest = new DelayedRequest(() => { self._apiService.diagramSetTitle(self._diagram); }, 2000);
+        self._diagramEventsService.diagramSetTitleEvent.addHandler(() => {
+            diagramSetTitleDelayedRequest.send();
+        });
 
         self._diagramEventsService.diagramItemMoveEvent.addHandler((diagramItem: DiagramItem) => {
             self._apiService.diagramItemMove(self._diagram, diagramItem);

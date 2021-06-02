@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace LiveDiagram.Api.Model
 {
@@ -8,9 +9,9 @@ namespace LiveDiagram.Api.Model
         {
             return new List<AvailableDiagram>
             {
-                new AvailableDiagram { Id = "12345", Name = "Новая диаграмма" },
-                new AvailableDiagram { Id = "6789", Name = "Еще одна новая диаграмма" },
-            };
+                new AvailableDiagram { Id = "12345", Title = "Новая диаграмма" },
+                new AvailableDiagram { Id = "6789", Title = "Еще одна новая диаграмма" },
+            }.OrderBy(x => x.Title).ToList();
         }
 
         public Diagram LoadDiagramById(string id)
@@ -20,6 +21,7 @@ namespace LiveDiagram.Api.Model
                 return new Diagram
                 {
                     Id = "12345",
+                    Title = "Новая диаграмма",
                     Items = new List<DiagramItem>
                     {
                         new DiagramItem
@@ -162,6 +164,7 @@ namespace LiveDiagram.Api.Model
                 return new Diagram
                 {
                     Id = "6789",
+                    Title = "Еще одна новая диаграмма",
                     Items = new List<DiagramItem>
                     {
                         new DiagramItem

@@ -7,6 +7,7 @@ import { ResizeLogic } from "./resize-logic";
 
 export class Diagram extends Identifiable {
 
+    private _title: string = "";
     private _size: Size = new Size();
     private _items: DiagramItem[] = [];
     private _relations: Relation[] = [];
@@ -14,6 +15,10 @@ export class Diagram extends Identifiable {
     constructor(id: string = null) {
         super(id);
     }
+
+    get title(): string { return this._title; }
+
+    set title(value: string) { this._title = value; }
 
     get items(): DiagramItem[] { return this._items; }
 

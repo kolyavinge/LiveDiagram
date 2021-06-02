@@ -8,6 +8,7 @@ namespace LiveDiagram.Api.SignalR
     public interface IMainNotifier
     {
         void Start();
+        void DiagramSetTitleResponse(DiagramSetTitleResponse response);
         void DiagramItemMoveResponse(DiagramItemMoveResponse response);
         void DiagramItemResizeResponse(DiagramItemResizeResponse response);
         void DiagramItemSetTitleResponse(DiagramItemSetTitleResponse response);
@@ -27,6 +28,11 @@ namespace LiveDiagram.Api.SignalR
         {
             _hubConnection = new HubConnectionBuilder().WithUrl("https://localhost:44305/hub").Build();
             await _hubConnection.StartAsync();
+        }
+
+        public async void DiagramSetTitleResponse(DiagramSetTitleResponse response)
+        {
+            await SendResponse(response);
         }
 
         public async void DiagramItemMoveResponse(DiagramItemMoveResponse response)

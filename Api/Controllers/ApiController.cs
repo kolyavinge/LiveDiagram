@@ -37,7 +37,7 @@ namespace LiveDiagram.Api.Controllers
             var response = new GetAvailableDiagramsResponse
             {
                 Success = true,
-                AvailableDiagrams = diagramLoader.GetAvailableDiagrams().OrderBy(x => x.Name).ToList()
+                AvailableDiagrams = diagramLoader.GetAvailableDiagrams()
             };
 
             return new JsonResult(response);
@@ -55,6 +55,22 @@ namespace LiveDiagram.Api.Controllers
             };
 
             return new JsonResult(response);
+        }
+
+        [HttpPost]
+        [Route("DiagramSetTitle")]
+        public IActionResult DiagramSetTitle(DiagramSetTitleRequest request)
+        {
+            var response = new DiagramSetTitleResponse
+            {
+                Success = true,
+                ClientId = request.ClientId,
+                DiagramId = request.DiagramId,
+                DiagramTitle = request.DiagramTitle
+            };
+            _mainNotifier.DiagramSetTitleResponse(response);
+
+            return Ok();
         }
 
         [HttpPost]

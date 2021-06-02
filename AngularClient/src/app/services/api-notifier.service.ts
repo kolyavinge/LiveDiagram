@@ -25,6 +25,13 @@ export class ApiNotifierService {
         this._signalrClient.clearHandlers();
     }
 
+    onDiagramSetTitle(handler: any): void {
+        var self = this;
+        self._signalrClient.addHandler("DiagramSetTitleResponse", function (response) {
+            if (self._authData.clientId != response.clientId) handler(response);
+        });
+    }
+
     onDiagramItemMove(handler: any): void {
         var self = this;
         self._signalrClient.addHandler("DiagramItemMoveResponse", function (response) {

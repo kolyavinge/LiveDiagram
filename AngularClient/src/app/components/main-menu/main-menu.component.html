@@ -3,7 +3,7 @@
         <mat-menu #appMenu="matMenu">
             <ul>
                 <li *ngFor="let availableDiagram of availableDiagrams">
-                    <button mat-menu-item (click)="selectDiagram(availableDiagram)">{{ availableDiagram.name }}</button>
+                    <button mat-menu-item (click)="selectDiagram(availableDiagram)">{{ availableDiagram.title }}</button>
                 </li>
             </ul>
         </mat-menu>
@@ -12,4 +12,5 @@
     <button (click)="createDiagramItem()" class="item-button noselect">Новый элемент</button>
     <button (click)="delete()" class="item-button noselect" [disabled]="deleteIsDisabled">{{ deleteTitle }}</button>
     <button (click)="layout()" class="item-button noselect">Выровнять диаграмму</button>
+    <input class="diagram-title" type="text" [value]="diagramTitle" (input)="diagramTitle = $event.target.value" />
 </div>

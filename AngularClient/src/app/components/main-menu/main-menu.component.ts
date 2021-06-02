@@ -43,6 +43,13 @@ export class MainMenuComponent implements OnInit {
 
     ngOnInit(): void { }
 
+    get diagramTitle(): string { return this._diagramService.diagram.title; }
+
+    set diagramTitle(value: string) {
+        this._diagramService.diagram.title = value;
+        this._diagramEventsService.diagramSetTitleEvent.raise();
+    }
+
     selectDiagram(selectedDiagram: AvailableDiagram): void {
         this._diagramService.loadDiagramById(selectedDiagram.id);
     }

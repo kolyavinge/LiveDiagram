@@ -29,6 +29,15 @@ export class ApiService {
         return this._httpClient.post(ApiPath.getDiagramByIdPath, postData).toPromise();
     }
 
+    diagramSetTitle(diagram: Diagram): void {
+        var postData = {
+            clientId: this._localStorage.authData.clientId,
+            diagramId: diagram.id,
+            diagramTitle: diagram.title
+        };
+        this._httpClient.post(ApiPath.diagramSetTitlePath, postData).toPromise();
+    }
+
     diagramItemMove(diagram: Diagram, item: DiagramItem): void {
         var postData = {
             clientId: this._localStorage.authData.clientId,

@@ -22,6 +22,10 @@ export class DiagramUpdaterService {
 
         self._apiNotifierService.clearHandlers();
 
+        self._apiNotifierService.onDiagramSetTitle(function (response) {
+            self._diagram.title = response.diagramTitle;
+        });
+
         self._apiNotifierService.onDiagramItemMove(function (response) {
             var movedItem = self._diagram.getItemById(response.itemId);
             if (movedItem) {

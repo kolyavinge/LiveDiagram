@@ -30,6 +30,11 @@ namespace LiveDiagram.Api.SignalR
             return base.OnDisconnectedAsync(exception);
         }
 
+        public async Task DiagramSetTitleResponse(object responseContainerJson)
+        {
+            await SendAsync("DiagramSetTitleResponse", responseContainerJson);
+        }
+
         public async Task DiagramItemMoveResponse(object responseContainerJson)
         {
             await SendAsync("DiagramItemMoveResponse", responseContainerJson);
