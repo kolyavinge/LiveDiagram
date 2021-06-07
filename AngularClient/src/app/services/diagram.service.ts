@@ -46,14 +46,14 @@ export class DiagramService {
             item.title = i.title;
             item.setPosition(i.x, i.y);
             item.setSize(i.width, i.height);
-            diagram.addItem(item);
+            diagram.addItems([item]);
         });
         (response.diagram.relations ?? []).forEach(r => {
             var from = diagram.getItemById(r.itemIdFrom);
             var to = diagram.getItemById(r.itemIdTo);
             var relation = new Relation(r.id);
             relation.setDiagramItems(from, to);
-            diagram.addRelation(relation);
+            diagram.addRelations([relation]);
         });
 
         return diagram;

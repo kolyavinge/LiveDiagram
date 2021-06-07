@@ -101,7 +101,7 @@ export class DiagramUpdaterService {
                     var relation = new Relation(r.id);
                     relation.setDiagramItems(from, to);
                 };
-                self._diagram.addRelation(relation);
+                self._diagram.addRelations([relation]);
             });
         });
 

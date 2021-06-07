@@ -72,8 +72,8 @@ export class Diagram extends Identifiable {
         this.calculateRelationsSegments(item);
     }
 
-    addItem(item: DiagramItem): void {
-        this._items.push(item);
+    addItems(items: DiagramItem[]): void {
+        items.forEach(i => this._items.push(i));
     }
 
     deleteItems(items: DiagramItem[]): void {
@@ -111,12 +111,8 @@ export class Diagram extends Identifiable {
         this._relations.filter(r => r.isEquals(relation) == false).forEach(r => r.isSelected = false);
     }
 
-    addRelation(relation: Relation): void {
-        this._relations.push(relation);
-    }
-
     addRelations(relations: Relation[]): void {
-        relations.forEach(r => this.addRelation(r));
+        relations.forEach(r => this._relations.push(r));
     }
 
     deleteRelations(relations: Relation[]): void {

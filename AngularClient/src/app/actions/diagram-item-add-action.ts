@@ -17,7 +17,7 @@ export class DiagramItemAddAction extends Action {
 
     doInner(): void {
         this._itemCopy = this._item.copy();
-        this.diagram.addItem(this._itemCopy);
+        this.diagram.addItems([this._itemCopy]);
         if (this._parentRelation) {
             this._parentRelation.setDiagramItems(this._parentRelation.from, this._itemCopy);
             this.diagram.addRelations([this._parentRelation]);
