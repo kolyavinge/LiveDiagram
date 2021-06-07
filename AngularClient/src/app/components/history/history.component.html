@@ -1,0 +1,9 @@
+<div class="root">
+    <div *ngFor="let item of items"
+        class="item noselect"
+        [class.item-active]="item.action.isActive == true"
+        [class.item-inactive]="item.action.isActive == false"
+        (click)="selectItem(item)">
+        <span>{{ item.title }}</span>
+    </div>
+</div>

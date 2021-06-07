@@ -15,6 +15,7 @@ import { StatusBarComponent } from './components/status-bar/status-bar.component
 import { EditDiagramItemDialogComponent } from './dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { RelationComponent } from './components/relation/relation.component';
+import { HistoryComponent } from './components/history/history.component';
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import { RelationComponent } from './components/relation/relation.component';
         EditDiagramItemDialogComponent,
         ConfirmDialogComponent,
         RelationComponent,
+        HistoryComponent,
     ],
     imports: [
         BrowserModule,

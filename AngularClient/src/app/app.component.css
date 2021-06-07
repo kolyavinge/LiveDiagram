@@ -10,6 +10,14 @@ div.diagram {
     height: calc(100% - 64px);
 }
 
+div.history {
+    position: absolute;
+    left: 0;
+    bottom: 33px;
+    width: 200px;
+    height: 150px;
+}
+
 div.status-bar {
     height: 32px;
 }
