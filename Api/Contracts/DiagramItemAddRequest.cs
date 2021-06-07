@@ -5,6 +5,9 @@ namespace LiveDiagram.Api.Contracts
 {
     public class DiagramItemAddRequest : Request
     {
+        [JsonPropertyName("actionId")]
+        public string ActionId { get; set; }
+
         [JsonPropertyName("diagramId")]
         public string DiagramId { get; set; }
 

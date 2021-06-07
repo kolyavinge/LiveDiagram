@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using LiveDiagram.Api.Contracts;
+﻿using LiveDiagram.Api.Contracts;
 using LiveDiagram.Api.Model;
 using LiveDiagram.Api.SignalR;
 using Microsoft.AspNetCore.Cors;
@@ -152,6 +151,7 @@ namespace LiveDiagram.Api.Controllers
             {
                 Success = true,
                 ClientId = request.ClientId,
+                ActionId = request.ActionId,
                 DiagramId = request.DiagramId,
                 DiagramItemId = request.DiagramItemId,
                 DiagramItemTitle = request.DiagramItemTitle,
@@ -227,6 +227,22 @@ namespace LiveDiagram.Api.Controllers
                 RelationsId = request.RelationsId
             };
             _mainNotifier.RelationDeleteResponse(response);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("ActionSetActive")]
+        public IActionResult ActionSetActive(ActionSetActiveRequest request)
+        {
+            var response = new ActionSetActiveResponse
+            {
+                Success = true,
+                ClientId = request.ClientId,
+                ActionId = request.ActionId,
+                DiagramId = request.DiagramId
+            };
+            _mainNotifier.ActionSetActiveResponse(response);
 
             return Ok();
         }

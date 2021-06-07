@@ -10,6 +10,8 @@ import { ApiService } from './api.service';
 import { DiagramEventsService } from './diagram-events.service';
 import { DiagramUpdaterService } from './diagram-updater.service';
 import { DelayedRequest } from '../infrastructure/delayed-request';
+import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
+import { ActionService } from './action.service';
 
 @Injectable({ providedIn: 'root' })
 export class DiagramService {
@@ -19,7 +21,8 @@ export class DiagramService {
     constructor(
         private _apiService: ApiService,
         private _diagramEventsService: DiagramEventsService,
-        private _diagramUpdaterService: DiagramUpdaterService
+        private _diagramUpdaterService: DiagramUpdaterService,
+        private _actionService: ActionService
     ) {
         this._diagram = new Diagram();
         this.loadDiagramById("12345");
@@ -97,14 +100,15 @@ export class DiagramService {
             var initPosition = layoutLogic.getInitialItemPosition(self._diagram, item, result.parentNew);
             item.setPosition(initPosition.x, initPosition.y);
             item.title = result.titleNew;
-            self._diagram.addItem(item);
             var parentRelation: Relation = null;
             if (result.parentNew) {
                 parentRelation = new Relation();
                 parentRelation.setDiagramItems(result.parentNew, item);
-                self._diagram.addRelations([parentRelation]);
             }
-            self._apiService.diagramItemAdd(self._diagram, item, parentRelation);
+            var action = new DiagramItemAddAction(null, self._diagram, item, parentRelation);
+            action.do();
+            self._actionService.addAction(action);
+            self._apiService.diagramItemAdd(action, self._diagram, item, parentRelation);
         });
 
         self._diagramEventsService.diagramItemEditEvent.addHandler((result: EditDiagramItemResult) => {

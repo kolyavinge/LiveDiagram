@@ -18,6 +18,7 @@ namespace LiveDiagram.Api.SignalR
         void DiagramLayoutResponse(DiagramLayoutResponse response);
         void RelationAddResponse(RelationAddResponse response);
         void RelationDeleteResponse(RelationDeleteResponse response);
+        void ActionSetActiveResponse(ActionSetActiveResponse response);
     }
 
     public class MainNotifier : IMainNotifier
@@ -76,6 +77,11 @@ namespace LiveDiagram.Api.SignalR
         }
 
         public async void RelationDeleteResponse(RelationDeleteResponse response)
+        {
+            await SendResponse(response);
+        }
+
+        public async void ActionSetActiveResponse(ActionSetActiveResponse response)
         {
             await SendResponse(response);
         }

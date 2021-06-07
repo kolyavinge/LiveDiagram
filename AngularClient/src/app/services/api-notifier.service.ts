@@ -94,4 +94,11 @@ export class ApiNotifierService {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
+
+    onActionSetActive(handler: any): void {
+        var self = this;
+        self._signalrClient.addHandler("ActionSetActiveResponse", function (response) {
+            if (self._authData.clientId != response.clientId) handler(response);
+        });
+    }
 }

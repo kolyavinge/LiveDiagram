@@ -4,6 +4,7 @@ import { LocalStorageService } from './local-storage.service';
 import { DiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';
 import { Diagram } from '../model/diagram';
+import { Action } from '../contracts/action';
 import ApiPath from 'src/app/infrastructure/api-path';
 
 @Injectable({ providedIn: 'root' })
@@ -89,9 +90,10 @@ export class ApiService {
         this._httpClient.post(ApiPath.diagramItemSetTitlePath, postData).toPromise();
     }
 
-    diagramItemAdd(diagram: Diagram, item: DiagramItem, parentRelation: Relation): void {
+    diagramItemAdd(action: Action, diagram: Diagram, item: DiagramItem, parentRelation: Relation): void {
         var postData = {
             clientId: this._localStorage.authData.clientId,
+            actionId: action.id,
             diagramId: diagram.id,
             itemId: item.id,
             itemTitle: item.title,
@@ -143,5 +145,14 @@ export class ApiService {
             relationsId: relations.map(r => r.id)
         };
         this._httpClient.post(ApiPath.relationDeletePath, postData).toPromise();
+    }
+
+    actionSetActive(action: Action): void {
+        var postData = {
+            clientId: this._localStorage.authData.clientId,
+            actionId: action.id,
+            diagramId: action.diagram.id
+        };
+        this._httpClient.post(ApiPath.actionSetActivePath, postData).toPromise();
     }
 }

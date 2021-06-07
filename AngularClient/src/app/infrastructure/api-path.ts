@@ -15,4 +15,5 @@ export default {
     diagramItemSetMethodsPath: apiPath + 'DiagramItemSetMethods',
     relationAddPath: apiPath + 'RelationAdd',
     relationDeletePath: apiPath + 'RelationDelete',
+    actionSetActivePath: apiPath + 'ActionSetActive',
 }

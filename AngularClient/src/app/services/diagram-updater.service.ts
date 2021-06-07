@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ApiNotifierService } from 'src/app/services/api-notifier.service';
 import { Diagram } from '../model/diagram';
 import { DiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';
 import { Method } from '../model/method';
 import { Point } from '../model/point';
 import { Size } from '../model/size';
+import { ApiNotifierService } from 'src/app/services/api-notifier.service';
+import { ActionService } from './action.service';
+import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
 
 @Injectable({ providedIn: 'root' })
 export class DiagramUpdaterService {
@@ -13,7 +15,8 @@ export class DiagramUpdaterService {
     private _diagram: Diagram;
 
     constructor(
-        private _apiNotifierService: ApiNotifierService
+        private _apiNotifierService: ApiNotifierService,
+        private _actionService: ActionService
     ) { }
 
     connectToDiagram(diagram: Diagram): void {
@@ -61,16 +64,17 @@ export class DiagramUpdaterService {
             item.position.y = response.itemY;
             item.size.width = response.itemWidth;
             item.size.height = response.itemHeight;
-            self._diagram.addItem(item);
+            var parentRelation: Relation = null;
             if (response.parentRelation) {
-                var from = self._diagram.getItemById(response.parentRelation.itemIdFrom);
-                var to = self._diagram.getItemById(response.parentRelation.itemIdTo);
-                if (from && to) {
-                    var relation = new Relation(response.parentRelation.id);
-                    relation.setDiagramItems(from, to);
-                    self._diagram.addRelation(relation);
+                var parent = self._diagram.getItemById(response.parentRelation.itemIdFrom);
+                if (parent) {
+                    parentRelation = new Relation(response.parentRelation.id);
+                    parentRelation.setDiagramItems(parent, item);
                 }
             }
+            var action = new DiagramItemAddAction(response.actionId, self._diagram, item, parentRelation);
+            action.do();
+            self._actionService.addAction(action);
         });
 
         self._apiNotifierService.onDiagramItemDelete(function (response) {
@@ -104,6 +108,11 @@ export class DiagramUpdaterService {
         self._apiNotifierService.onRelationDelete(function (response) {
             var relations = self._diagram.getRelationsById(response.relationsId);
             self._diagram.deleteRelations(relations);
+        });
+
+        self._apiNotifierService.onActionSetActive(function (response) {
+            var action = self._actionService.getActionById(response.actionId);
+            self._actionService.updateActiveAction(action);
         });
 
         self._apiNotifierService.connectToDiagram(self._diagram.id);
