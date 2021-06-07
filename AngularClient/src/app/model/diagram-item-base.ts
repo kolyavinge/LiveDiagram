@@ -6,14 +6,14 @@ const minSize: Size = new Size(100, 100);
 
 export abstract class DiagramItemBase extends Identifiable {
 
-    private _title: string = "";
-    private _position: Point = new Point(0, 0);
-    private _size: Size = new Size(0, 0);
-    private _isPointed: boolean = false;
-    private _isSelected: boolean = false;
-    private _resizeDirectionValue: number = 0;
-    private _hasMoved: boolean = false;
-    private _hasResized: boolean = false;
+    protected _title: string = "";
+    protected _position: Point = new Point(0, 0);
+    protected _size: Size = new Size(0, 0);
+    protected _isPointed: boolean = false;
+    protected _isSelected: boolean = false;
+    protected _resizeDirectionValue: number = 0;
+    protected _hasMoved: boolean = false;
+    protected _hasResized: boolean = false;
 
     constructor(id: string = null) {
         super(id);

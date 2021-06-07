@@ -34,6 +34,21 @@ export class DiagramItem extends DiagramItemBase {
         var methodIncludeInDeleted = (method: Method) => methods.find(m => method.isEquals(m)) != null;
         this._methods = this._methods.filter(m => methodIncludeInDeleted(m) == false);
     }
+
+    copy(): DiagramItem {
+        var x = new DiagramItem(this.id);
+        x._title = this._title;
+        x._position = new Point(this.position.x, this.position.y);
+        x._size = new Size(this.size.width, this.size.height);
+        x._isPointed = this._isPointed;
+        x._isSelected = this._isSelected;
+        x._hasMoved = this._hasMoved;
+        x._resizeDirectionValue = this._resizeDirectionValue;
+        x._hasResized = this._hasResized;
+        x._methods = this._methods.map(m => m.copy());
+
+        return x;
+    }
 }
 
 export interface UpdatedDiagramItem {
