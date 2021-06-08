@@ -6,6 +6,7 @@ export abstract class Action {
     private _id: string;
     private _diagram: Diagram;
     private _isActive: boolean = false;
+    private _info: ActionInfo = null;
 
     constructor(id: string = null, diagram: Diagram) {
         this._id = id ?? Utils.generateId();
@@ -32,14 +33,24 @@ export abstract class Action {
         }
     }
 
-    abstract doInner(): void;
+    get info(): ActionInfo {
+        if (this._info == null) this._info = this.getInfo();
+        return this._info;
+    }
 
-    abstract undoInner(): void;
+    protected abstract doInner(): void;
 
-    abstract getInfo(): ActionInfo;
+    protected abstract undoInner(): void;
+
+    protected abstract getInfo(): ActionInfo;
 }
 
 export interface ActionInfo {
     kind: string;
     title: string;
+}
+
+export class ActionKind {
+    static add: string = "добав";
+    static delete: string = "удал";
 }

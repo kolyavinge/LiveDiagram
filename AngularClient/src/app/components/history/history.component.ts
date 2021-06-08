@@ -24,7 +24,7 @@ export class HistoryComponent implements OnInit {
         return this._actionService.actions.map(a => {
             return {
                 action: a,
-                title: a.getInfo().kind + (a.getInfo().title ? ": " + a.getInfo().title : "")
+                title: a.info.kind + (a.info.title ? ": " + a.info.title : "")
             }
         }).reverse();
     }
