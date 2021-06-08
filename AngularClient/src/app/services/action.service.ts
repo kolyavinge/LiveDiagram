@@ -34,7 +34,11 @@ export class ActionService {
         }
         var actionsForUndo = this._actions.slice(index + 1);
         if (actionsForUndo.length > 0) {
-            actionsForUndo.filter(a => a.isActive).forEach(a => a.undo());
+            actionsForUndo.reverse().filter(a => a.isActive).forEach(a => a.undo());
         }
+    }
+
+    clearActions(): void {
+        this._actions = [];
     }
 }

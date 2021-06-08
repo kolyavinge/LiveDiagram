@@ -35,6 +35,7 @@ export class DiagramService {
             self._diagram = self.makeDiagramFromResponse(response);
             self._diagramUpdaterService.connectToDiagram(self._diagram);
             self._diagramEventsService.diagramLoadedEvent.raise(self._diagram);
+            self._actionService.clearActions();
         });
     }
 
