@@ -24,6 +24,7 @@ export class DiagramService {
         private _diagramUpdaterService: DiagramUpdaterService,
         private _actionService: ActionService
     ) {
+        this.setHandlers();
         this._diagram = new Diagram();
         this.loadDiagramById("12345");
     }
@@ -33,7 +34,6 @@ export class DiagramService {
         self._apiService.getDiagramById(id).then(response => {
             self._diagram = self.makeDiagramFromResponse(response);
             self._diagramUpdaterService.connectToDiagram(self._diagram);
-            self.addHandlers();
             self._diagramEventsService.diagramLoadedEvent.raise(self._diagram);
         });
     }
@@ -63,7 +63,7 @@ export class DiagramService {
         return this._diagram;
     }
 
-    addHandlers(): void {
+    setHandlers(): void {
         var self = this;
 
         var diagramSetTitleDelayedRequest = new DelayedRequest(() => { self._apiService.diagramSetTitle(self._diagram); }, 2000);
