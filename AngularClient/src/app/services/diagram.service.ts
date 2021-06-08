@@ -6,12 +6,15 @@ import { InheritanceLogic } from '../model/inheritance-logic';
 import { DiagramLayoutLogic } from '../model/diagram-layout-logic';
 import { DiagramItemLayoutLogic } from '../model/diagram-item-layout-logic';
 import { EditDiagramItemResult } from '../contracts/edit-diagram-item-result';
+import { DelayedRequest } from '../infrastructure/delayed-request';
 import { ApiService } from './api.service';
 import { DiagramEventsService } from './diagram-events.service';
 import { DiagramUpdaterService } from './diagram-updater.service';
-import { DelayedRequest } from '../infrastructure/delayed-request';
-import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
 import { ActionService } from './action.service';
+import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
+import { DiagramItemDeleteAction } from '../actions/diagram-item-delete-action';
+import { RelationAddAction } from '../actions/relation-add-action';
+import { RelationDeleteAction } from '../actions/relation-delete-action';
 
 @Injectable({ providedIn: 'root' })
 export class DiagramService {
@@ -122,13 +125,13 @@ export class DiagramService {
                 var parentRelationOld = logic.getParentRelation(self._diagram, item);
                 if (parentRelationOld) {
                     self._diagram.deleteRelations([parentRelationOld]);
-                    self._apiService.relationDelete(self._diagram, [parentRelationOld]);
+                    self._apiService.relationDelete(null, self._diagram, [parentRelationOld]);
                 }
                 if (result.parentNew) {
                     var parentRelationNew = new Relation();
                     parentRelationNew.setDiagramItems(result.parentNew, item);
                     self._diagram.addRelations([parentRelationNew]);
-                    self._apiService.relationAdd(self._diagram, [parentRelationNew]);
+                    self._apiService.relationAdd(null, self._diagram, [parentRelationNew]);
                 }
             }
             if (result.methodsHasChanged) {
@@ -138,22 +141,28 @@ export class DiagramService {
         });
 
         self._diagramEventsService.diagramItemDeleteEvent.addHandler((diagramItems: DiagramItem[]) => {
-            self._diagram.deleteItems(diagramItems);
+            diagramItems.forEach(i => i.isSelected = false);
             var relations = diagramItems.map(i => self._diagram.getItemRelations(i)).reduce((x, y) => x.concat(y), []); // flat array
             var relationsDistinct = Array.from(new Set(relations));
-            self._diagram.deleteRelations(relationsDistinct);
-            self._apiService.diagramItemDelete(self._diagram, diagramItems);
-            self._apiService.relationDelete(self._diagram, relationsDistinct);
+            var action = new DiagramItemDeleteAction(null, self._diagram, diagramItems, relationsDistinct);
+            action.do();
+            self._actionService.addAction(action);
+            self._apiService.diagramItemDelete(action, self._diagram, diagramItems, relationsDistinct);
         });
 
         self._diagramEventsService.relationAddEvent.addHandler((relations: Relation[]) => {
-            self._diagram.addRelations(relations);
-            self._apiService.relationAdd(self._diagram, relations);
+            var action = new RelationAddAction(null, self._diagram, relations);
+            action.do();
+            self._actionService.addAction(action);
+            self._apiService.relationAdd(action, self._diagram, relations);
         });
 
         self._diagramEventsService.relationDeleteEvent.addHandler((relations: Relation[]) => {
-            self._diagram.deleteRelations(relations);
-            self._apiService.relationDelete(self._diagram, relations);
+            relations.forEach(i => i.isSelected = false);
+            var action = new RelationDeleteAction(null, self._diagram, relations);
+            action.do();
+            self._actionService.addAction(action);
+            self._apiService.relationDelete(action, self._diagram, relations);
         });
     }
 }

@@ -8,6 +8,9 @@ import { Size } from '../model/size';
 import { ApiNotifierService } from 'src/app/services/api-notifier.service';
 import { ActionService } from './action.service';
 import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
+import { DiagramItemDeleteAction } from '../actions/diagram-item-delete-action';
+import { RelationAddAction } from '../actions/relation-add-action';
+import { RelationDeleteAction } from '../actions/relation-delete-action';
 
 @Injectable({ providedIn: 'root' })
 export class DiagramUpdaterService {
@@ -79,7 +82,10 @@ export class DiagramUpdaterService {
 
         self._apiNotifierService.onDiagramItemDelete(function (response) {
             var items = self._diagram.getItemsById(response.itemsId);
-            self._diagram.deleteItems(items);
+            var relations = self._diagram.getRelationsById(response.relationsId);
+            var action = new DiagramItemDeleteAction(response.actionId, self._diagram, items, relations);
+            action.do();
+            self._actionService.addAction(action);
         });
 
         self._apiNotifierService.onDiagramItemSetMethods(function (response) {
@@ -94,20 +100,27 @@ export class DiagramUpdaterService {
         });
 
         self._apiNotifierService.onRelationAdd(function (response) {
-            response.relations.forEach(r => {
+            var relations: Relation[] = response.relations.map(r => {
                 var from = self._diagram.getItemById(r.itemIdFrom);
                 var to = self._diagram.getItemById(r.itemIdTo);
                 if (from && to) {
                     var relation = new Relation(r.id);
                     relation.setDiagramItems(from, to);
+                    return relation;
                 };
-                self._diagram.addRelations([relation]);
             });
+            if (relations.length > 0) {
+                var action = new RelationAddAction(response.actionId, self._diagram, relations);
+                action.do();
+                self._actionService.addAction(action);
+            }
         });
 
         self._apiNotifierService.onRelationDelete(function (response) {
             var relations = self._diagram.getRelationsById(response.relationsId);
-            self._diagram.deleteRelations(relations);
+            var action = new RelationDeleteAction(response.actionId, self._diagram, relations);
+            action.do();
+            self._actionService.addAction(action);
         });
 
         self._apiNotifierService.onActionSetActive(function (response) {

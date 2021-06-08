@@ -1,4 +1,4 @@
-import { Action, ActionInfo } from "../contracts/action";
+import { Action, ActionInfo, ActionKind } from "../contracts/action";
 import { Diagram } from "../model/diagram";
 import { DiagramItem } from "../model/diagram-item";
 import { Relation } from "../model/relation";
@@ -15,7 +15,7 @@ export class DiagramItemAddAction extends Action {
         super(id, diagram);
     }
 
-    doInner(): void {
+    protected doInner(): void {
         this._itemCopy = this._item.copy();
         this.diagram.addItems([this._itemCopy]);
         if (this._parentRelation) {
@@ -24,14 +24,14 @@ export class DiagramItemAddAction extends Action {
         }
     }
 
-    undoInner(): void {
+    protected undoInner(): void {
         this.diagram.deleteItems([this._itemCopy]);
         if (this._parentRelation) this.diagram.deleteRelations([this._parentRelation]);
     }
 
-    getInfo(): ActionInfo {
+    protected getInfo(): ActionInfo {
         return {
-            kind: "добав",
+            kind: ActionKind.add,
             title: this._item.title
         }
     }

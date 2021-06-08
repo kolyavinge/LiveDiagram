@@ -7,5 +7,8 @@ namespace LiveDiagram.Api.Contracts
     {
         [JsonPropertyName("itemsId")]
         public IEnumerable<string> DiagramItemsId { get; set; }
+
+        [JsonPropertyName("relationsId")]
+        public IEnumerable<string> RelationsId { get; set; }
     }
 }

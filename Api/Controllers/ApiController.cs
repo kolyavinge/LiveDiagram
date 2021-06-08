@@ -174,8 +174,10 @@ namespace LiveDiagram.Api.Controllers
             {
                 Success = true,
                 ClientId = request.ClientId,
+                ActionId = request.ActionId,
                 DiagramId = request.DiagramId,
-                DiagramItemsId = request.DiagramItemsId
+                DiagramItemsId = request.DiagramItemsId,
+                RelationsId = request.RelationsId
             };
             _mainNotifier.DiagramItemDeleteResponse(response);
 
@@ -207,6 +209,7 @@ namespace LiveDiagram.Api.Controllers
             {
                 Success = true,
                 ClientId = request.ClientId,
+                ActionId = request.ActionId,
                 DiagramId = request.DiagramId,
                 Relations = request.Relations
             };
@@ -223,6 +226,7 @@ namespace LiveDiagram.Api.Controllers
             {
                 Success = true,
                 ClientId = request.ClientId,
+                ActionId = request.ActionId,
                 DiagramId = request.DiagramId,
                 RelationsId = request.RelationsId
             };

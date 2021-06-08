@@ -106,11 +106,13 @@ export class ApiService {
         this._httpClient.post(ApiPath.diagramItemAddPath, postData).toPromise();
     }
 
-    diagramItemDelete(diagram: Diagram, items: DiagramItem[]): void {
+    diagramItemDelete(action: Action, diagram: Diagram, items: DiagramItem[], relations: Relation[]): void {
         var postData = {
             clientId: this._localStorage.authData.clientId,
+            actionId: action.id,
             diagramId: diagram.id,
-            itemsId: items.map(x => x.id)
+            itemsId: items.map(x => x.id),
+            relationsId: (relations ?? []).map(x => x.id),
         };
         this._httpClient.post(ApiPath.diagramItemDeletePath, postData).toPromise();
     }
@@ -127,9 +129,10 @@ export class ApiService {
         this._httpClient.post(ApiPath.diagramItemSetMethodsPath, postData).toPromise();
     }
 
-    relationAdd(diagram: Diagram, relations: Relation[]): void {
+    relationAdd(action: Action, diagram: Diagram, relations: Relation[]): void {
         var postData = {
             clientId: this._localStorage.authData.clientId,
+            actionId: action.id,
             diagramId: diagram.id,
             relations: relations.map(function (r) {
                 return { id: r.id, itemIdFrom: r.from.id, itemIdTo: r.to.id }
@@ -138,9 +141,10 @@ export class ApiService {
         this._httpClient.post(ApiPath.relationAddPath, postData).toPromise();
     }
 
-    relationDelete(diagram: Diagram, relations: Relation[]): void {
+    relationDelete(action: Action, diagram: Diagram, relations: Relation[]): void {
         var postData = {
             clientId: this._localStorage.authData.clientId,
+            actionId: action.id,
             diagramId: diagram.id,
             relationsId: relations.map(r => r.id)
         };
