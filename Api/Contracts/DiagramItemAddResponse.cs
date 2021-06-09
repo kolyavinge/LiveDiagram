@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using LiveDiagram.Api.Model;
 
 namespace LiveDiagram.Api.Contracts
@@ -25,5 +26,8 @@ namespace LiveDiagram.Api.Contracts
 
         [JsonPropertyName("parentRelation")]
         public Relation ParentRelation { get; set; }
+
+        [JsonPropertyName("methods")]
+        public IEnumerable<Method> Methods { get; set; }
     }
 }

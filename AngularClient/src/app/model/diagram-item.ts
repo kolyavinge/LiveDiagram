@@ -9,10 +9,6 @@ export class DiagramItem extends DiagramItemBase {
 
     constructor(id: string = null) {
         super(id);
-        this._methods.push(new Method("123"));
-        this._methods[0].signature = "equals(x: object): bool";
-        this._methods.push(new Method("345"));
-        this._methods[1].signature = "getHasCode(): int";
     }
 
     static isEquals(x: DiagramItem, y: DiagramItem): boolean {

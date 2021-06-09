@@ -75,6 +75,13 @@ export class DiagramUpdaterService {
                     parentRelation.setDiagramItems(parent, item);
                 }
             }
+            if (response.methods.length > 0) {
+                item.methods = response.methods.map(m => {
+                    var method = new Method(m.id);
+                    method.signature = m.signature;
+                    return method;
+                });
+            }
             var action = new DiagramItemAddAction(response.actionId, self._diagram, item, parentRelation);
             action.do();
             self._actionService.addAction(action);

@@ -109,10 +109,13 @@ export class DiagramService {
                 parentRelation = new Relation();
                 parentRelation.setDiagramItems(result.parentNew, item);
             }
+            if (result.methodsNew.length > 0) {
+                item.addMethods(result.methodsNew);
+            }
             var action = new DiagramItemAddAction(null, self._diagram, item, parentRelation);
             action.do();
             self._actionService.addAction(action);
-            self._apiService.diagramItemAdd(action, self._diagram, item, parentRelation);
+            self._apiService.diagramItemAdd(action, self._diagram, item, parentRelation, result.methodsNew);
         });
 
         self._diagramEventsService.diagramItemEditEvent.addHandler((result: EditDiagramItemResult) => {

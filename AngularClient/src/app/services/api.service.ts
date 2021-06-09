@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from './local-storage.service';
 import { DiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';
+import { Method } from '../model/method';
 import { Diagram } from '../model/diagram';
 import { Action } from '../contracts/action';
 import ApiPath from 'src/app/infrastructure/api-path';
@@ -90,7 +91,7 @@ export class ApiService {
         this._httpClient.post(ApiPath.diagramItemSetTitlePath, postData).toPromise();
     }
 
-    diagramItemAdd(action: Action, diagram: Diagram, item: DiagramItem, parentRelation: Relation): void {
+    diagramItemAdd(action: Action, diagram: Diagram, item: DiagramItem, parentRelation: Relation, methods: Method[]): void {
         var postData = {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
@@ -101,7 +102,10 @@ export class ApiService {
             itemY: item.position.y,
             itemWidth: item.size.width,
             itemHeight: item.size.height,
-            parentRelation: parentRelation ? { id: parentRelation.id, itemIdFrom: parentRelation.from.id, itemIdTo: parentRelation.to.id } : null
+            parentRelation: parentRelation ? { id: parentRelation.id, itemIdFrom: parentRelation.from.id, itemIdTo: parentRelation.to.id } : null,
+            methods: methods.map(function (m) {
+                return { id: m.id, signature: m.signature };
+            })
         };
         this._httpClient.post(ApiPath.diagramItemAddPath, postData).toPromise();
     }
