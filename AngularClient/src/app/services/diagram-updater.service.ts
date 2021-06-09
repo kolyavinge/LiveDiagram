@@ -76,10 +76,8 @@ export class DiagramUpdaterService {
         self._apiNotifierService.onDiagramItemAdd(function (response) {
             var item = new DiagramItem(response.itemId);
             item.title = response.itemTitle;
-            item.position.x = response.itemX;
-            item.position.y = response.itemY;
-            item.size.width = response.itemWidth;
-            item.size.height = response.itemHeight;
+            item.position = new Point(response.itemX, response.itemY);
+            item.size = new Size(response.itemWidth, response.itemHeight);
             var parentRelation: Relation = null;
             if (response.parentRelation) {
                 var parent = self._diagram.getItemById(response.parentRelation.itemIdFrom);

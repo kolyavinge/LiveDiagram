@@ -15,8 +15,8 @@ export class DiagramItemMoveAction extends Action {
         positionOld: Point,
         positionNew: Point) {
         super(id, diagram);
-        this._positionOld = positionOld.copy();
-        this._positionNew = positionNew.copy();
+        this._positionOld = positionOld;
+        this._positionNew = positionNew;
     }
 
     protected doInner(): void {

@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Point } from '../model/point';
+import { Size } from '../model/size';
 import { DiagramItem, DiagramItemState } from '../model/diagram-item';
 import { Relation } from '../model/relation';
 import { Diagram } from '../model/diagram';
@@ -51,8 +53,8 @@ export class DiagramService {
         (response.diagram.items ?? []).forEach(i => {
             var item = new DiagramItem(i.id);
             item.title = i.title;
-            item.setPosition(i.x, i.y);
-            item.setSize(i.width, i.height);
+            item.position = new Point(i.x, i.y);
+            item.size = new Size(i.width, i.height);
             diagram.addItems([item]);
         });
         (response.diagram.relations ?? []).forEach(r => {
@@ -109,10 +111,10 @@ export class DiagramService {
 
         self._diagramEventsService.diagramItemAddEvent.addHandler((result: EditDiagramItemResult) => {
             var item = new DiagramItem();
-            item.setSize(120, 160);
+            item.size = new Size(120, 160);
             var layoutLogic = new DiagramItemLayoutLogic();
             var initPosition = layoutLogic.getInitialItemPosition(self._diagram, item, result.parentNew);
-            item.setPosition(initPosition.x, initPosition.y);
+            item.position = new Point(initPosition.x, initPosition.y);
             item.title = result.titleNew;
             var parentRelation: Relation = null;
             if (result.parentNew) {

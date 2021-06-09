@@ -35,8 +35,8 @@ export class DiagramItem extends DiagramItemBase {
         return {
             item: this,
             id: this.id,
-            position: this.position.copy(),
-            size: this.size.copy()
+            position: this.position,
+            size: this.size
         };
     }
 

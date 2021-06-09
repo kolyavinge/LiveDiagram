@@ -25,17 +25,11 @@ export abstract class DiagramItemBase extends Identifiable {
 
     get position(): Point { return this._position; }
 
-    setPosition(x: number, y: number): void {
-        this._position.x = x;
-        this._position.y = y;
-    }
+    set position(value: Point) { this._position = value; }
 
     get size(): Size { return this._size; }
 
-    setSize(width: number, height: number): void {
-        this._size.width = width;
-        this._size.height = height;
-    }
+    set size(value: Size) { this._size = value; }
 
     get isPointed(): boolean { return this._isPointed; }
 

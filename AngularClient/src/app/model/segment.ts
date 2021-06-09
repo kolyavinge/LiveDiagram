@@ -13,15 +13,13 @@ export class Segment {
         this._direction = direction;
     }
 
-    get position(): Point {
-        return this._position;
-    }
+    get position(): Point { return this._position; }
 
-    get size(): Size {
-        return this._size;
-    }
+    set position(value: Point) { this._position = value; }
 
-    get direction(): number {
-        return this._direction;
-    }
+    get size(): Size { return this._size; }
+
+    set size(value: Size) { this._size = value; }
+
+    get direction(): number { return this._direction; }
 }

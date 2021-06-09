@@ -20,10 +20,10 @@ export class DiagramItemResizeAction extends Action {
         positionNew: Point,
         sizeNew: Size) {
         super(id, diagram);
-        this._positionOld = positionOld.copy();
-        this._sizeOld = sizeOld.copy();
-        this._positionNew = positionNew.copy();
-        this._sizeNew = sizeNew.copy();
+        this._positionOld = positionOld;
+        this._sizeOld = sizeOld;
+        this._positionNew = positionNew;
+        this._sizeNew = sizeNew;
     }
 
     protected doInner(): void {
