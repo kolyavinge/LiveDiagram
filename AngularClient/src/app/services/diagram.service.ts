@@ -12,6 +12,7 @@ import { DiagramEventsService } from './diagram-events.service';
 import { DiagramUpdaterService } from './diagram-updater.service';
 import { ActionService } from './action.service';
 import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
+import { DiagramItemEditAction } from '../actions/diagram-item-edit-action';
 import { DiagramItemDeleteAction } from '../actions/diagram-item-delete-action';
 import { RelationAddAction } from '../actions/relation-add-action';
 import { RelationDeleteAction } from '../actions/relation-delete-action';
@@ -120,27 +121,19 @@ export class DiagramService {
 
         self._diagramEventsService.diagramItemEditEvent.addHandler((result: EditDiagramItemResult) => {
             var item = result.item;
-            if (result.titleHasChanged) {
-                item.title = result.titleNew;
-            }
             if (result.parentHasChanged) {
                 var logic = new InheritanceLogic();
                 var parentRelationOld = logic.getParentRelation(self._diagram, item);
-                if (parentRelationOld) {
-                    self._diagram.deleteRelations([parentRelationOld]);
-                    self._apiService.relationDelete(null, self._diagram, [parentRelationOld]);
-                }
                 if (result.parentNew) {
                     var parentRelationNew = new Relation();
                     parentRelationNew.setDiagramItems(result.parentNew, item);
-                    self._diagram.addRelations([parentRelationNew]);
-                    self._apiService.relationAdd(null, self._diagram, [parentRelationNew]);
                 }
             }
-            if (result.methodsHasChanged) {
-                item.methods = result.methodsNew;
-                self._apiService.diagramItemSetMethods(self._diagram, item);
-            }
+            var action = new DiagramItemEditAction(
+                null, self._diagram, item, result.titleOld, result.titleNew, parentRelationOld, parentRelationNew, result.methodsOld, result.methodsNew);
+            action.do();
+            self._actionService.addAction(action);
+            self._apiService.diagramItemEdit(action, self._diagram, item, result.parentHasChanged, parentRelationNew, result.methodsNew);
         });
 
         self._diagramEventsService.diagramItemDeleteEvent.addHandler((diagramItems: DiagramItem[]) => {

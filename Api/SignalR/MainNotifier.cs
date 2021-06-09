@@ -13,6 +13,7 @@ namespace LiveDiagram.Api.SignalR
         void DiagramItemResizeResponse(DiagramItemResizeResponse response);
         void DiagramItemSetTitleResponse(DiagramItemSetTitleResponse response);
         void DiagramItemAddResponse(DiagramItemAddResponse response);
+        void DiagramItemEditResponse(DiagramItemEditResponse response);
         void DiagramItemDeleteResponse(DiagramItemDeleteResponse response);
         void DiagramItemSetMethodsResponse(DiagramItemSetMethodsResponse response);
         void DiagramLayoutResponse(DiagramLayoutResponse response);
@@ -52,6 +53,11 @@ namespace LiveDiagram.Api.SignalR
         }
 
         public async void DiagramItemAddResponse(DiagramItemAddResponse response)
+        {
+            await SendResponse(response);
+        }
+
+        public async void DiagramItemEditResponse(DiagramItemEditResponse response)
         {
             await SendResponse(response);
         }

@@ -168,6 +168,27 @@ namespace LiveDiagram.Api.Controllers
         }
 
         [HttpPost]
+        [Route("DiagramItemEdit")]
+        public IActionResult DiagramItemEdit(DiagramItemEditRequest request)
+        {
+            var response = new DiagramItemEditResponse
+            {
+                Success = true,
+                ClientId = request.ClientId,
+                ActionId = request.ActionId,
+                DiagramId = request.DiagramId,
+                DiagramItemId = request.DiagramItemId,
+                DiagramItemTitle = request.DiagramItemTitle,
+                ParentHasChanged = request.ParentHasChanged,
+                ParentRelation = request.ParentRelation,
+                Methods = request.Methods
+            };
+            _mainNotifier.DiagramItemEditResponse(response);
+
+            return Ok();
+        }
+
+        [HttpPost]
         [Route("DiagramItemDelete")]
         public IActionResult DiagramItemDelete(DiagramItemDeleteRequest request)
         {

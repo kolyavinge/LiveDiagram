@@ -113,15 +113,16 @@ export class EditDiagramItemDialogComponent implements OnInit {
     getResult(): EditDiagramItemResult {
         var logic = new InheritanceLogic();
         var titleNew = this._title.trim();
+        var parentOld = logic.getParent(this._diagramService.diagram, this._item);
         var methodsOld = this.item ? this.item.methods : [];
         return {
             item: this._item,
             titleOld: this._item ? this.item.title : "",
             titleNew: titleNew,
             titleHasChanged: this._item ? this._item.title.localeCompare(titleNew) != 0 : true,
-            parentOld: logic.getParent(this._diagramService.diagram, this._item),
+            parentOld: parentOld,
             parentNew: this._currentParent,
-            parentHasChanged: !DiagramItem.isEquals(this._currentParent, this._item),
+            parentHasChanged: !DiagramItem.isEquals(this._currentParent, parentOld),
             methodsOld: methodsOld,
             methodsNew: this._methods,
             methodsHasChanged: !Method.isEqualsMethods(methodsOld, this._methods)

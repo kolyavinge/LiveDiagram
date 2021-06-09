@@ -110,6 +110,22 @@ export class ApiService {
         this._httpClient.post(ApiPath.diagramItemAddPath, postData).toPromise();
     }
 
+    diagramItemEdit(action: Action, diagram: Diagram, item: DiagramItem, parentHasChanged: boolean, parentRelation: Relation, methods: Method[]): void {
+        var postData = {
+            clientId: this._localStorage.authData.clientId,
+            actionId: action.id,
+            diagramId: diagram.id,
+            itemId: item.id,
+            itemTitle: item.title,
+            parentHasChanged: parentHasChanged,
+            parentRelation: parentRelation ? { id: parentRelation.id, itemIdFrom: parentRelation.from.id, itemIdTo: parentRelation.to.id } : null,
+            methods: methods.map(function (m) {
+                return { id: m.id, signature: m.signature };
+            })
+        };
+        this._httpClient.post(ApiPath.diagramItemEditPath, postData).toPromise();
+    }
+
     diagramItemDelete(action: Action, diagram: Diagram, items: DiagramItem[], relations: Relation[]): void {
         var postData = {
             clientId: this._localStorage.authData.clientId,

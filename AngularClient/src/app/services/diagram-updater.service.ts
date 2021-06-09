@@ -5,9 +5,11 @@ import { Relation } from '../model/relation';
 import { Method } from '../model/method';
 import { Point } from '../model/point';
 import { Size } from '../model/size';
+import { InheritanceLogic } from '../model/inheritance-logic';
 import { ApiNotifierService } from 'src/app/services/api-notifier.service';
 import { ActionService } from './action.service';
 import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
+import { DiagramItemEditAction } from '../actions/diagram-item-edit-action';
 import { DiagramItemDeleteAction } from '../actions/diagram-item-delete-action';
 import { RelationAddAction } from '../actions/relation-add-action';
 import { RelationDeleteAction } from '../actions/relation-delete-action';
@@ -83,6 +85,30 @@ export class DiagramUpdaterService {
                 });
             }
             var action = new DiagramItemAddAction(response.actionId, self._diagram, item, parentRelation);
+            action.do();
+            self._actionService.addAction(action);
+        });
+
+        self._apiNotifierService.onDiagramItemEdit(function (response) {
+            var item = self._diagram.getItemById(response.itemId);
+            if (response.parentHasChanged) {
+                var logic = new InheritanceLogic();
+                var parentRelationOld = logic.getParentRelation(self._diagram, item);
+            }
+            if (response.parentRelation) {
+                var parent = self._diagram.getItemById(response.parentRelation.itemIdFrom);
+                if (parent) {
+                    var parentRelationNew = new Relation(response.parentRelation.id);
+                    parentRelationNew.setDiagramItems(parent, item);
+                }
+            }
+            var methodsNew = response.methods.map(m => {
+                var method = new Method(m.id);
+                method.signature = m.signature;
+                return method;
+            });
+            var action = new DiagramItemEditAction(
+                response.actionId, self._diagram, item, item.title, response.itemTitle, parentRelationOld, parentRelationNew, item.methods, methodsNew);
             action.do();
             self._actionService.addAction(action);
         });

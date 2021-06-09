@@ -11,6 +11,7 @@ export default {
     diagramItemResizePath: apiPath + 'DiagramItemResize',
     diagramItemSetTitlePath: apiPath + 'DiagramItemSetTitle',
     diagramItemAddPath: apiPath + 'DiagramItemAdd',
+    diagramItemEditPath: apiPath + 'DiagramItemEdit',
     diagramItemDeletePath: apiPath + 'DiagramItemDelete',
     diagramItemSetMethodsPath: apiPath + 'DiagramItemSetMethods',
     relationAddPath: apiPath + 'RelationAdd',
