@@ -17,4 +17,8 @@ export class Size {
     copy(): Size {
         return new Size(this._width, this._height);
     }
+
+    isEquals(other: Size): boolean {
+        return this.width == other.width && this.height == other.height;
+    }
 }

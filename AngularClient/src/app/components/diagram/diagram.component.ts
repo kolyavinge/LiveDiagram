@@ -101,7 +101,8 @@ export class DiagramComponent implements OnInit {
     onMouseUp(event): void {
         var pointedOrResizedItem = this._pointedItem ?? this._resizedItem;
         var hasMoved = pointedOrResizedItem ? pointedOrResizedItem.position.isEquals(this._pointedOrResizedItemState.position) == false : false;
-        if (pointedOrResizedItem && pointedOrResizedItem.isSelected && !hasMoved && !this._keyboardService.isControlPressed()) {
+        var hasResized = pointedOrResizedItem ? pointedOrResizedItem.size.isEquals(this._pointedOrResizedItemState.size) == false : false;
+        if (pointedOrResizedItem && pointedOrResizedItem.isSelected && !hasMoved && !hasResized && !this._keyboardService.isControlPressed()) {
             this._diagram.clearItemSelectionBut(pointedOrResizedItem);
             this._diagramEventsService.diagramItemSetSelectionEvent.raise(pointedOrResizedItem);
         }
@@ -126,7 +127,7 @@ export class DiagramComponent implements OnInit {
             this._diagram.getSelectedItems().forEach(item => {
                 var startPosition = new Point(item.position.x - deltaX, item.position.y - deltaY);
                 var startSize = new Size(item.size.width - deltaWidth, item.size.height - deltaHeight);
-                if (item.hasResized) this._diagramEventsService.diagramItemResizeEvent.raise({ item: item, startPosition: startPosition, startSize: startSize });
+                if (hasResized) this._diagramEventsService.diagramItemResizeEvent.raise({ item: item, startPosition: startPosition, startSize: startSize });
                 item.clearResize();
             });
             this._resizedItem = null;
