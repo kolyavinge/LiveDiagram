@@ -5,13 +5,18 @@ import { DiagramItem } from "../model/diagram-item";
 
 export class DiagramItemMoveAction extends Action {
 
+    private _positionOld: Point;
+    private _positionNew: Point;
+
     constructor(
         id: string = null,
         diagram: Diagram,
         private _item: DiagramItem,
-        private _positionOld: Point,
-        private _positionNew: Point) {
+        positionOld: Point,
+        positionNew: Point) {
         super(id, diagram);
+        this._positionOld = positionOld.copy();
+        this._positionNew = positionNew.copy();
     }
 
     protected doInner(): void {

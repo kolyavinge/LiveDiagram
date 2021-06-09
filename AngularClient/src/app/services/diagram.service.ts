@@ -89,7 +89,7 @@ export class DiagramService {
         });
 
         self._diagramEventsService.diagramItemMoveEvent.addHandler((args) => {
-            var action = new DiagramItemMoveAction(null, self._diagram, args.item, args.startPosition, args.item.position.copy());
+            var action = new DiagramItemMoveAction(null, self._diagram, args.item, args.startPosition, args.item.position);
             action.do();
             self._actionService.addAction(action);
             self._apiService.diagramItemMove(action, self._diagram, args.item);
@@ -97,7 +97,7 @@ export class DiagramService {
 
         self._diagramEventsService.diagramItemResizeEvent.addHandler((args) => {
             var action = new DiagramItemResizeAction(
-                null, self._diagram, args.item, args.startPosition, args.startSize, args.item.position.copy(), args.item.size.copy());
+                null, self._diagram, args.item, args.startPosition, args.startSize, args.item.position, args.item.size);
             action.do();
             self._actionService.addAction(action);
             self._apiService.diagramItemResize(action, self._diagram, args.item);

@@ -45,7 +45,7 @@ export class DiagramUpdaterService {
         self._apiNotifierService.onDiagramItemMove(function (response) {
             var movedItem = self._diagram.getItemById(response.itemId);
             if (movedItem) {
-                var positionOld = movedItem.position.copy();
+                var positionOld = movedItem.position;
                 var positionNew = new Point(response.itemX, response.itemY);
                 var action = new DiagramItemMoveAction(response.actionId, self._diagram, movedItem, positionOld, positionNew);
                 action.do();
@@ -56,8 +56,8 @@ export class DiagramUpdaterService {
         self._apiNotifierService.onDiagramItemResize(function (response) {
             var item = self._diagram.getItemById(response.itemId);
             if (item) {
-                var positionOld = item.position.copy();
-                var sizeOld = item.size.copy();
+                var positionOld = item.position;
+                var sizeOld = item.size;
                 var positionNew = new Point(response.itemX, response.itemY);
                 var sizeNew = new Size(response.itemWidth, response.itemHeight);
                 var action = new DiagramItemResizeAction(response.actionId, self._diagram, item, positionOld, sizeOld, positionNew, sizeNew);

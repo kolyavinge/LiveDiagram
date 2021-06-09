@@ -6,15 +6,24 @@ import { DiagramItem, DiagramItemState } from "../model/diagram-item";
 
 export class DiagramItemResizeAction extends Action {
 
+    private _positionOld: Point;
+    private _sizeOld: Size;
+    private _positionNew: Point;
+    private _sizeNew: Size;
+
     constructor(
         id: string = null,
         diagram: Diagram,
         private _item: DiagramItem,
-        private _positionOld: Point,
-        private _sizeOld: Size,
-        private _positionNew: Point,
-        private _sizeNew: Size) {
+        positionOld: Point,
+        sizeOld: Size,
+        positionNew: Point,
+        sizeNew: Size) {
         super(id, diagram);
+        this._positionOld = positionOld.copy();
+        this._sizeOld = sizeOld.copy();
+        this._positionNew = positionNew.copy();
+        this._sizeNew = sizeNew.copy();
     }
 
     protected doInner(): void {
