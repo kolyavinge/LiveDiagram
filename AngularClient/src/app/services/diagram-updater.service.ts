@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Diagram } from '../model/diagram';
-import { DiagramItem, UpdatedDiagramItem } from '../model/diagram-item';
+import { DiagramItem, DiagramItemState } from '../model/diagram-item';
 import { Relation } from '../model/relation';
 import { Method } from '../model/method';
 import { Point } from '../model/point';
@@ -12,6 +12,7 @@ import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
 import { DiagramItemEditAction } from '../actions/diagram-item-edit-action';
 import { DiagramItemDeleteAction } from '../actions/diagram-item-delete-action';
 import { DiagramItemMoveAction } from '../actions/diagram-item-move-action';
+import { DiagramItemResizeAction } from '../actions/diagram-item-resize-action';
 import { RelationAddAction } from '../actions/relation-add-action';
 import { RelationDeleteAction } from '../actions/relation-delete-action';
 
@@ -44,20 +45,25 @@ export class DiagramUpdaterService {
         self._apiNotifierService.onDiagramItemMove(function (response) {
             var movedItem = self._diagram.getItemById(response.itemId);
             if (movedItem) {
-                var action = new DiagramItemMoveAction(
-                    response.actionId, self._diagram, movedItem, movedItem.position.copy(), new Point(response.itemX, response.itemY));
+                var positionOld = movedItem.position.copy();
+                var positionNew = new Point(response.itemX, response.itemY);
+                var action = new DiagramItemMoveAction(response.actionId, self._diagram, movedItem, positionOld, positionNew);
                 action.do();
                 self._actionService.addAction(action);
             }
         });
 
         self._apiNotifierService.onDiagramItemResize(function (response) {
-            var updated: UpdatedDiagramItem = {
-                id: response.itemId,
-                position: new Point(response.itemX, response.itemY),
-                size: new Size(response.itemWidth, response.itemHeight)
+            var item = self._diagram.getItemById(response.itemId);
+            if (item) {
+                var positionOld = item.position.copy();
+                var sizeOld = item.size.copy();
+                var positionNew = new Point(response.itemX, response.itemY);
+                var sizeNew = new Size(response.itemWidth, response.itemHeight);
+                var action = new DiagramItemResizeAction(response.actionId, self._diagram, item, positionOld, sizeOld, positionNew, sizeNew);
+                action.do();
+                self._actionService.addAction(action);
             }
-            self._diagram.updateItems([updated]);
         });
 
         self._apiNotifierService.onDiagramItemSetTitle(function (response) {

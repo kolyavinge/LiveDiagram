@@ -69,9 +69,10 @@ export class ApiService {
         this._httpClient.post(ApiPath.diagramItemMovePath, postData).toPromise();
     }
 
-    diagramItemResize(diagram: Diagram, item: DiagramItem): void {
+    diagramItemResize(action: Action, diagram: Diagram, item: DiagramItem): void {
         var postData = {
             clientId: this._localStorage.authData.clientId,
+            actionId: action.id,
             diagramId: diagram.id,
             itemId: item.id,
             itemX: item.position.x,

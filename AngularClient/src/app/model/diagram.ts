@@ -1,7 +1,7 @@
 import { Size } from "./size";
 import { Point } from "./point";
 import { Identifiable } from 'src/app/model/identifiable';
-import { DiagramItem, UpdatedDiagramItem } from "./diagram-item";
+import { DiagramItem, DiagramItemState } from "./diagram-item";
 import { Relation } from "./relation";
 import { ResizeLogic } from "./resize-logic";
 
@@ -82,7 +82,7 @@ export class Diagram extends Identifiable {
         this._items = this._items.filter(i => includeInDeleteItems(i) == false);
     }
 
-    updateItems(updatedItems: UpdatedDiagramItem[]): void {
+    updateItems(updatedItems: DiagramItemState[]): void {
         var self = this;
         updatedItems.forEach(ui => {
             var item = ui.item ?? self._items.find(item => item.id == ui.id);

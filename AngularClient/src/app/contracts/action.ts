@@ -55,4 +55,5 @@ export class ActionKind {
     static edit: string = "измен";
     static delete: string = "удал";
     static move: string = "перемещ";
+    static resize: string = "размер";
 }

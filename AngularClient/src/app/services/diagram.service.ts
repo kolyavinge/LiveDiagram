@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DiagramItem, UpdatedDiagramItem } from '../model/diagram-item';
+import { DiagramItem, DiagramItemState } from '../model/diagram-item';
 import { Relation } from '../model/relation';
 import { Diagram } from '../model/diagram';
 import { InheritanceLogic } from '../model/inheritance-logic';
@@ -15,6 +15,7 @@ import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
 import { DiagramItemEditAction } from '../actions/diagram-item-edit-action';
 import { DiagramItemDeleteAction } from '../actions/diagram-item-delete-action';
 import { DiagramItemMoveAction } from '../actions/diagram-item-move-action';
+import { DiagramItemResizeAction } from '../actions/diagram-item-resize-action';
 import { RelationAddAction } from '../actions/relation-add-action';
 import { RelationDeleteAction } from '../actions/relation-delete-action';
 
@@ -80,7 +81,7 @@ export class DiagramService {
         self._diagramEventsService.diagramLayoutEvent.addHandler((diagram: Diagram) => {
             var layoutLogic = new DiagramLayoutLogic();
             var result = layoutLogic.layoutDiagram(diagram);
-            var updatedItems: UpdatedDiagramItem[] = result.items.map(layoutItem => {
+            var updatedItems: DiagramItemState[] = result.items.map(layoutItem => {
                 return { id: layoutItem.item.id, position: layoutItem.position };
             });
             self._diagram.updateItems(updatedItems);
@@ -94,8 +95,12 @@ export class DiagramService {
             self._apiService.diagramItemMove(action, self._diagram, args.item);
         });
 
-        self._diagramEventsService.diagramItemResizeEvent.addHandler((diagramItem: DiagramItem) => {
-            self._apiService.diagramItemResize(self._diagram, diagramItem);
+        self._diagramEventsService.diagramItemResizeEvent.addHandler((args) => {
+            var action = new DiagramItemResizeAction(
+                null, self._diagram, args.item, args.startPosition, args.startSize, args.item.position.copy(), args.item.size.copy());
+            action.do();
+            self._actionService.addAction(action);
+            self._apiService.diagramItemResize(action, self._diagram, args.item);
         });
 
         self._diagramEventsService.diagramItemSetTitleEvent.addHandler((diagramItem: DiagramItem) => {

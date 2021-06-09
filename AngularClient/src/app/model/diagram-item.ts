@@ -31,6 +31,15 @@ export class DiagramItem extends DiagramItemBase {
         this._methods = this._methods.filter(m => methodIncludeInDeleted(m) == false);
     }
 
+    getState(): DiagramItemState {
+        return {
+            item: this,
+            id: this.id,
+            position: this.position.copy(),
+            size: this.size.copy()
+        };
+    }
+
     copy(): DiagramItem {
         var x = new DiagramItem(this.id);
         x._title = this._title;
@@ -47,8 +56,9 @@ export class DiagramItem extends DiagramItemBase {
     }
 }
 
-export interface UpdatedDiagramItem {
-    id: string;
+export interface DiagramItemState {
+    item?: DiagramItem,
+    id?: string;
     position?: Point;
     size?: Size;
 }

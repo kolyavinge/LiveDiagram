@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
 import { Point } from 'src/app/model/point';
 import { Size } from 'src/app/model/size';
-import { DiagramItem } from 'src/app/model/diagram-item';
+import { DiagramItem, DiagramItemState } from 'src/app/model/diagram-item';
 import { Relation } from 'src/app/model/relation';
 import { Diagram } from 'src/app/model/diagram';
 import { DiagramService } from 'src/app/services/diagram.service';
@@ -20,7 +20,7 @@ export class DiagramComponent implements OnInit {
     private _diagram: Diagram;
     private _pointedItem: DiagramItem;
     private _resizedItem: DiagramItem;
-    private _mouseStartPosition: Point;
+    private _pointedItemState: DiagramItemState;
     private _mouseLastPosition: Point;
     private _pointedRelation: Relation;
 
@@ -69,7 +69,7 @@ export class DiagramComponent implements OnInit {
             this._pointedRelation.isSelected = false;
         }
         if (pointedOrResizedItem) {
-            this._mouseStartPosition = new Point(event.x, event.y);
+            this._pointedItemState = pointedOrResizedItem.getState();
             this._mouseLastPosition = new Point(event.x, event.y);
         }
         // selection events
@@ -105,8 +105,8 @@ export class DiagramComponent implements OnInit {
             this._diagramEventsService.diagramItemSetSelectionEvent.raise(pointedOrResizedItem);
         }
         if (this._pointedItem) {
-            var deltaX = event.x - this._mouseStartPosition.x;
-            var deltaY = event.y - this._mouseStartPosition.y;
+            var deltaX = this._pointedItem.position.x - this._pointedItemState.position.x;
+            var deltaY = this._pointedItem.position.y - this._pointedItemState.position.y;
             this._diagram.getSelectedItems().forEach(item => {
                 var startPosition = new Point(item.position.x - deltaX, item.position.y - deltaY);
                 if (item.hasMoved) this._diagramEventsService.diagramItemMoveEvent.raise({ item: item, startPosition: startPosition });
@@ -115,8 +115,14 @@ export class DiagramComponent implements OnInit {
             this._pointedItem = null;
         }
         if (this._resizedItem) {
+            var deltaX = this._resizedItem.position.x - this._pointedItemState.position.x;
+            var deltaY = this._resizedItem.position.y - this._pointedItemState.position.y;
+            var deltaWidth = this._resizedItem.size.width - this._pointedItemState.size.width;
+            var deltaHeight = this._resizedItem.size.height - this._pointedItemState.size.height;
             this._diagram.getSelectedItems().forEach(item => {
-                if (item.hasResized) this._diagramEventsService.diagramItemResizeEvent.raise(item);
+                var startPosition = new Point(item.position.x - deltaX, item.position.y - deltaY);
+                var startSize = new Size(item.size.width - deltaWidth, item.size.height - deltaHeight);
+                if (item.hasResized) this._diagramEventsService.diagramItemResizeEvent.raise({ item: item, startPosition: startPosition, startSize: startSize });
                 item.clearResize();
             });
             this._resizedItem = null;
