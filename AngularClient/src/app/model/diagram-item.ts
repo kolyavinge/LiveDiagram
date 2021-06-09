@@ -47,7 +47,6 @@ export class DiagramItem extends DiagramItemBase {
         x._size = new Size(this.size.width, this.size.height);
         x._isPointed = this._isPointed;
         x._isSelected = this._isSelected;
-        x._hasMoved = this._hasMoved;
         x._resizeDirectionValue = this._resizeDirectionValue;
         x._hasResized = this._hasResized;
         x._methods = this._methods.map(m => m.copy());

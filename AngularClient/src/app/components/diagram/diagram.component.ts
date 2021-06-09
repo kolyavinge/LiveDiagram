@@ -20,7 +20,7 @@ export class DiagramComponent implements OnInit {
     private _diagram: Diagram;
     private _pointedItem: DiagramItem;
     private _resizedItem: DiagramItem;
-    private _pointedItemState: DiagramItemState;
+    private _pointedOrResizedItemState: DiagramItemState;
     private _mouseLastPosition: Point;
     private _pointedRelation: Relation;
 
@@ -69,7 +69,7 @@ export class DiagramComponent implements OnInit {
             this._pointedRelation.isSelected = false;
         }
         if (pointedOrResizedItem) {
-            this._pointedItemState = pointedOrResizedItem.getState();
+            this._pointedOrResizedItemState = pointedOrResizedItem.getState();
             this._mouseLastPosition = new Point(event.x, event.y);
         }
         // selection events
@@ -100,25 +100,29 @@ export class DiagramComponent implements OnInit {
 
     onMouseUp(event): void {
         var pointedOrResizedItem = this._pointedItem ?? this._resizedItem;
-        if (pointedOrResizedItem && pointedOrResizedItem.isSelected && !pointedOrResizedItem.hasMoved && !this._keyboardService.isControlPressed()) {
+        var hasMoved = pointedOrResizedItem ? pointedOrResizedItem.position.isEquals(this._pointedOrResizedItemState.position) == false : false;
+        if (pointedOrResizedItem && pointedOrResizedItem.isSelected && !hasMoved && !this._keyboardService.isControlPressed()) {
             this._diagram.clearItemSelectionBut(pointedOrResizedItem);
             this._diagramEventsService.diagramItemSetSelectionEvent.raise(pointedOrResizedItem);
         }
         if (this._pointedItem) {
-            var deltaX = this._pointedItem.position.x - this._pointedItemState.position.x;
-            var deltaY = this._pointedItem.position.y - this._pointedItemState.position.y;
-            this._diagram.getSelectedItems().forEach(item => {
-                var startPosition = new Point(item.position.x - deltaX, item.position.y - deltaY);
-                if (item.hasMoved) this._diagramEventsService.diagramItemMoveEvent.raise({ item: item, startPosition: startPosition });
-                item.isPointed = false;
-            });
+            if (hasMoved) {
+                var deltaX = this._pointedItem.position.x - this._pointedOrResizedItemState.position.x;
+                var deltaY = this._pointedItem.position.y - this._pointedOrResizedItemState.position.y;
+                this._diagram.getSelectedItems().forEach(item => {
+                    var startPosition = new Point(item.position.x - deltaX, item.position.y - deltaY);
+                    this._diagramEventsService.diagramItemMoveEvent.raise({ item: item, startPosition: startPosition });
+                });
+            }
+            this._diagram.getSelectedItems().forEach(item => item.isPointed = false);
+            this._pointedItem.isPointed = false;
             this._pointedItem = null;
         }
         if (this._resizedItem) {
-            var deltaX = this._resizedItem.position.x - this._pointedItemState.position.x;
-            var deltaY = this._resizedItem.position.y - this._pointedItemState.position.y;
-            var deltaWidth = this._resizedItem.size.width - this._pointedItemState.size.width;
-            var deltaHeight = this._resizedItem.size.height - this._pointedItemState.size.height;
+            var deltaX = this._resizedItem.position.x - this._pointedOrResizedItemState.position.x;
+            var deltaY = this._resizedItem.position.y - this._pointedOrResizedItemState.position.y;
+            var deltaWidth = this._resizedItem.size.width - this._pointedOrResizedItemState.size.width;
+            var deltaHeight = this._resizedItem.size.height - this._pointedOrResizedItemState.size.height;
             this._diagram.getSelectedItems().forEach(item => {
                 var startPosition = new Point(item.position.x - deltaX, item.position.y - deltaY);
                 var startSize = new Size(item.size.width - deltaWidth, item.size.height - deltaHeight);

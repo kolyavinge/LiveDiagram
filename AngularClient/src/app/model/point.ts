@@ -17,4 +17,8 @@ export class Point {
     copy(): Point {
         return new Point(this._x, this._y);
     }
+
+    isEquals(other: Point): boolean {
+        return this.x == other.x && this.y == other.y;
+    }
 }

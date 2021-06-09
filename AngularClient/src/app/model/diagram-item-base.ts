@@ -12,7 +12,6 @@ export abstract class DiagramItemBase extends Identifiable {
     protected _isPointed: boolean = false;
     protected _isSelected: boolean = false;
     protected _resizeDirectionValue: number = 0;
-    protected _hasMoved: boolean = false;
     protected _hasResized: boolean = false;
 
     constructor(id: string = null) {
@@ -30,7 +29,6 @@ export abstract class DiagramItemBase extends Identifiable {
     setPosition(x: number, y: number): void {
         this._position.x = x;
         this._position.y = y;
-        this._hasMoved = true;
     }
 
     get size(): Size { return this._size; }
@@ -43,12 +41,7 @@ export abstract class DiagramItemBase extends Identifiable {
 
     get isPointed(): boolean { return this._isPointed; }
 
-    set isPointed(value: boolean) {
-        this._isPointed = value;
-        if (!value) this._hasMoved = false;
-    }
-
-    get hasMoved(): boolean { return this._hasMoved; }
+    set isPointed(value: boolean) { this._isPointed = value; }
 
     get isSelected(): boolean { return this._isSelected };
 
@@ -61,7 +54,6 @@ export abstract class DiagramItemBase extends Identifiable {
     clearResize(): void {
         this._resizeDirectionValue = 0;
         this._hasResized = false;
-        this._hasMoved = false;
     }
 
     get hasResized(): boolean { return this._hasResized; }
