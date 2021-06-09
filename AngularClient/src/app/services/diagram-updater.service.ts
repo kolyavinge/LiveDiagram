@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Diagram } from '../model/diagram';
-import { DiagramItem } from '../model/diagram-item';
+import { DiagramItem, UpdatedDiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';
 import { Method } from '../model/method';
 import { Point } from '../model/point';
@@ -52,11 +52,12 @@ export class DiagramUpdaterService {
         });
 
         self._apiNotifierService.onDiagramItemResize(function (response) {
-            var resizedItem = self._diagram.getItemById(response.itemId);
-            if (resizedItem) {
-                self._diagram.setItemPosition(resizedItem, response.itemX, response.itemY);
-                self._diagram.setItemSize(resizedItem, response.itemWidth, response.itemHeight);
+            var updated: UpdatedDiagramItem = {
+                id: response.itemId,
+                position: new Point(response.itemX, response.itemY),
+                size: new Size(response.itemWidth, response.itemHeight)
             }
+            self._diagram.updateItems([updated]);
         });
 
         self._apiNotifierService.onDiagramItemSetTitle(function (response) {

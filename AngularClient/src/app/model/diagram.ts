@@ -52,14 +52,6 @@ export class Diagram extends Identifiable {
         this._items.filter(i => i.isEquals(item) == false).forEach(i => i.isSelected = false);
     }
 
-    setItemPosition(item: DiagramItem, x: number, y: number): void {
-        item.setPosition(x, y);
-    }
-
-    setItemSize(item: DiagramItem, width: number, height: number): void {
-        item.setSize(width, height);
-    }
-
     moveItemBy(item: DiagramItem, deltaX: number, deltaY: number): void {
         item.setPosition(item.position.x + deltaX, item.position.y + deltaY);
         this.correctItemPosition(item);
@@ -69,6 +61,15 @@ export class Diagram extends Identifiable {
     moveItemTo(item: DiagramItem, x: number, y: number): void {
         item.setPosition(x, y);
         this.correctItemPosition(item);
+        this.calculateRelationsSegments(item);
+    }
+
+    resizeItemBy(item: DiagramItem, deltaWidth: number, deltaHeight: number): void {
+        var logic = new ResizeLogic();
+        var result = logic.resizeItemBy(item, deltaWidth, deltaHeight);
+        item.setPosition(result.newX, result.newY);
+        item.setSize(result.newWidth, result.newHeight);
+        this.correctItemSize(item);
         this.calculateRelationsSegments(item);
     }
 
@@ -83,11 +84,11 @@ export class Diagram extends Identifiable {
 
     updateItems(updatedItems: UpdatedDiagramItem[]): void {
         var self = this;
-        self._items.forEach(item => {
-            var updated = updatedItems.find(ui => ui.id == item.id);
-            if (updated) {
-                if (updated.position) item.setPosition(updated.position.x, updated.position.y);
-                if (updated.size) item.setSize(updated.size.width, updated.size.height);
+        updatedItems.forEach(ui => {
+            var item = ui.item ?? self._items.find(item => item.id == ui.id);
+            if (item) {
+                if (ui.position) item.setPosition(ui.position.x, ui.position.y);
+                if (ui.size) item.setSize(ui.size.width, ui.size.height);
             }
         });
         self._items.forEach(item => {
@@ -146,15 +147,6 @@ export class Diagram extends Identifiable {
         if (item.position.y < 0) item.position.y = 0;
         if (item.position.x + item.size.width > this._size.width) item.position.x = this._size.width - item.size.width;
         if (item.position.y + item.size.height > this._size.height) item.position.y = this._size.height - item.size.height;
-    }
-
-    resizeItemBy(item: DiagramItem, deltaWidth: number, deltaHeight: number): void {
-        var logic = new ResizeLogic();
-        var result = logic.resizeItemBy(item, deltaWidth, deltaHeight);
-        item.setPosition(result.newX, result.newY);
-        item.setSize(result.newWidth, result.newHeight);
-        this.correctItemSize(item);
-        this.calculateRelationsSegments(item);
     }
 
     private correctItemSize(item: DiagramItem): void {
