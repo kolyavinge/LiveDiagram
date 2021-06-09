@@ -57,9 +57,10 @@ export class ApiService {
         this._httpClient.post(ApiPath.diagramLayoutPath, postData).toPromise();
     }
 
-    diagramItemMove(diagram: Diagram, item: DiagramItem): void {
+    diagramItemMove(action: Action, diagram: Diagram, item: DiagramItem): void {
         var postData = {
             clientId: this._localStorage.authData.clientId,
+            actionId: action.id,
             diagramId: diagram.id,
             itemId: item.id,
             itemX: item.position.x,

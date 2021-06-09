@@ -13,4 +13,8 @@ export class Size {
 
     get height(): number { return this._height; }
     set height(value: number) { this._height = value; }
+
+    copy(): Size {
+        return new Size(this._width, this._height);
+    }
 }

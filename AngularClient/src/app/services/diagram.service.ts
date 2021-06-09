@@ -14,6 +14,7 @@ import { ActionService } from './action.service';
 import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
 import { DiagramItemEditAction } from '../actions/diagram-item-edit-action';
 import { DiagramItemDeleteAction } from '../actions/diagram-item-delete-action';
+import { DiagramItemMoveAction } from '../actions/diagram-item-move-action';
 import { RelationAddAction } from '../actions/relation-add-action';
 import { RelationDeleteAction } from '../actions/relation-delete-action';
 
@@ -86,8 +87,11 @@ export class DiagramService {
             self._apiService.diagramLayout(diagram);
         });
 
-        self._diagramEventsService.diagramItemMoveEvent.addHandler((diagramItem: DiagramItem) => {
-            self._apiService.diagramItemMove(self._diagram, diagramItem);
+        self._diagramEventsService.diagramItemMoveEvent.addHandler((args) => {
+            var action = new DiagramItemMoveAction(null, self._diagram, args.item, args.startPosition, args.item.position.copy());
+            action.do();
+            self._actionService.addAction(action);
+            self._apiService.diagramItemMove(action, self._diagram, args.item);
         });
 
         self._diagramEventsService.diagramItemResizeEvent.addHandler((diagramItem: DiagramItem) => {

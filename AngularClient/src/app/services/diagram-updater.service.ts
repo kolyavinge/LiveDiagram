@@ -11,6 +11,7 @@ import { ActionService } from './action.service';
 import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
 import { DiagramItemEditAction } from '../actions/diagram-item-edit-action';
 import { DiagramItemDeleteAction } from '../actions/diagram-item-delete-action';
+import { DiagramItemMoveAction } from '../actions/diagram-item-move-action';
 import { RelationAddAction } from '../actions/relation-add-action';
 import { RelationDeleteAction } from '../actions/relation-delete-action';
 
@@ -43,7 +44,10 @@ export class DiagramUpdaterService {
         self._apiNotifierService.onDiagramItemMove(function (response) {
             var movedItem = self._diagram.getItemById(response.itemId);
             if (movedItem) {
-                self._diagram.moveItemTo(movedItem, response.itemX, response.itemY);
+                var action = new DiagramItemMoveAction(
+                    response.actionId, self._diagram, movedItem, movedItem.position.copy(), new Point(response.itemX, response.itemY));
+                action.do();
+                self._actionService.addAction(action);
             }
         });
 

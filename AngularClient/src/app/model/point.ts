@@ -13,4 +13,8 @@ export class Point {
 
     get y(): number { return this._y; }
     set y(value: number) { this._y = value; }
+
+    copy(): Point {
+        return new Point(this._x, this._y);
+    }
 }
