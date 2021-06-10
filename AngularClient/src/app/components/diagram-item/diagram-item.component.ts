@@ -34,7 +34,7 @@ export class DiagramItemComponent implements OnInit {
     }
 
     editItem(): void {
-        var cmd = this._commandService.makeEditDiagramItemCommand();
+        let cmd = this._commandService.makeEditDiagramItemCommand();
         cmd.exec(this.item);
     }
 }

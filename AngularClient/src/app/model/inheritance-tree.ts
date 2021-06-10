@@ -13,16 +13,16 @@ export class InheritanceTree {
     root: TreeNode;
 
     static fromDiagram(diagram: Diagram): InheritanceTree[] {
-        var makeNode = (level: number, parent: TreeNode, item: DiagramItem): TreeNode => {
-            var node = { level: level, item: item, parent: parent, children: [] };
+        let makeNode = (level: number, parent: TreeNode, item: DiagramItem): TreeNode => {
+            let node = { level: level, item: item, parent: parent, children: [] };
             diagram.getRelationsFromItem(node.item).forEach(relation => {
                 node.children.push(makeNode(level + 1, node, relation.to));
             });
             return node;
         };
-        var rootItems = diagram.items.filter(i => diagram.getRelationsToItem(i).length == 0);
-        var trees = rootItems.map(rootItem => {
-            var tree = new InheritanceTree();
+        let rootItems = diagram.items.filter(i => diagram.getRelationsToItem(i).length == 0);
+        let trees = rootItems.map(rootItem => {
+            let tree = new InheritanceTree();
             tree.root = makeNode(0, null, rootItem);
             return tree;
         });
@@ -32,7 +32,7 @@ export class InheritanceTree {
 
     findNodeFor(item: DiagramItem): TreeNode {
         if (this.root == null) return null;
-        var result: TreeNode = null;
+        let result: TreeNode = null;
         this.depth((node: TreeNode) => {
             if (node.item.isEquals(item)) {
                 result = node;
@@ -54,7 +54,7 @@ export class InheritanceTree {
 
     getAllNodes(): TreeNode[] {
         if (this.root == null) return [];
-        var result = [];
+        let result = [];
         this.depth((node: TreeNode) => {
             result.push(node);
             return true;
@@ -65,7 +65,7 @@ export class InheritanceTree {
 
     getAllDiagramItems(): DiagramItem[] {
         if (this.root == null) return [];
-        var result = [];
+        let result = [];
         this.depth((node: TreeNode) => {
             result.push(node.item);
             return true;
@@ -76,7 +76,7 @@ export class InheritanceTree {
 
     getLevelsCount(): number {
         if (this.root == null) return 0;
-        var maxLevel = 0;
+        let maxLevel = 0;
         this.depth((node: TreeNode) => {
             maxLevel = Math.max(node.level, maxLevel);
             return true;
@@ -87,7 +87,7 @@ export class InheritanceTree {
 
     getNodesFromLevel(level: number): TreeNode[] {
         if (this.root == null) return [];
-        var result = [];
+        let result = [];
         this.depth((node: TreeNode) => {
             if (node.level == level) {
                 result.push(node);
@@ -99,10 +99,10 @@ export class InheritanceTree {
     }
 
     private depth(action): void {
-        var rec = (node: TreeNode, action) => {
-            var needToContinue = action(node);
+        let rec = (node: TreeNode, action) => {
+            let needToContinue = action(node);
             if (needToContinue == false) return false;
-            for (var i = 0; i < node.children.length; i++) {
+            for (let i = 0; i < node.children.length; i++) {
                 if (rec(node.children[i], action) == false) return false;
             }
             return true;

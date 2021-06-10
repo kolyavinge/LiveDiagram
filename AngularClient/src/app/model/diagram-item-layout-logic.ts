@@ -5,9 +5,9 @@ import { DiagramItem } from "./diagram-item";
 export class DiagramItemLayoutLogic {
 
     getInitialItemPosition(diagram: Diagram, item: DiagramItem, parent: DiagramItem): Point {
-        var startX = parent ? parent.position.x + parent.size.width / 2 : diagram.size.width / 2;
-        var startY = parent ? parent.position.y + parent.size.height + 50 : 20;
-        var x = this.getFreeX(diagram, startX, startY);
+        let startX = parent ? parent.position.x + parent.size.width / 2 : diagram.size.width / 2;
+        let startY = parent ? parent.position.y + parent.size.height + 50 : 20;
+        let x = this.getFreeX(diagram, startX, startY);
         if (x == 0) {
             startY += 50;
             x = startX + 50;
@@ -16,14 +16,14 @@ export class DiagramItemLayoutLogic {
     }
 
     private getFreeX(diagram: Diagram, startX: number, startY: number): number {
-        var stack = [];
+        let stack = [];
         stack.push(startX);
         while (stack.length > 0) {
-            var x = stack.shift();
+            let x = stack.shift();
             if (x <= 0) continue;
             if (x >= diagram.size.width) continue;
-            var point = new Point(x, startY);
-            var matched = diagram.getMatchedItems(point);
+            let point = new Point(x, startY);
+            let matched = diagram.getMatchedItems(point);
             if (matched.length == 0) {
                 return x;
             } else {

@@ -22,7 +22,7 @@ export class MainMenuComponent implements OnInit {
         private _diagramEventsService: DiagramEventsService,
         private _commandService: CommandService
     ) {
-        var self = this;
+        let self = this;
         self._apiService.getAvailableDiagrams().then((response) => {
             self.availableDiagrams = response.availableDiagrams;
         });
@@ -55,17 +55,17 @@ export class MainMenuComponent implements OnInit {
     }
 
     createDiagramItem(): void {
-        var cmd = this._commandService.makeCreateDiagramItemCommand();
+        let cmd = this._commandService.makeCreateDiagramItemCommand();
         cmd.exec();
     }
 
     delete(): void {
-        var selectedItems = this._diagramService.diagram.getSelectedItems();
+        let selectedItems = this._diagramService.diagram.getSelectedItems();
         if (selectedItems.length > 0) {
             let cmd = this._commandService.makeDeleteDiagramItemCommand();
             cmd.exec(selectedItems);
         }
-        var selectedRelations = this._diagramService.diagram.getSelectedRelations();
+        let selectedRelations = this._diagramService.diagram.getSelectedRelations();
         if (selectedRelations.length > 0) {
             let cmd = this._commandService.makeDeleteRelationCommand();
             cmd.exec(selectedRelations);
@@ -73,7 +73,7 @@ export class MainMenuComponent implements OnInit {
     }
 
     layout(): void {
-        var cmd = this._commandService.makeLayoutDiagramCommand();
+        let cmd = this._commandService.makeLayoutDiagramCommand();
         cmd.exec(this._diagramService.diagram);
     }
 }

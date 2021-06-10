@@ -65,8 +65,8 @@ export class Diagram extends Identifiable {
     }
 
     resizeItemBy(item: DiagramItem, deltaWidth: number, deltaHeight: number): void {
-        var logic = new ResizeLogic();
-        var result = logic.resizeItemBy(item, deltaWidth, deltaHeight);
+        let logic = new ResizeLogic();
+        let result = logic.resizeItemBy(item, deltaWidth, deltaHeight);
         item.position = new Point(result.newX, result.newY);
         item.size = new Size(result.newWidth, result.newHeight);
         this.correctItemSize(item);
@@ -78,14 +78,14 @@ export class Diagram extends Identifiable {
     }
 
     deleteItems(items: DiagramItem[]): void {
-        var includeInDeleteItems = (item: DiagramItem) => items.find(i => i.isEquals(item)) != null;
+        let includeInDeleteItems = (item: DiagramItem) => items.find(i => i.isEquals(item)) != null;
         this._items = this._items.filter(i => includeInDeleteItems(i) == false);
     }
 
     updateItems(updatedItems: DiagramItemState[]): void {
-        var self = this;
+        let self = this;
         updatedItems.forEach(ui => {
-            var item = ui.item ?? self._items.find(item => item.id == ui.id);
+            let item = ui.item ?? self._items.find(item => item.id == ui.id);
             if (item) {
                 if (ui.position) item.position = new Point(ui.position.x, ui.position.y);
                 if (ui.size) item.size = new Size(ui.size.width, ui.size.height);
@@ -117,7 +117,7 @@ export class Diagram extends Identifiable {
     }
 
     deleteRelations(relations: Relation[]): void {
-        var includeInDeleteRelations = (relation: Relation) => relations.find(r => r.isEquals(relation)) != null;
+        let includeInDeleteRelations = (relation: Relation) => relations.find(r => r.isEquals(relation)) != null;
         this._relations = this._relations.filter(r => includeInDeleteRelations(r) == false);
     }
 
@@ -138,12 +138,12 @@ export class Diagram extends Identifiable {
     }
 
     private calculateRelationsSegments(item: DiagramItem): void {
-        var itemRelations = this.getItemRelations(item);
+        let itemRelations = this.getItemRelations(item);
         itemRelations.forEach(r => r.calculateSegments());
     }
 
     private correctItemPosition(item: DiagramItem): void {
-        var x, y;
+        let x, y;
         if (item.position.x < 0) x = 0;
         if (item.position.y < 0) y = 0;
         if (item.position.x + item.size.width > this._size.width) x = this._size.width - item.size.width;
@@ -154,7 +154,7 @@ export class Diagram extends Identifiable {
     }
 
     private correctItemSize(item: DiagramItem): void {
-        var width, height;
+        let width, height;
         if (item.size.width <= item.minSize.width) width = item.minSize.width;
         if (item.size.height <= item.minSize.height) height = item.minSize.height;
         if (width || height) {

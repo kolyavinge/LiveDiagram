@@ -17,14 +17,14 @@ export class ApiService {
     ) { }
 
     getAvailableDiagrams(): Promise<any> {
-        var postData = {
+        let postData = {
             clientId: this._localStorage.authData.clientId
         };
         return this._httpClient.post(ApiPath.getAvailableDiagramsPath, postData).toPromise();
     }
 
     getDiagramById(id: string): Promise<any> {
-        var postData = {
+        let postData = {
             clientId: this._localStorage.authData.clientId,
             diagramId: id
         };
@@ -32,7 +32,7 @@ export class ApiService {
     }
 
     diagramSetTitle(diagram: Diagram): void {
-        var postData = {
+        let postData = {
             clientId: this._localStorage.authData.clientId,
             diagramId: diagram.id,
             diagramTitle: diagram.title
@@ -41,7 +41,7 @@ export class ApiService {
     }
 
     diagramLayout(diagram: Diagram): void {
-        var postData = {
+        let postData = {
             clientId: this._localStorage.authData.clientId,
             diagramId: diagram.id,
             items: diagram.items.map(function (item) {
@@ -58,7 +58,7 @@ export class ApiService {
     }
 
     diagramItemMove(action: Action, diagram: Diagram, item: DiagramItem): void {
-        var postData = {
+        let postData = {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
@@ -70,7 +70,7 @@ export class ApiService {
     }
 
     diagramItemResize(action: Action, diagram: Diagram, item: DiagramItem): void {
-        var postData = {
+        let postData = {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
@@ -84,7 +84,7 @@ export class ApiService {
     }
 
     diagramItemSetTitle(diagram: Diagram, item: DiagramItem): void {
-        var postData = {
+        let postData = {
             clientId: this._localStorage.authData.clientId,
             diagramId: diagram.id,
             itemId: item.id,
@@ -94,7 +94,7 @@ export class ApiService {
     }
 
     diagramItemAdd(action: Action, diagram: Diagram, item: DiagramItem, parentRelation: Relation, methods: Method[]): void {
-        var postData = {
+        let postData = {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
@@ -113,7 +113,7 @@ export class ApiService {
     }
 
     diagramItemEdit(action: Action, diagram: Diagram, item: DiagramItem, parentHasChanged: boolean, parentRelation: Relation, methods: Method[]): void {
-        var postData = {
+        let postData = {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
@@ -129,7 +129,7 @@ export class ApiService {
     }
 
     diagramItemDelete(action: Action, diagram: Diagram, items: DiagramItem[], relations: Relation[]): void {
-        var postData = {
+        let postData = {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
@@ -140,7 +140,7 @@ export class ApiService {
     }
 
     diagramItemSetMethods(diagram: Diagram, item: DiagramItem): void {
-        var postData = {
+        let postData = {
             clientId: this._localStorage.authData.clientId,
             diagramId: diagram.id,
             itemId: item.id,
@@ -152,7 +152,7 @@ export class ApiService {
     }
 
     relationAdd(action: Action, diagram: Diagram, relations: Relation[]): void {
-        var postData = {
+        let postData = {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
@@ -164,7 +164,7 @@ export class ApiService {
     }
 
     relationDelete(action: Action, diagram: Diagram, relations: Relation[]): void {
-        var postData = {
+        let postData = {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
@@ -174,7 +174,7 @@ export class ApiService {
     }
 
     actionSetActive(action: Action): void {
-        var postData = {
+        let postData = {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: action.diagram.id

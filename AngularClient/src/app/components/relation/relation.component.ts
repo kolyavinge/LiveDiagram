@@ -31,7 +31,7 @@ export class RelationComponent implements OnInit {
     }
 
     set relation(value: Relation) {
-        var self = this;
+        let self = this;
         self._relation = value;
         self.calculateSegments(self._relation.segments);
         self.calculateArrows();
@@ -49,7 +49,7 @@ export class RelationComponent implements OnInit {
 
     calculateSegments(segments: Segment[]): void {
         this._segments = segments.map((s: Segment) => {
-            var newX = s.position.x, newY = s.position.y, newWidth = s.size.width, newHeight = s.size.height;
+            let newX = s.position.x, newY = s.position.y, newWidth = s.size.width, newHeight = s.size.height;
             if (s.size.width == 1) {
                 newWidth = 5;
                 newX -= 2;
@@ -65,7 +65,7 @@ export class RelationComponent implements OnInit {
     calculateArrows(): void {
         this.arrowDown = null;
         this.arrowUp = null;
-        var last = this._segments[this._segments.length - 1];
+        let last = this._segments[this._segments.length - 1];
         if (last.direction == this._direction.up) {
             this.arrowUp = new Point(last.position.x - 5, last.position.y - 2);
             last.position = new Point(last.position.x, last.position.y + 10);
@@ -80,8 +80,8 @@ export class RelationComponent implements OnInit {
         this.cap1 = null;
         this.cap2 = null;
         if (this._segments.length == 1) return;
-        var first = this._segments[0];
-        var second = this._segments[1];
+        let first = this._segments[0];
+        let second = this._segments[1];
         this.cap1 = new Point(first.position.x - 2, first.position.y + first.size.height - 10);
         if (second.direction == this._direction.left) {
             this.cap2 = new Point(second.position.x - 4, second.position.y - 8);

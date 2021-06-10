@@ -27,7 +27,7 @@ export class DiagramItem extends DiagramItemBase {
     }
 
     deleteMethods(methods: Method[]): void {
-        var methodIncludeInDeleted = (method: Method) => methods.find(m => method.isEquals(m)) != null;
+        let methodIncludeInDeleted = (method: Method) => methods.find(m => method.isEquals(m)) != null;
         this._methods = this._methods.filter(m => methodIncludeInDeleted(m) == false);
     }
 
@@ -41,7 +41,7 @@ export class DiagramItem extends DiagramItemBase {
     }
 
     copy(): DiagramItem {
-        var x = new DiagramItem(this.id);
+        let x = new DiagramItem(this.id);
         x._title = this._title;
         x._position = new Point(this.position.x, this.position.y);
         x._size = new Size(this.size.width, this.size.height);

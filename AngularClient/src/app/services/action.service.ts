@@ -27,12 +27,12 @@ export class ActionService {
     }
 
     updateActiveAction(action: Action): void {
-        var index = this._actions.indexOf(action);
-        var actionsForDo = this._actions.slice(0, index + 1);
+        let index = this._actions.indexOf(action);
+        let actionsForDo = this._actions.slice(0, index + 1);
         if (actionsForDo.length > 0) {
             actionsForDo.filter(a => !a.isActive).forEach(a => a.do());
         }
-        var actionsForUndo = this._actions.slice(index + 1);
+        let actionsForUndo = this._actions.slice(index + 1);
         if (actionsForUndo.length > 0) {
             actionsForUndo.reverse().filter(a => a.isActive).forEach(a => a.undo());
         }

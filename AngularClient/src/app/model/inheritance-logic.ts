@@ -6,17 +6,17 @@ import { Relation } from "./relation";
 export class InheritanceLogic {
 
     getAvailableParents(diagram: Diagram, item: DiagramItem): DiagramItem[] {
-        var trees = InheritanceTree.fromDiagram(diagram);
+        let trees = InheritanceTree.fromDiagram(diagram);
         trees.forEach(tree => {
-            var node = tree.findNodeFor(item);
+            let node = tree.findNodeFor(item);
             if (node) tree.deleteNode(node);
         });
-        var allItems = trees.map(tree => tree.getAllDiagramItems()).reduce((x, y) => x.concat(y), []);
+        let allItems = trees.map(tree => tree.getAllDiagramItems()).reduce((x, y) => x.concat(y), []);
         return allItems;
     }
 
     getParentRelation(diagram: Diagram, item: DiagramItem): Relation {
-        var parentRelations = diagram.getRelationsToItem(item);
+        let parentRelations = diagram.getRelationsToItem(item);
         if (parentRelations.length > 0) {
             return parentRelations[0];
         } else {
@@ -25,7 +25,7 @@ export class InheritanceLogic {
     }
 
     getParent(diagram: Diagram, item: DiagramItem): DiagramItem {
-        var parentRelations = diagram.getRelationsToItem(item);
+        let parentRelations = diagram.getRelationsToItem(item);
         if (parentRelations.length > 0) {
             return parentRelations[0].from;
         } else {

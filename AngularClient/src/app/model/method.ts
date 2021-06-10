@@ -13,11 +13,11 @@ export class Method extends Identifiable {
         if (x && !y) return false;
         if (!x && y) return false;
         if (x.length != y.length) return false;
-        for (var i = 0; i < x.length; i++) {
-            var xm = x[i];
-            var ym = y[i];
+        for (let i = 0; i < x.length; i++) {
+            let xm = x[i];
+            let ym = y[i];
             if (xm.isEquals(ym) == false) return false;
-            var signatureEquals = xm.signature.localeCompare(ym.signature) == 0;
+            let signatureEquals = xm.signature.localeCompare(ym.signature) == 0;
             if (signatureEquals == false) return false;
         }
 
@@ -29,7 +29,7 @@ export class Method extends Identifiable {
     set signature(value: string) { this._signature = value; }
 
     copy(): Method {
-        var copyMethod = new Method(this.id);
+        let copyMethod = new Method(this.id);
         copyMethod._signature = this._signature;
 
         return copyMethod;

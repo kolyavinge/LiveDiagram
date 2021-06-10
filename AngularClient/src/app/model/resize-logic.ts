@@ -13,10 +13,10 @@ export class ResizeLogic {
     private resize: ResizeDirection = new ResizeDirection();
 
     resizeItemBy(item: DiagramItem, deltaWidth: number, deltaHeight: number): ResizeDiagramItemResult {
-        var newX = item.position.x;
-        var newY = item.position.y;
-        var newWidth = item.size.width;
-        var newHeight = item.size.height;
+        let newX = item.position.x;
+        let newY = item.position.y;
+        let newWidth = item.size.width;
+        let newHeight = item.size.height;
         if (item.resizeDirectionValue == this.resize.upLeft) {
             // deltaWidth и deltaHeight меньше нуля
             newX += deltaWidth;

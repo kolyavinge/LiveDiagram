@@ -15,22 +15,22 @@ export interface LayoutDiagramResult {
 export class DiagramLayoutLogic {
 
     layoutDiagram(diagram: Diagram): LayoutDiagramResult {
-        var trees = InheritanceTree.fromDiagram(diagram);
-        var layoutItems = trees.map(tree => this.layoutTree(diagram, tree)).reduce((x, y) => x.concat(y), []);
+        let trees = InheritanceTree.fromDiagram(diagram);
+        let layoutItems = trees.map(tree => this.layoutTree(diagram, tree)).reduce((x, y) => x.concat(y), []);
         return { items: layoutItems };
     }
 
     private layoutTree(diagram: Diagram, tree: InheritanceTree): LayoutDiagramItemResult[] {
-        var result: LayoutDiagramItemResult[] = [];
-        var levelsCount = tree.getLevelsCount();
-        for (var level = 0; level < levelsCount; level++) {
-            var nodesFromLevel = tree.getNodesFromLevel(level);
-            var dx = diagram.size.width / nodesFromLevel.length;
-            var levelWidth = dx * (nodesFromLevel.length - 1) + nodesFromLevel[nodesFromLevel.length - 1].item.size.width;
-            var xoffset = (diagram.size.width - levelWidth) / 2;
-            var yoffset = 20;
-            for (var i = 0; i < nodesFromLevel.length; i++) {
-                var itemLayout = {
+        let result: LayoutDiagramItemResult[] = [];
+        let levelsCount = tree.getLevelsCount();
+        for (let level = 0; level < levelsCount; level++) {
+            let nodesFromLevel = tree.getNodesFromLevel(level);
+            let dx = diagram.size.width / nodesFromLevel.length;
+            let levelWidth = dx * (nodesFromLevel.length - 1) + nodesFromLevel[nodesFromLevel.length - 1].item.size.width;
+            let xoffset = (diagram.size.width - levelWidth) / 2;
+            let yoffset = 20;
+            for (let i = 0; i < nodesFromLevel.length; i++) {
+                let itemLayout = {
                     item: nodesFromLevel[i].item,
                     position: new Point(xoffset + dx * i, yoffset + level * 200)
                 };

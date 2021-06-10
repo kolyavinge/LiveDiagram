@@ -20,12 +20,12 @@ export class SignalRClient {
     }
 
     start(clientId: string, diagramId: string): Promise<void> {
-        var self = this;
-        var registerData = { clientId: clientId, diagramId: diagramId };
-        var registerFunc = function () { self.connection.invoke("Register", registerData); }
+        let self = this;
+        let registerData = { clientId: clientId, diagramId: diagramId };
+        let registerFunc = function () { self.connection.invoke("Register", registerData); }
         self.connection = new HubConnectionBuilder().withUrl(ApiPath.host + "hub").build();
-        for (var i in self.handlers) {
-            var handler = self.handlers[i];
+        for (let i in self.handlers) {
+            let handler = self.handlers[i];
             self.connection.on(handler.methodName, handler.handler);
         }
 

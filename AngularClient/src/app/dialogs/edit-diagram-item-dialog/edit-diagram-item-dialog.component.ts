@@ -34,7 +34,7 @@ export class EditDiagramItemDialogComponent implements OnInit {
     set item(value: DiagramItem) {
         this._item = value;
         this._title = this._item.title;
-        var logic = new InheritanceLogic();
+        let logic = new InheritanceLogic();
         this._currentParent = logic.getParent(this._diagramService.diagram, this._item);
         this._methods = this._item.methods.map(m => m.copy());
     }
@@ -45,7 +45,7 @@ export class EditDiagramItemDialogComponent implements OnInit {
 
     get availableParents(): DiagramItem[] {
         if (this._availableParents == null) {
-            var logic = new InheritanceLogic();
+            let logic = new InheritanceLogic();
             this._availableParents = logic.getAvailableParents(this._diagramService.diagram, this._item);
             this._availableParents.sort(diagramItemTitleAsc);
         }
@@ -92,7 +92,7 @@ export class EditDiagramItemDialogComponent implements OnInit {
     }
 
     addMethod(): void {
-        var method = new Method();
+        let method = new Method();
         method.signature = "newMethod(): void";
         this._methods.push(method);
     }
@@ -111,10 +111,10 @@ export class EditDiagramItemDialogComponent implements OnInit {
     }
 
     getResult(): EditDiagramItemResult {
-        var logic = new InheritanceLogic();
-        var titleNew = this._title.trim();
-        var parentOld = logic.getParent(this._diagramService.diagram, this._item);
-        var methodsOld = this.item ? this.item.methods : [];
+        let logic = new InheritanceLogic();
+        let titleNew = this._title.trim();
+        let parentOld = logic.getParent(this._diagramService.diagram, this._item);
+        let methodsOld = this.item ? this.item.methods : [];
         return {
             item: this._item,
             titleOld: this._item ? this.item.title : "",

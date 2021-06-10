@@ -17,12 +17,12 @@ export class EditDiagramItemCommand {
     }
 
     exec(item: DiagramItem): void {
-        var self = this;
-        var dialog = self._dialogService.open(EditDiagramItemDialogComponent);
+        let self = this;
+        let dialog = self._dialogService.open(EditDiagramItemDialogComponent);
         dialog.componentInstance.item = item;
         dialog.afterClosed().subscribe(dialogResult => {
             if (dialogResult) {
-                var editItemResult = dialog.componentInstance.getResult();
+                let editItemResult = dialog.componentInstance.getResult();
                 self._diagramEventsService.diagramItemEditEvent.raise(editItemResult);
             }
         });

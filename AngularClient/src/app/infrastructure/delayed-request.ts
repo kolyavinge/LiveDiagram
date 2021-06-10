@@ -12,7 +12,7 @@ export class DelayedRequest {
     }
 
     send(requestParam = null): void {
-        var self = this;
+        let self = this;
         self._requestParam = requestParam;
         window.clearTimeout(self._timerId);
         self._timerId = window.setTimeout(() => { this._requestAction(self._requestParam); }, self._timeout);

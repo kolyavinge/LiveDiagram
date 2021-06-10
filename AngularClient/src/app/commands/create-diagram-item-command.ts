@@ -16,11 +16,11 @@ export class CreateDiagramItemCommand {
     }
 
     exec(): void {
-        var self = this;
-        var dialog = self._dialogService.open(EditDiagramItemDialogComponent);
+        let self = this;
+        let dialog = self._dialogService.open(EditDiagramItemDialogComponent);
         dialog.afterClosed().subscribe(dialogResult => {
             if (dialogResult) {
-                var editItemResult = dialog.componentInstance.getResult();
+                let editItemResult = dialog.componentInstance.getResult();
                 self._diagramEventsService.diagramItemAddEvent.raise(editItemResult);
             }
         });

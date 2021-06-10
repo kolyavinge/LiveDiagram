@@ -15,12 +15,12 @@ export class KeyboardService {
     onKeyDown(event: KeyboardEvent) {
         // console.log(event.code);
         if (event.code == "Delete") {
-            var selectedItems = this._diagramService.diagram.getSelectedItems();
+            let selectedItems = this._diagramService.diagram.getSelectedItems();
             if (selectedItems.length > 0) {
                 let cmd = this._commandService.makeDeleteDiagramItemCommand();
                 cmd.exec(selectedItems);
             }
-            var selectedRelations = this._diagramService.diagram.getSelectedRelations();
+            let selectedRelations = this._diagramService.diagram.getSelectedRelations();
             if (selectedRelations.length > 0) {
                 let cmd = this._commandService.makeDeleteRelationCommand();
                 cmd.exec(selectedRelations);

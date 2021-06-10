@@ -27,7 +27,7 @@ export class DiagramUpdaterService {
     ) { }
 
     connectToDiagram(diagram: Diagram): void {
-        var self = this;
+        let self = this;
         self._diagram = diagram;
 
         self._apiNotifierService.clearHandlers();
@@ -43,44 +43,44 @@ export class DiagramUpdaterService {
         });
 
         self._apiNotifierService.onDiagramItemMove(function (response) {
-            var movedItem = self._diagram.getItemById(response.itemId);
+            let movedItem = self._diagram.getItemById(response.itemId);
             if (movedItem) {
-                var positionOld = movedItem.position;
-                var positionNew = new Point(response.itemX, response.itemY);
-                var action = new DiagramItemMoveAction(response.actionId, self._diagram, movedItem, positionOld, positionNew);
+                let positionOld = movedItem.position;
+                let positionNew = new Point(response.itemX, response.itemY);
+                let action = new DiagramItemMoveAction(response.actionId, self._diagram, movedItem, positionOld, positionNew);
                 action.do();
                 self._actionService.addAction(action);
             }
         });
 
         self._apiNotifierService.onDiagramItemResize(function (response) {
-            var item = self._diagram.getItemById(response.itemId);
+            let item = self._diagram.getItemById(response.itemId);
             if (item) {
-                var positionOld = item.position;
-                var sizeOld = item.size;
-                var positionNew = new Point(response.itemX, response.itemY);
-                var sizeNew = new Size(response.itemWidth, response.itemHeight);
-                var action = new DiagramItemResizeAction(response.actionId, self._diagram, item, positionOld, sizeOld, positionNew, sizeNew);
+                let positionOld = item.position;
+                let sizeOld = item.size;
+                let positionNew = new Point(response.itemX, response.itemY);
+                let sizeNew = new Size(response.itemWidth, response.itemHeight);
+                let action = new DiagramItemResizeAction(response.actionId, self._diagram, item, positionOld, sizeOld, positionNew, sizeNew);
                 action.do();
                 self._actionService.addAction(action);
             }
         });
 
         self._apiNotifierService.onDiagramItemSetTitle(function (response) {
-            var item = self._diagram.getItemById(response.itemId);
+            let item = self._diagram.getItemById(response.itemId);
             if (item) {
                 item.title = response.itemTitle;
             }
         });
 
         self._apiNotifierService.onDiagramItemAdd(function (response) {
-            var item = new DiagramItem(response.itemId);
+            let item = new DiagramItem(response.itemId);
             item.title = response.itemTitle;
             item.position = new Point(response.itemX, response.itemY);
             item.size = new Size(response.itemWidth, response.itemHeight);
-            var parentRelation: Relation = null;
+            let parentRelation: Relation = null;
             if (response.parentRelation) {
-                var parent = self._diagram.getItemById(response.parentRelation.itemIdFrom);
+                let parent = self._diagram.getItemById(response.parentRelation.itemIdFrom);
                 if (parent) {
                     parentRelation = new Relation(response.parentRelation.id);
                     parentRelation.setDiagramItems(parent, item);
@@ -88,53 +88,55 @@ export class DiagramUpdaterService {
             }
             if (response.methods.length > 0) {
                 item.methods = response.methods.map(m => {
-                    var method = new Method(m.id);
+                    let method = new Method(m.id);
                     method.signature = m.signature;
                     return method;
                 });
             }
-            var action = new DiagramItemAddAction(response.actionId, self._diagram, item, parentRelation);
+            let action = new DiagramItemAddAction(response.actionId, self._diagram, item, parentRelation);
             action.do();
             self._actionService.addAction(action);
         });
 
         self._apiNotifierService.onDiagramItemEdit(function (response) {
-            var item = self._diagram.getItemById(response.itemId);
+            let item = self._diagram.getItemById(response.itemId);
+            let parentRelationOld: Relation = null;
             if (response.parentHasChanged) {
-                var logic = new InheritanceLogic();
-                var parentRelationOld = logic.getParentRelation(self._diagram, item);
+                let logic = new InheritanceLogic();
+                parentRelationOld = logic.getParentRelation(self._diagram, item);
             }
+            let parentRelationNew: Relation = null;
             if (response.parentRelation) {
-                var parent = self._diagram.getItemById(response.parentRelation.itemIdFrom);
+                let parent = self._diagram.getItemById(response.parentRelation.itemIdFrom);
                 if (parent) {
-                    var parentRelationNew = new Relation(response.parentRelation.id);
+                    parentRelationNew = new Relation(response.parentRelation.id);
                     parentRelationNew.setDiagramItems(parent, item);
                 }
             }
-            var methodsNew = response.methods.map(m => {
-                var method = new Method(m.id);
+            let methodsNew = response.methods.map(m => {
+                let method = new Method(m.id);
                 method.signature = m.signature;
                 return method;
             });
-            var action = new DiagramItemEditAction(
+            let action = new DiagramItemEditAction(
                 response.actionId, self._diagram, item, item.title, response.itemTitle, parentRelationOld, parentRelationNew, item.methods, methodsNew);
             action.do();
             self._actionService.addAction(action);
         });
 
         self._apiNotifierService.onDiagramItemDelete(function (response) {
-            var items = self._diagram.getItemsById(response.itemsId);
-            var relations = self._diagram.getRelationsById(response.relationsId);
-            var action = new DiagramItemDeleteAction(response.actionId, self._diagram, items, relations);
+            let items = self._diagram.getItemsById(response.itemsId);
+            let relations = self._diagram.getRelationsById(response.relationsId);
+            let action = new DiagramItemDeleteAction(response.actionId, self._diagram, items, relations);
             action.do();
             self._actionService.addAction(action);
         });
 
         self._apiNotifierService.onDiagramItemSetMethods(function (response) {
-            var item = self._diagram.getItemById(response.itemId);
+            let item = self._diagram.getItemById(response.itemId);
             if (item) {
                 item.methods = response.methods.map(m => {
-                    var method = new Method(m.id);
+                    let method = new Method(m.id);
                     method.signature = m.signature;
                     return method;
                 });
@@ -142,31 +144,31 @@ export class DiagramUpdaterService {
         });
 
         self._apiNotifierService.onRelationAdd(function (response) {
-            var relations: Relation[] = response.relations.map(r => {
-                var from = self._diagram.getItemById(r.itemIdFrom);
-                var to = self._diagram.getItemById(r.itemIdTo);
+            let relations: Relation[] = response.relations.map(r => {
+                let from = self._diagram.getItemById(r.itemIdFrom);
+                let to = self._diagram.getItemById(r.itemIdTo);
                 if (from && to) {
-                    var relation = new Relation(r.id);
+                    let relation = new Relation(r.id);
                     relation.setDiagramItems(from, to);
                     return relation;
                 };
             });
             if (relations.length > 0) {
-                var action = new RelationAddAction(response.actionId, self._diagram, relations);
+                let action = new RelationAddAction(response.actionId, self._diagram, relations);
                 action.do();
                 self._actionService.addAction(action);
             }
         });
 
         self._apiNotifierService.onRelationDelete(function (response) {
-            var relations = self._diagram.getRelationsById(response.relationsId);
-            var action = new RelationDeleteAction(response.actionId, self._diagram, relations);
+            let relations = self._diagram.getRelationsById(response.relationsId);
+            let action = new RelationDeleteAction(response.actionId, self._diagram, relations);
             action.do();
             self._actionService.addAction(action);
         });
 
         self._apiNotifierService.onActionSetActive(function (response) {
-            var action = self._actionService.getActionById(response.actionId);
+            let action = self._actionService.getActionById(response.actionId);
             self._actionService.updateActiveAction(action);
         });
 

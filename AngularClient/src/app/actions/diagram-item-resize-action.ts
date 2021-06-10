@@ -27,7 +27,7 @@ export class DiagramItemResizeAction extends Action {
     }
 
     protected doInner(): void {
-        var updated: DiagramItemState = {
+        let updated: DiagramItemState = {
             item: this._item,
             position: this._positionNew,
             size: this._sizeNew
@@ -36,7 +36,7 @@ export class DiagramItemResizeAction extends Action {
     }
 
     protected undoInner(): void {
-        var updated: DiagramItemState = {
+        let updated: DiagramItemState = {
             item: this._item,
             position: this._positionOld,
             size: this._sizeOld

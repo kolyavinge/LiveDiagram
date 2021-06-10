@@ -26,84 +26,84 @@ export class ApiNotifierService {
     }
 
     onDiagramSetTitle(handler: any): void {
-        var self = this;
+        let self = this;
         self._signalrClient.addHandler("DiagramSetTitleResponse", function (response) {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
 
     onDiagramLayout(handler: any): void {
-        var self = this;
+        let self = this;
         self._signalrClient.addHandler("DiagramLayoutResponse", function (response) {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
 
     onDiagramItemMove(handler: any): void {
-        var self = this;
+        let self = this;
         self._signalrClient.addHandler("DiagramItemMoveResponse", function (response) {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
 
     onDiagramItemResize(handler: any): void {
-        var self = this;
+        let self = this;
         self._signalrClient.addHandler("DiagramItemResizeResponse", function (response) {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
 
     onDiagramItemSetTitle(handler: any): void {
-        var self = this;
+        let self = this;
         self._signalrClient.addHandler("DiagramItemSetTitleResponse", function (response) {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
 
     onDiagramItemAdd(handler: any): void {
-        var self = this;
+        let self = this;
         self._signalrClient.addHandler("DiagramItemAddResponse", function (response) {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
 
     onDiagramItemEdit(handler: any): void {
-        var self = this;
+        let self = this;
         self._signalrClient.addHandler("DiagramItemEditResponse", function (response) {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
 
     onDiagramItemDelete(handler: any): void {
-        var self = this;
+        let self = this;
         self._signalrClient.addHandler("DiagramItemDeleteResponse", function (response) {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
 
     onDiagramItemSetMethods(handler: any): void {
-        var self = this;
+        let self = this;
         self._signalrClient.addHandler("DiagramItemSetMethodsResponse", function (response) {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
 
     onRelationAdd(handler: any): void {
-        var self = this;
+        let self = this;
         self._signalrClient.addHandler("RelationAddResponse", function (response) {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
 
     onRelationDelete(handler: any): void {
-        var self = this;
+        let self = this;
         self._signalrClient.addHandler("RelationDeleteResponse", function (response) {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
 
     onActionSetActive(handler: any): void {
-        var self = this;
+        let self = this;
         self._signalrClient.addHandler("ActionSetActiveResponse", function (response) {
             if (self._authData.clientId != response.clientId) handler(response);
         });

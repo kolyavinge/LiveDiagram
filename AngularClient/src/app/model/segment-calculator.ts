@@ -7,17 +7,17 @@ export class SegmentCalculator {
     private _direction: Direction = new Direction();
 
     calculateSegments(from: DiagramItem, to: DiagramItem): Segment[] {
-        var fromY = from.position.y;
-        var toY = to.position.y;
-        var fromMiddleX = from.position.x + from.size.width / 2;
-        var fromBottomY = from.position.y + from.size.height;
-        var toMiddleX = to.position.x + to.size.width / 2;
-        var toBottomY = to.position.y + to.size.height;
-        var toAbove = fromBottomY - toBottomY > 0;
-        var toBelow = toY - fromBottomY > 40;
-        var toOnLeft = fromMiddleX - toMiddleX > 20;
-        var toOnRight = toMiddleX - fromMiddleX > 20;
-        var toOnMiddle = !toOnLeft && !toOnRight;
+        let fromY = from.position.y;
+        let toY = to.position.y;
+        let fromMiddleX = from.position.x + from.size.width / 2;
+        let fromBottomY = from.position.y + from.size.height;
+        let toMiddleX = to.position.x + to.size.width / 2;
+        let toBottomY = to.position.y + to.size.height;
+        let toAbove = fromBottomY - toBottomY > 0;
+        let toBelow = toY - fromBottomY > 40;
+        let toOnLeft = fromMiddleX - toMiddleX > 20;
+        let toOnRight = toMiddleX - fromMiddleX > 20;
+        let toOnMiddle = !toOnLeft && !toOnRight;
 
         if (toBelow && toOnMiddle) {
             return [

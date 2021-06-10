@@ -38,7 +38,7 @@ export class DiagramService {
     }
 
     loadDiagramById(id: string): void {
-        var self = this;
+        let self = this;
         self._apiService.getDiagramById(id).then(response => {
             self._diagram = self.makeDiagramFromResponse(response);
             self._diagramUpdaterService.connectToDiagram(self._diagram);
@@ -48,19 +48,19 @@ export class DiagramService {
     }
 
     private makeDiagramFromResponse(response): Diagram {
-        var diagram = new Diagram(response.diagram.id);
+        let diagram = new Diagram(response.diagram.id);
         diagram.title = response.diagram.title;
         (response.diagram.items ?? []).forEach(i => {
-            var item = new DiagramItem(i.id);
+            let item = new DiagramItem(i.id);
             item.title = i.title;
             item.position = new Point(i.x, i.y);
             item.size = new Size(i.width, i.height);
             diagram.addItems([item]);
         });
         (response.diagram.relations ?? []).forEach(r => {
-            var from = diagram.getItemById(r.itemIdFrom);
-            var to = diagram.getItemById(r.itemIdTo);
-            var relation = new Relation(r.id);
+            let from = diagram.getItemById(r.itemIdFrom);
+            let to = diagram.getItemById(r.itemIdTo);
+            let relation = new Relation(r.id);
             relation.setDiagramItems(from, to);
             diagram.addRelations([relation]);
         });
@@ -73,17 +73,17 @@ export class DiagramService {
     }
 
     setHandlers(): void {
-        var self = this;
+        let self = this;
 
-        var diagramSetTitleDelayedRequest = new DelayedRequest(() => { self._apiService.diagramSetTitle(self._diagram); }, 2000);
+        let diagramSetTitleDelayedRequest = new DelayedRequest(() => { self._apiService.diagramSetTitle(self._diagram); }, 2000);
         self._diagramEventsService.diagramSetTitleEvent.addHandler(() => {
             diagramSetTitleDelayedRequest.send();
         });
 
         self._diagramEventsService.diagramLayoutEvent.addHandler((diagram: Diagram) => {
-            var layoutLogic = new DiagramLayoutLogic();
-            var result = layoutLogic.layoutDiagram(diagram);
-            var updatedItems: DiagramItemState[] = result.items.map(layoutItem => {
+            let layoutLogic = new DiagramLayoutLogic();
+            let result = layoutLogic.layoutDiagram(diagram);
+            let updatedItems: DiagramItemState[] = result.items.map(layoutItem => {
                 return { id: layoutItem.item.id, position: layoutItem.position };
             });
             self._diagram.updateItems(updatedItems);
@@ -91,14 +91,14 @@ export class DiagramService {
         });
 
         self._diagramEventsService.diagramItemMoveEvent.addHandler((args) => {
-            var action = new DiagramItemMoveAction(null, self._diagram, args.item, args.startPosition, args.item.position);
+            let action = new DiagramItemMoveAction(null, self._diagram, args.item, args.startPosition, args.item.position);
             action.do();
             self._actionService.addAction(action);
             self._apiService.diagramItemMove(action, self._diagram, args.item);
         });
 
         self._diagramEventsService.diagramItemResizeEvent.addHandler((args) => {
-            var action = new DiagramItemResizeAction(
+            let action = new DiagramItemResizeAction(
                 null, self._diagram, args.item, args.startPosition, args.startSize, args.item.position, args.item.size);
             action.do();
             self._actionService.addAction(action);
@@ -110,13 +110,13 @@ export class DiagramService {
         });
 
         self._diagramEventsService.diagramItemAddEvent.addHandler((result: EditDiagramItemResult) => {
-            var item = new DiagramItem();
+            let item = new DiagramItem();
             item.size = new Size(120, 160);
-            var layoutLogic = new DiagramItemLayoutLogic();
-            var initPosition = layoutLogic.getInitialItemPosition(self._diagram, item, result.parentNew);
+            let layoutLogic = new DiagramItemLayoutLogic();
+            let initPosition = layoutLogic.getInitialItemPosition(self._diagram, item, result.parentNew);
             item.position = new Point(initPosition.x, initPosition.y);
             item.title = result.titleNew;
-            var parentRelation: Relation = null;
+            let parentRelation: Relation = null;
             if (result.parentNew) {
                 parentRelation = new Relation();
                 parentRelation.setDiagramItems(result.parentNew, item);
@@ -124,23 +124,25 @@ export class DiagramService {
             if (result.methodsNew.length > 0) {
                 item.addMethods(result.methodsNew);
             }
-            var action = new DiagramItemAddAction(null, self._diagram, item, parentRelation);
+            let action = new DiagramItemAddAction(null, self._diagram, item, parentRelation);
             action.do();
             self._actionService.addAction(action);
             self._apiService.diagramItemAdd(action, self._diagram, item, parentRelation, result.methodsNew);
         });
 
         self._diagramEventsService.diagramItemEditEvent.addHandler((result: EditDiagramItemResult) => {
-            var item = result.item;
+            let item = result.item;
+            let parentRelationOld: Relation = null;
+            let parentRelationNew: Relation = null;
             if (result.parentHasChanged) {
-                var logic = new InheritanceLogic();
-                var parentRelationOld = logic.getParentRelation(self._diagram, item);
+                let logic = new InheritanceLogic();
+                parentRelationOld = logic.getParentRelation(self._diagram, item);
                 if (result.parentNew) {
-                    var parentRelationNew = new Relation();
+                    parentRelationNew = new Relation();
                     parentRelationNew.setDiagramItems(result.parentNew, item);
                 }
             }
-            var action = new DiagramItemEditAction(
+            let action = new DiagramItemEditAction(
                 null, self._diagram, item, result.titleOld, result.titleNew, parentRelationOld, parentRelationNew, result.methodsOld, result.methodsNew);
             action.do();
             self._actionService.addAction(action);
@@ -149,16 +151,16 @@ export class DiagramService {
 
         self._diagramEventsService.diagramItemDeleteEvent.addHandler((diagramItems: DiagramItem[]) => {
             diagramItems.forEach(i => i.isSelected = false);
-            var relations = diagramItems.map(i => self._diagram.getItemRelations(i)).reduce((x, y) => x.concat(y), []); // flat array
-            var relationsDistinct = Array.from(new Set(relations));
-            var action = new DiagramItemDeleteAction(null, self._diagram, diagramItems, relationsDistinct);
+            let relations = diagramItems.map(i => self._diagram.getItemRelations(i)).reduce((x, y) => x.concat(y), []); // flat array
+            let relationsDistinct = Array.from(new Set(relations));
+            let action = new DiagramItemDeleteAction(null, self._diagram, diagramItems, relationsDistinct);
             action.do();
             self._actionService.addAction(action);
             self._apiService.diagramItemDelete(action, self._diagram, diagramItems, relationsDistinct);
         });
 
         self._diagramEventsService.relationAddEvent.addHandler((relations: Relation[]) => {
-            var action = new RelationAddAction(null, self._diagram, relations);
+            let action = new RelationAddAction(null, self._diagram, relations);
             action.do();
             self._actionService.addAction(action);
             self._apiService.relationAdd(action, self._diagram, relations);
@@ -166,7 +168,7 @@ export class DiagramService {
 
         self._diagramEventsService.relationDeleteEvent.addHandler((relations: Relation[]) => {
             relations.forEach(i => i.isSelected = false);
-            var action = new RelationDeleteAction(null, self._diagram, relations);
+            let action = new RelationDeleteAction(null, self._diagram, relations);
             action.do();
             self._actionService.addAction(action);
             self._apiService.relationDelete(action, self._diagram, relations);

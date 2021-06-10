@@ -17,8 +17,8 @@ export class DeleteDiagramItemCommand {
     }
 
     exec(items: DiagramItem[]): void {
-        var self = this;
-        var dialog = self._dialogService.open(ConfirmDialogComponent);
+        let self = this;
+        let dialog = self._dialogService.open(ConfirmDialogComponent);
         dialog.componentInstance.message = items.length == 1
             ? 'Вы действительно хотите удалить выбранный элемент?' : 'Вы действительно хотите удалить выбранные элементы?';
         dialog.afterClosed().subscribe(result => {

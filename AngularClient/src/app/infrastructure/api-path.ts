@@ -1,5 +1,5 @@
-var host = "https://localhost:44305/";
-var apiPath = host + "api/";
+let host = "https://localhost:44305/";
+let apiPath = host + "api/";
 
 export default {
     host: host,
