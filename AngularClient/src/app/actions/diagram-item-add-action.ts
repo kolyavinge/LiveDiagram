@@ -29,7 +29,7 @@ export class DiagramItemAddAction extends Action {
         if (this._parentRelation) this.diagram.deleteRelations([this._parentRelation]);
     }
 
-    protected getInfo(): ActionInfo {
+    get info(): ActionInfo {
         return {
             kind: ActionKind.add,
             title: this._item.title

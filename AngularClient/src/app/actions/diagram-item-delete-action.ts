@@ -24,7 +24,7 @@ export class DiagramItemDeleteAction extends Action {
         this._relations.forEach(r => r.calculateSegments());
     }
 
-    protected getInfo(): ActionInfo {
+    get info(): ActionInfo {
         return {
             kind: ActionKind.delete,
             title: this._items.length == 1 ? this._items[0].title : "(" + this._items.length + ")"

@@ -44,7 +44,7 @@ export class DiagramItemResizeAction extends Action {
         this.diagram.updateItems([updated]);
     }
 
-    protected getInfo(): ActionInfo {
+    get info(): ActionInfo {
         return {
             kind: ActionKind.resize,
             title: this._item.title

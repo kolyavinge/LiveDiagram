@@ -20,7 +20,7 @@ export class RelationAddAction extends Action {
         this.diagram.deleteRelations(this._relations);
     }
 
-    protected getInfo(): ActionInfo {
+    get info(): ActionInfo {
         return {
             kind: ActionKind.add,
             title: this._relations.length == 1 ? this._relations[0].from.title + "-" + this._relations[0].to.title : "(" + this._relations.length + ")"

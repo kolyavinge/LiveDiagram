@@ -27,7 +27,7 @@ export class DiagramItemMoveAction extends Action {
         this.diagram.moveItemTo(this._item, this._positionOld.x, this._positionOld.y);
     }
 
-    protected getInfo(): ActionInfo {
+    get info(): ActionInfo {
         return {
             kind: ActionKind.move,
             title: this._item.title

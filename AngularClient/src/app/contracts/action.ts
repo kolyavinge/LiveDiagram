@@ -6,7 +6,6 @@ export abstract class Action {
     private _id: string;
     private _diagram: Diagram;
     private _isActive: boolean = false;
-    private _info: ActionInfo = null;
 
     constructor(id: string = null, diagram: Diagram) {
         this._id = id ?? Utils.generateId();
@@ -20,29 +19,22 @@ export abstract class Action {
     get isActive(): boolean { return this._isActive; }
 
     do(): void {
-        if (this._isActive == false) {
-            this._isActive = true;
-            this.doInner();
-        }
+        if (this._isActive == true) return;
+        this._isActive = true;
+        this.doInner();
     }
 
     undo(): void {
-        if (this._isActive == true) {
-            this._isActive = false;
-            this.undoInner();
-        }
+        if (this._isActive == false) return;
+        this._isActive = false;
+        this.undoInner();
     }
 
-    get info(): ActionInfo {
-        if (this._info == null) this._info = this.getInfo();
-        return this._info;
-    }
+    abstract get info(): ActionInfo;
 
     protected abstract doInner(): void;
 
     protected abstract undoInner(): void;
-
-    protected abstract getInfo(): ActionInfo;
 }
 
 export interface ActionInfo {

@@ -43,7 +43,7 @@ export class DiagramItemEditAction extends Action {
         }
     }
 
-    protected getInfo(): ActionInfo {
+    get info(): ActionInfo {
         return {
             kind: ActionKind.edit,
             title: this._item.title
