@@ -2,7 +2,7 @@ import { Size } from "./size";
 import { Point } from "./point";
 import { Identifiable } from 'src/app/model/identifiable';
 import { DiagramItem, DiagramItemState } from "./diagram-item";
-import { Relation } from "./relation";
+import { Relation, RelationState } from "./relation";
 import { ResizeLogic } from "./resize-logic";
 
 export class Diagram extends Identifiable {
@@ -86,14 +86,9 @@ export class Diagram extends Identifiable {
         let self = this;
         updatedItems.forEach(ui => {
             let item = ui.item ?? self._items.find(item => item.id == ui.id);
-            if (item) {
-                if (ui.position) item.position = new Point(ui.position.x, ui.position.y);
-                if (ui.size) item.size = new Size(ui.size.width, ui.size.height);
-            }
+            if (item) item.setState(ui);
         });
-        self._items.forEach(item => {
-            self.calculateRelationsSegments(item);
-        });
+        self._items.forEach(item => self.calculateRelationsSegments(item));
     }
 
     getRelationsById(relationsId: string[]): Relation[] {
@@ -137,6 +132,33 @@ export class Diagram extends Identifiable {
         return this._items.filter(i => i.isMatched(point));
     }
 
+    getState(): DiagramState {
+        return {
+            title: this.title,
+            items: this.items.slice(),
+            itemStates: this.items.map(i => i.getState()),
+            relations: this.relations.slice(),
+            relationStates: this.relations.map(i => i.getState())
+        }
+    }
+
+    setState(state: DiagramState): void {
+        this._title = state.title;
+        this._items = [];
+        this.addItems(state.items);
+        state.itemStates.forEach(itemState => {
+            let item = itemState.item ?? this.getItemById(itemState.id);
+            if (item) item.setState(itemState);
+        });
+        this._relations = [];
+        this.addRelations(state.relations);
+        state.relationStates.forEach(relationState => {
+            let relation = relationState.relation ?? this.relations.find(r => r.id == relationState.id);
+            if (relation) relation.setState(relationState);
+        });
+        this._items.forEach(item => this.calculateRelationsSegments(item));
+    }
+
     private calculateRelationsSegments(item: DiagramItem): void {
         let itemRelations = this.getItemRelations(item);
         itemRelations.forEach(r => r.calculateSegments());
@@ -161,4 +183,12 @@ export class Diagram extends Identifiable {
             item.size = new Size(width ?? item.size.width, height ?? item.size.height);
         }
     }
+}
+
+export interface DiagramState {
+    title: string;
+    items: DiagramItem[];
+    itemStates: DiagramItemState[];
+    relations: Relation[];
+    relationStates: RelationState[];
 }

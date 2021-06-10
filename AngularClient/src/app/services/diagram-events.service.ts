@@ -4,7 +4,7 @@ import { Event } from 'src/app/infrastructure/event';
 @Injectable({ providedIn: 'root' })
 export class DiagramEventsService {
 
-    diagramLoadedEvent: Event = new Event();
+    diagramLoadEvent: Event = new Event();
     diagramSetTitleEvent: Event = new Event();
     diagramLayoutEvent: Event = new Event();
     diagramClearSelectionEvent: Event = new Event();

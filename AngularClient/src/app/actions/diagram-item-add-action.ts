@@ -1,11 +1,11 @@
 import { Action, ActionInfo, ActionKind } from "../contracts/action";
 import { Diagram } from "../model/diagram";
-import { DiagramItem } from "../model/diagram-item";
+import { DiagramItem, DiagramItemState } from "../model/diagram-item";
 import { Relation } from "../model/relation";
 
 export class DiagramItemAddAction extends Action {
 
-    private _itemCopy: DiagramItem;
+    private _itemState: DiagramItemState;
 
     constructor(
         id: string = null,
@@ -13,19 +13,19 @@ export class DiagramItemAddAction extends Action {
         private _item: DiagramItem,
         private _parentRelation: Relation) {
         super(id, diagram);
+        this._itemState = this._item.getState();
     }
 
     protected doInner(): void {
-        this._itemCopy = this._item.copy();
-        this.diagram.addItems([this._itemCopy]);
+        this.diagram.addItems([this._item]);
         if (this._parentRelation) {
-            this._parentRelation.setDiagramItems(this._parentRelation.from, this._itemCopy);
             this.diagram.addRelations([this._parentRelation]);
         }
     }
 
     protected undoInner(): void {
-        this.diagram.deleteItems([this._itemCopy]);
+        this.diagram.deleteItems([this._item]);
+        this._item.setState(this._itemState);
         if (this._parentRelation) this.diagram.deleteRelations([this._parentRelation]);
     }
 

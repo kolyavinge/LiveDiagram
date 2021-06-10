@@ -18,6 +18,8 @@ export abstract class Action {
 
     get isActive(): boolean { return this._isActive; }
 
+    set isActive(value: boolean) { this._isActive = value; }
+
     do(): void {
         if (this._isActive == true) return;
         this._isActive = true;
@@ -43,10 +45,11 @@ export interface ActionInfo {
 }
 
 export class ActionKind {
+    static load: string = "загруженная диаграмма";
+    static layout: string = "выравнивание";
     static add: string = "добав";
     static edit: string = "измен";
     static delete: string = "удал";
     static move: string = "перемещ";
     static resize: string = "размер";
-    static layout: string = "выравнивание";
 }

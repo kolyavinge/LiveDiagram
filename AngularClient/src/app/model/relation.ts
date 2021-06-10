@@ -4,6 +4,8 @@ import { Segment } from "./segment";
 import { SegmentCalculator } from "./segment-calculator";
 import { Event } from 'src/app/infrastructure/event';
 
+const segmentCalculator = new SegmentCalculator();
+
 export class Relation extends Identifiable {
 
     private _from: DiagramItem;
@@ -11,7 +13,6 @@ export class Relation extends Identifiable {
     private _segments: Segment[] = [];
     private _isPointed: boolean;
     private _isSelected: boolean;
-    private _segmentCalculator = new SegmentCalculator();
     private _calculateSegmentsEvent: Event = new Event();
 
     constructor(id: string = null) {
@@ -43,7 +44,27 @@ export class Relation extends Identifiable {
     get calculateSegmentsEvent(): Event { return this._calculateSegmentsEvent; }
 
     calculateSegments(): void {
-        this._segments = this._segmentCalculator.calculateSegments(this._from, this._to);
+        this._segments = segmentCalculator.calculateSegments(this._from, this._to);
         this._calculateSegmentsEvent.raise(this._segments);
     }
+
+    getState(): RelationState {
+        return {
+            relation: this,
+            id: this.id,
+            from: this.from,
+            to: this.to,
+        }
+    }
+
+    setState(state: RelationState): void {
+        this.setDiagramItems(state.from, state.to);
+    }
+}
+
+export interface RelationState {
+    relation: Relation,
+    id: string,
+    from: DiagramItem;
+    to: DiagramItem;
 }

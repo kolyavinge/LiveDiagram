@@ -32,37 +32,37 @@ export class DiagramItem extends DiagramItemBase {
     }
 
     getState(args: GetDiagramItemStateArgs = null): DiagramItemState {
-        args = args ?? { position: true, size: true };
+        args = args ?? { title: true, position: true, size: true, methods: true };
         return {
             item: this,
             id: this.id,
+            title: args.title ? this._title : null,
             position: args.position ? this.position : null,
-            size: args.size ? this.size : null
+            size: args.size ? this.size : null,
+            methods: args.methods ? this.methods.map(m => m.copy()): null
         };
     }
 
-    copy(): DiagramItem {
-        let x = new DiagramItem(this.id);
-        x._title = this._title;
-        x._position = new Point(this.position.x, this.position.y);
-        x._size = new Size(this.size.width, this.size.height);
-        x._isPointed = this._isPointed;
-        x._isSelected = this._isSelected;
-        x._resizeDirectionValue = this._resizeDirectionValue;
-        x._methods = this._methods.map(m => m.copy());
-
-        return x;
+    setState(state: DiagramItemState): void {
+        if (state.title) this.title = state.title;
+        if (state.position) this.position = state.position;
+        if (state.size) this.size = state.size;
+        if (state.methods) this.methods = state.methods;
     }
 }
 
 export interface GetDiagramItemStateArgs {
+    title?: boolean;
     position?: boolean;
     size?: boolean;
+    methods?: boolean;
 }
 
 export interface DiagramItemState {
-    item?: DiagramItem,
+    item?: DiagramItem;
     id?: string;
+    title?: string;
     position?: Point;
     size?: Size;
+    methods?: Method[];
 }

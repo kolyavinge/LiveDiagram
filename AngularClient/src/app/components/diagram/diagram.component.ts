@@ -31,7 +31,7 @@ export class DiagramComponent implements OnInit {
     ) {
         let self = this;
         self._diagram = self._diagramService.diagram;
-        self._diagramEventsService.diagramLoadedEvent.addHandler((diagram: Diagram) => {
+        self._diagramEventsService.diagramLoadEvent.addHandler((diagram: Diagram) => {
             self._diagram = diagram;
             self._diagram.size = new Size(self._root.nativeElement.offsetWidth, self._root.nativeElement.offsetHeight);
         });

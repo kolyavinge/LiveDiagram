@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Point } from '../model/point';
 import { Size } from '../model/size';
-import { DiagramItem, DiagramItemState } from '../model/diagram-item';
+import { DiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';
-import { Diagram } from '../model/diagram';
+import { Diagram, DiagramState } from '../model/diagram';
 import { InheritanceLogic } from '../model/inheritance-logic';
 import { DiagramLayoutLogic } from '../model/diagram-layout-logic';
 import { DiagramItemLayoutLogic } from '../model/diagram-item-layout-logic';
@@ -13,6 +13,7 @@ import { ApiService } from './api.service';
 import { DiagramEventsService } from './diagram-events.service';
 import { DiagramUpdaterService } from './diagram-updater.service';
 import { ActionService } from './action.service';
+import { DiagramLoadAction } from '../actions/diagram-load-action';
 import { DiagramLayoutAction } from '../actions/diagram-layout-action';
 import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
 import { DiagramItemEditAction } from '../actions/diagram-item-edit-action';
@@ -43,8 +44,8 @@ export class DiagramService {
         self._apiService.getDiagramById(id).then(response => {
             self._diagram = self.makeDiagramFromResponse(response);
             self._diagramUpdaterService.connectToDiagram(self._diagram);
-            self._diagramEventsService.diagramLoadedEvent.raise(self._diagram);
-            self._actionService.clearActions();
+            self._diagramEventsService.diagramLoadEvent.raise(self._diagram);
+            self._actionService.loadDiagram(self._diagram);
         });
     }
 
