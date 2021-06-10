@@ -8,6 +8,7 @@ import { Size } from '../model/size';
 import { InheritanceLogic } from '../model/inheritance-logic';
 import { ApiNotifierService } from 'src/app/services/api-notifier.service';
 import { ActionService } from './action.service';
+import { DiagramLayoutAction } from '../actions/diagram-layout-action';
 import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
 import { DiagramItemEditAction } from '../actions/diagram-item-edit-action';
 import { DiagramItemDeleteAction } from '../actions/diagram-item-delete-action';
@@ -37,9 +38,13 @@ export class DiagramUpdaterService {
         });
 
         self._apiNotifierService.onDiagramLayout(function (response) {
-            self._diagram.updateItems(response.items.map(function (i) {
+            let itemsOld = diagram.items.map(i => i.getState({ position: true }));
+            let itemsNew = response.items.map(function (i) {
                 return { id: i.id, position: new Point(i.x, i.y), size: new Size(i.width, i.height) };
-            }));
+            });
+            let action = new DiagramLayoutAction(response.actionId, self._diagram, itemsOld, itemsNew);
+            action.do();
+            self._actionService.addAction(action);
         });
 
         self._apiNotifierService.onDiagramItemMove(function (response) {

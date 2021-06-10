@@ -1,15 +1,10 @@
 import { Point } from "./point";
 import { Diagram } from "./diagram";
-import { DiagramItem } from "./diagram-item";
+import { DiagramItemState } from "./diagram-item";
 import { InheritanceTree } from "./inheritance-tree";
 
-export interface LayoutDiagramItemResult {
-    item: DiagramItem;
-    position: Point
-}
-
 export interface LayoutDiagramResult {
-    items: LayoutDiagramItemResult[];
+    items: DiagramItemState[];
 }
 
 export class DiagramLayoutLogic {
@@ -20,8 +15,8 @@ export class DiagramLayoutLogic {
         return { items: layoutItems };
     }
 
-    private layoutTree(diagram: Diagram, tree: InheritanceTree): LayoutDiagramItemResult[] {
-        let result: LayoutDiagramItemResult[] = [];
+    private layoutTree(diagram: Diagram, tree: InheritanceTree): DiagramItemState[] {
+        let result: DiagramItemState[] = [];
         let levelsCount = tree.getLevelsCount();
         for (let level = 0; level < levelsCount; level++) {
             let nodesFromLevel = tree.getNodesFromLevel(level);

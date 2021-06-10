@@ -13,6 +13,7 @@ import { ApiService } from './api.service';
 import { DiagramEventsService } from './diagram-events.service';
 import { DiagramUpdaterService } from './diagram-updater.service';
 import { ActionService } from './action.service';
+import { DiagramLayoutAction } from '../actions/diagram-layout-action';
 import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
 import { DiagramItemEditAction } from '../actions/diagram-item-edit-action';
 import { DiagramItemDeleteAction } from '../actions/diagram-item-delete-action';
@@ -81,13 +82,13 @@ export class DiagramService {
         });
 
         self._diagramEventsService.diagramLayoutEvent.addHandler((diagram: Diagram) => {
+            let itemsOld = diagram.items.map(i => i.getState({ position: true }));
             let layoutLogic = new DiagramLayoutLogic();
-            let result = layoutLogic.layoutDiagram(diagram);
-            let updatedItems: DiagramItemState[] = result.items.map(layoutItem => {
-                return { id: layoutItem.item.id, position: layoutItem.position };
-            });
-            self._diagram.updateItems(updatedItems);
-            self._apiService.diagramLayout(diagram);
+            let layoutResult = layoutLogic.layoutDiagram(diagram);
+            let action = new DiagramLayoutAction(null, self._diagram, itemsOld, layoutResult.items);
+            action.do();
+            self._actionService.addAction(action);
+            self._apiService.diagramLayout(action, diagram);
         });
 
         self._diagramEventsService.diagramItemMoveEvent.addHandler((args) => {

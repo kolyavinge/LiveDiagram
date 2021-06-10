@@ -80,6 +80,7 @@ namespace LiveDiagram.Api.Controllers
             {
                 Success = true,
                 ClientId = request.ClientId,
+                ActionId = request.ActionId,
                 DiagramId = request.DiagramId,
                 Items = request.Items
             };

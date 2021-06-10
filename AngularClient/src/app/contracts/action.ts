@@ -48,4 +48,5 @@ export class ActionKind {
     static delete: string = "удал";
     static move: string = "перемещ";
     static resize: string = "размер";
+    static layout: string = "выравнивание";
 }

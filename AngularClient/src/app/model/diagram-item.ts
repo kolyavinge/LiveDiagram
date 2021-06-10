@@ -31,12 +31,13 @@ export class DiagramItem extends DiagramItemBase {
         this._methods = this._methods.filter(m => methodIncludeInDeleted(m) == false);
     }
 
-    getState(): DiagramItemState {
+    getState(args: GetDiagramItemStateArgs = null): DiagramItemState {
+        args = args ?? { position: true, size: true };
         return {
             item: this,
             id: this.id,
-            position: this.position,
-            size: this.size
+            position: args.position ? this.position : null,
+            size: args.size ? this.size : null
         };
     }
 
@@ -52,6 +53,11 @@ export class DiagramItem extends DiagramItemBase {
 
         return x;
     }
+}
+
+export interface GetDiagramItemStateArgs {
+    position?: boolean;
+    size?: boolean;
 }
 
 export interface DiagramItemState {
