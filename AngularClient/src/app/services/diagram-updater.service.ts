@@ -124,7 +124,7 @@ export class DiagramUpdaterService {
         });
 
         self._apiNotifierService.onDiagramItemDelete(function (response) {
-            let items = self._diagram.getItemsById(response.itemsId);
+            let items = response.itemsId.map(id => self._diagram.getItemById(id));
             let relations = self._diagram.getRelationsById(response.relationsId);
             let action = self._actionFactory.addDiagramItemDeleteAction(response.actionId, self._diagram, items, relations);
             action.do();

@@ -32,10 +32,6 @@ export class Diagram extends Identifiable {
         return this._items.find(item => item.id == id);
     }
 
-    getItemsById(ids: string[]): DiagramItem[] {
-        return this._items.filter(item => ids.includes(item.id));
-    }
-
     getPointedItem(): DiagramItem {
         return this._items.find(item => item.isPointed);
     }
@@ -147,13 +143,13 @@ export class Diagram extends Identifiable {
         this._items = [];
         this.addItems(state.items);
         state.itemStates.forEach(itemState => {
-            let item = itemState.item ?? this.getItemById(itemState.id);
+            let item = itemState.item ?? this._items.find(i => i.id == itemState.id);
             if (item) item.setState(itemState);
         });
         this._relations = [];
         this.addRelations(state.relations);
         state.relationStates.forEach(relationState => {
-            let relation = relationState.relation ?? this.relations.find(r => r.id == relationState.id);
+            let relation = relationState.relation ?? this._relations.find(r => r.id == relationState.id);
             if (relation) relation.setState(relationState);
         });
         this._items.forEach(item => this.calculateRelationsSegments(item));
