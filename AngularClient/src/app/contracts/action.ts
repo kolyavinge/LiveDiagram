@@ -21,13 +21,11 @@ export abstract class Action {
     set isActive(value: boolean) { this._isActive = value; }
 
     do(): void {
-        if (this._isActive == true) return;
         this._isActive = true;
         this.doInner();
     }
 
     undo(): void {
-        if (this._isActive == false) return;
         this._isActive = false;
         this.undoInner();
     }

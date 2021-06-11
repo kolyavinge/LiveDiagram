@@ -9,13 +9,8 @@ export class DiagramLoadAction extends Action {
         id: string = null,
         diagram: Diagram) {
         super(id, diagram);
+        this.isActive = true;
         this._diagramState = this.diagram.getState();
-    }
-
-    get isActive(): boolean { return true; }
-
-    do(): void {
-        this.doInner();
     }
 
     protected doInner(): void {
@@ -27,7 +22,7 @@ export class DiagramLoadAction extends Action {
     get info(): ActionInfo {
         return {
             kind: ActionKind.load,
-            title: this.diagram.title
+            title: null
         }
     }
 }

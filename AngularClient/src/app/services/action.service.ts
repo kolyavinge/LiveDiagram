@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { DiagramLoadAction } from '../actions/diagram-load-action';
-import { Action } from '../contracts/action';
 import { Diagram } from '../model/diagram';
+import { Action } from '../contracts/action';
+import { DiagramLoadAction } from '../actions/diagram-load-action';
 import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })
 export class ActionService {
 
     private _loadAction: Action = null;
+    private _lastAction: Action = null;
     private _actions: Action[] = [];
 
     constructor(
@@ -30,6 +31,7 @@ export class ActionService {
 
     addAction(action: Action): void {
         this._actions = this._actions.filter(a => a.isActive).concat(action);
+        this._lastAction = null;
     }
 
     setActiveAction(action: Action): void {
@@ -38,7 +40,7 @@ export class ActionService {
     }
 
     updateActiveAction(action: Action): void {
-        if (action == this._loadAction) {
+        if (action == this._loadAction && this._loadAction != this._lastAction) {
             action.do();
             this._actions.forEach(a => a.isActive = false);
         } else {
@@ -52,5 +54,6 @@ export class ActionService {
                 actionsForUndo.reverse().filter(a => a.isActive).forEach(a => a.undo());
             }
         }
+        this._lastAction = action;
     }
 }
