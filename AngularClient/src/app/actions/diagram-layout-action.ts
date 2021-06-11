@@ -1,4 +1,4 @@
-import { Action, ActionInfo, ActionKind } from "../common/action";
+import { Action, ActionKind } from "../common/action";
 import { Diagram } from "../model/diagram";
 import { DiagramItemState } from "../model/diagram-item";
 
@@ -10,6 +10,7 @@ export class DiagramLayoutAction extends Action {
         private _itemsOld: DiagramItemState[],
         private _itemsNew: DiagramItemState[]) {
         super(id, diagram);
+        this._info = { kind: ActionKind.layout };
     }
 
     protected doInner(): void {
@@ -18,12 +19,5 @@ export class DiagramLayoutAction extends Action {
 
     protected undoInner(): void {
         this.diagram.updateItems(this._itemsOld);
-    }
-
-    get info(): ActionInfo {
-        return {
-            kind: ActionKind.layout,
-            title: null
-        }
     }
 }

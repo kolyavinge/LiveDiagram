@@ -1,4 +1,4 @@
-import { Action, ActionInfo, ActionKind } from "../common/action";
+import { Action, ActionKind } from "../common/action";
 import { Diagram } from "../model/diagram";
 import { DiagramItem, DiagramItemState } from "../model/diagram-item";
 import { Relation } from "../model/relation";
@@ -13,6 +13,7 @@ export class DiagramItemAddAction extends Action {
         private _item: DiagramItem,
         private _parentRelation: Relation) {
         super(id, diagram);
+        this._info = { kind: ActionKind.add, title: this._item.title };
         this._itemState = this._item.getState();
     }
 
@@ -27,12 +28,5 @@ export class DiagramItemAddAction extends Action {
         this.diagram.deleteItems([this._item]);
         this._item.setState(this._itemState);
         if (this._parentRelation) this.diagram.deleteRelations([this._parentRelation]);
-    }
-
-    get info(): ActionInfo {
-        return {
-            kind: ActionKind.add,
-            title: this._item.title
-        }
     }
 }

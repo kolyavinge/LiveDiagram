@@ -1,4 +1,4 @@
-import { Action, ActionInfo, ActionKind } from "../common/action";
+import { Action, ActionKind } from "../common/action";
 import { Diagram, DiagramState } from "../model/diagram";
 
 export class DiagramLoadAction extends Action {
@@ -9,6 +9,7 @@ export class DiagramLoadAction extends Action {
         id: string = null,
         diagram: Diagram) {
         super(id, diagram);
+        this._info = { kind: ActionKind.load };
         this.isActive = true;
         this._diagramState = this.diagram.getState();
     }
@@ -18,11 +19,4 @@ export class DiagramLoadAction extends Action {
     }
 
     protected undoInner(): void { }
-
-    get info(): ActionInfo {
-        return {
-            kind: ActionKind.load,
-            title: null
-        }
-    }
 }

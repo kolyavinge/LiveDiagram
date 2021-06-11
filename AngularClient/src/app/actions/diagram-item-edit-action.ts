@@ -1,4 +1,4 @@
-import { Action, ActionInfo, ActionKind } from "../common/action";
+import { Action, ActionKind } from "../common/action";
 import { Diagram } from "../model/diagram";
 import { DiagramItem } from "../model/diagram-item";
 import { Method } from "../model/method";
@@ -17,6 +17,7 @@ export class DiagramItemEditAction extends Action {
         private _methodsOld: Method[],
         private _methodsNew: Method[]) {
         super(id, diagram);
+        this._info = { kind: ActionKind.edit, title: this._titleNew };
     }
 
     protected doInner(): void {
@@ -40,13 +41,6 @@ export class DiagramItemEditAction extends Action {
         if (this._parentRelationOld) {
             this.diagram.addRelations([this._parentRelationOld]);
             this._parentRelationOld.calculateSegments();
-        }
-    }
-
-    get info(): ActionInfo {
-        return {
-            kind: ActionKind.edit,
-            title: this._item.title
         }
     }
 }

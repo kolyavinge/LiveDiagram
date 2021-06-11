@@ -5,6 +5,7 @@ export abstract class Action extends Identifiable {
 
     private _diagram: Diagram;
     private _isActive: boolean = false;
+    protected _info: ActionInfo = null;
 
     constructor(id: string = null, diagram: Diagram) {
         super(id);
@@ -27,7 +28,7 @@ export abstract class Action extends Identifiable {
         this.undoInner();
     }
 
-    abstract get info(): ActionInfo;
+    get info(): ActionInfo { return this._info; }
 
     protected abstract doInner(): void;
 
@@ -36,7 +37,7 @@ export abstract class Action extends Identifiable {
 
 export interface ActionInfo {
     kind: string;
-    title: string;
+    title?: string;
 }
 
 export class ActionKind {

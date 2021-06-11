@@ -1,4 +1,4 @@
-import { Action, ActionInfo, ActionKind } from "../common/action";
+import { Action, ActionKind } from "../common/action";
 import { Diagram } from "../model/diagram";
 import { DiagramItem } from "../model/diagram-item";
 import { Relation } from "../model/relation";
@@ -11,6 +11,10 @@ export class DiagramItemDeleteAction extends Action {
         private _items: DiagramItem[],
         private _relations: Relation[]) {
         super(id, diagram);
+        this._info = {
+            kind: ActionKind.delete,
+            title: this._items.length == 1 ? this._items[0].title : "(" + this._items.length + ")"
+        };
     }
 
     protected doInner(): void {
@@ -22,12 +26,5 @@ export class DiagramItemDeleteAction extends Action {
         this.diagram.addItems(this._items);
         this.diagram.addRelations(this._relations);
         this._relations.forEach(r => r.calculateSegments());
-    }
-
-    get info(): ActionInfo {
-        return {
-            kind: ActionKind.delete,
-            title: this._items.length == 1 ? this._items[0].title : "(" + this._items.length + ")"
-        }
     }
 }

@@ -1,4 +1,4 @@
-import { Action, ActionInfo, ActionKind } from "../common/action";
+import { Action, ActionKind } from "../common/action";
 import { Point } from "../model/point";
 import { Diagram } from "../model/diagram";
 import { DiagramItem } from "../model/diagram-item";
@@ -15,6 +15,7 @@ export class DiagramItemMoveAction extends Action {
         positionOld: Point,
         positionNew: Point) {
         super(id, diagram);
+        this._info = { kind: ActionKind.move, title: this._item.title };
         this._positionOld = positionOld;
         this._positionNew = positionNew;
     }
@@ -25,12 +26,5 @@ export class DiagramItemMoveAction extends Action {
 
     protected undoInner(): void {
         this.diagram.moveItemTo(this._item, this._positionOld.x, this._positionOld.y);
-    }
-
-    get info(): ActionInfo {
-        return {
-            kind: ActionKind.move,
-            title: this._item.title
-        }
     }
 }

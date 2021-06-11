@@ -1,4 +1,4 @@
-import { Action, ActionInfo, ActionKind } from "../common/action";
+import { Action, ActionKind } from "../common/action";
 import { Point } from "../model/point";
 import { Size } from "../model/size";
 import { Diagram } from "../model/diagram";
@@ -20,6 +20,7 @@ export class DiagramItemResizeAction extends Action {
         positionNew: Point,
         sizeNew: Size) {
         super(id, diagram);
+        this._info = { kind: ActionKind.resize, title: this._item.title };
         this._positionOld = positionOld;
         this._sizeOld = sizeOld;
         this._positionNew = positionNew;
@@ -42,12 +43,5 @@ export class DiagramItemResizeAction extends Action {
             size: this._sizeOld
         };
         this.diagram.updateItems([updated]);
-    }
-
-    get info(): ActionInfo {
-        return {
-            kind: ActionKind.resize,
-            title: this._item.title
-        }
     }
 }

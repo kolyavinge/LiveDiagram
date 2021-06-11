@@ -1,4 +1,4 @@
-import { Action, ActionInfo, ActionKind } from "../common/action";
+import { Action, ActionKind } from "../common/action";
 import { Diagram } from "../model/diagram";
 
 export class DiagramSetTitleAction extends Action {
@@ -9,6 +9,7 @@ export class DiagramSetTitleAction extends Action {
         private _titleOld: string,
         private _titleNew: string) {
         super(id, diagram);
+        this._info = { kind: ActionKind.rename, title: this._titleNew };
     }
 
     protected doInner(): void {
@@ -17,12 +18,5 @@ export class DiagramSetTitleAction extends Action {
 
     protected undoInner(): void {
         this.diagram.title = this._titleOld;
-    }
-
-    get info(): ActionInfo {
-        return {
-            kind: ActionKind.rename,
-            title: this._titleNew
-        }
     }
 }
