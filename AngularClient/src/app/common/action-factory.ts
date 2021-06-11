@@ -5,6 +5,7 @@ import { Method } from '../model/method';
 import { Relation } from '../model/relation';
 import { Diagram } from '../model/diagram';
 import { DiagramLoadAction } from '../actions/diagram-load-action';
+import { DiagramSetTitleAction } from '../actions/diagram-set-title-action';
 import { DiagramLayoutAction } from '../actions/diagram-layout-action';
 import { DiagramItemAddAction } from '../actions/diagram-item-add-action';
 import { DiagramItemEditAction } from '../actions/diagram-item-edit-action';
@@ -18,6 +19,14 @@ export class ActionFactory {
 
     makeDiagramLoadAction(diagram: Diagram): DiagramLoadAction {
         return new DiagramLoadAction(null, diagram);
+    }
+
+    makeDiagramSetTitleAction(diagram: Diagram, titleOld: string, titleNew: string): DiagramSetTitleAction {
+        return new DiagramSetTitleAction(null, diagram, titleOld, titleNew);
+    }
+
+    addDiagramSetTitleAction(actionId: string, diagram: Diagram, titleOld: string, titleNew: string): DiagramSetTitleAction {
+        return new DiagramSetTitleAction(actionId, diagram, titleOld, titleNew);
     }
 
     makeDiagramLayoutAction(diagram: Diagram, itemsOld: DiagramItemState[], itemsNew: DiagramItemState[]): DiagramLayoutAction {

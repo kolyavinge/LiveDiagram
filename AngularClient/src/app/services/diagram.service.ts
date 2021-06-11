@@ -72,9 +72,14 @@ export class DiagramService {
     setHandlers(): void {
         let self = this;
 
-        let diagramSetTitleDelayedRequest = new DelayedRequest(() => { self._apiService.diagramSetTitle(self._diagram); }, 2000);
-        self._diagramEventsService.diagramSetTitleEvent.addHandler(() => {
-            diagramSetTitleDelayedRequest.send();
+        let diagramSetTitleDelayedRequest = new DelayedRequest((titleNew: string) => {
+            let action = self._actionFactory.makeDiagramSetTitleAction(self._diagram, self._diagram.title, titleNew);
+            action.do();
+            self._actionService.addAction(action);
+            self._apiService.diagramSetTitle(action, self._diagram);
+        }, 2000);
+        self._diagramEventsService.diagramSetTitleEvent.addHandler((titleNew: string) => {
+            diagramSetTitleDelayedRequest.send(titleNew);
         });
 
         self._diagramEventsService.diagramLayoutEvent.addHandler((diagram: Diagram) => {

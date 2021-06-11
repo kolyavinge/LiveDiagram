@@ -28,7 +28,9 @@ export class DiagramUpdaterService {
         self._apiNotifierService.clearHandlers();
 
         self._apiNotifierService.onDiagramSetTitle(function (response) {
-            self._diagram.title = response.diagramTitle;
+            let action = self._actionFactory.addDiagramSetTitleAction(response.actionId, self._diagram, self._diagram.title, response.diagramTitle);
+            action.do();
+            self._actionService.addAction(action);
         });
 
         self._apiNotifierService.onDiagramLayout(function (response) {

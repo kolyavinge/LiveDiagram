@@ -44,6 +44,7 @@ export class ActionKind {
     static layout: string = "выравнивание";
     static add: string = "добав";
     static edit: string = "измен";
+    static rename: string = "переимен";
     static delete: string = "удал";
     static move: string = "перемещ";
     static resize: string = "размер";
