@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LiveDiagram.Api.Contracts
 {
-    public class ActionSetActiveResponse : DiagramResponse
+    public class ActionSetActiveResponse : Response
     {
     }
 }

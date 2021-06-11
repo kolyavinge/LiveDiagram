@@ -2,7 +2,7 @@
 
 namespace LiveDiagram.Api.Contracts
 {
-    public class DiagramItemSetTitleResponse : DiagramResponse
+    public class DiagramItemSetTitleResponse : Response
     {
         [JsonPropertyName("itemId")]
         public string DiagramItemId { get; set; }

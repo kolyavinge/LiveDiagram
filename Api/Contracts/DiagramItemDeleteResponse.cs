@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace LiveDiagram.Api.Contracts
 {
-    public class DiagramItemDeleteResponse : DiagramResponse
+    public class DiagramItemDeleteResponse : Response
     {
         [JsonPropertyName("itemsId")]
         public IEnumerable<string> DiagramItemsId { get; set; }

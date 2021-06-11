@@ -4,7 +4,7 @@ using LiveDiagram.Api.Model;
 
 namespace LiveDiagram.Api.Contracts
 {
-    public class RelationAddResponse : DiagramResponse
+    public class RelationAddResponse : Response
     {
         [JsonPropertyName("relations")]
         public IEnumerable<Relation> Relations { get; set; }

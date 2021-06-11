@@ -9,5 +9,11 @@ namespace LiveDiagram.Api.Contracts
 
         [JsonPropertyName("clientId")]
         public string ClientId { get; set; }
+
+        [JsonPropertyName("actionId")]
+        public string ActionId { get; set; }
+
+        [JsonPropertyName("diagramId")]
+        public string DiagramId { get; set; }
     }
 }

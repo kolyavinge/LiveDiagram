@@ -92,7 +92,7 @@ namespace LiveDiagram.Api.SignalR
             await SendResponse(response);
         }
 
-        private async Task SendResponse(DiagramResponse response)
+        private async Task SendResponse(Response response)
         {
             var callbackMethodName = response.GetType().Name;
             var reponseContainer = new ReponseContainer { ClientId = response.ClientId, DiagramId = response.DiagramId, Response = response };

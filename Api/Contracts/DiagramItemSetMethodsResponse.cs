@@ -4,7 +4,7 @@ using LiveDiagram.Api.Model;
 
 namespace LiveDiagram.Api.Contracts
 {
-    public class DiagramItemSetMethodsResponse : DiagramResponse
+    public class DiagramItemSetMethodsResponse : Response
     {
         [JsonPropertyName("itemId")]
         public string DiagramItemId { get; set; }
