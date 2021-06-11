@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppComponent } from './app.component';
 import { DiagramComponent } from './components/diagram/diagram.component';
@@ -37,6 +38,7 @@ import { HistoryComponent } from './components/history/history.component';
         MatDialogModule,
         MatButtonModule,
         MatMenuModule,
+        MatTooltipModule
     ],
     providers: [],
     bootstrap: [AppComponent]

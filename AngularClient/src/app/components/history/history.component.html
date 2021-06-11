@@ -3,6 +3,8 @@
         class="item noselect"
         [class.item-active]="item.action.isActive == true"
         [class.item-inactive]="item.action.isActive == false"
+        [matTooltip]="item.title"
+        matTooltipPosition="right"
         (click)="selectItem(item)">
         <span>{{ item.title }}</span>
     </div>

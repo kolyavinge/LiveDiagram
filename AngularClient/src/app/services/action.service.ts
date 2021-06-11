@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Event } from '../common/event';
 import { Diagram } from '../model/diagram';
 import { ActionFactory } from '../common/action-factory';
 import { Action } from '../common/action';
@@ -11,6 +12,7 @@ export class ActionService {
     private _loadAction: Action = null;
     private _lastAction: Action = null;
     private _actions: Action[] = [];
+    actionsChangedEvent: Event = new Event();
 
     constructor(
         private _apiService: ApiService
@@ -24,6 +26,7 @@ export class ActionService {
     loadDiagram(diagram: Diagram): void {
         this._loadAction = this._actionFactory.makeDiagramLoadAction(diagram);
         this._actions = [];
+        this.actionsChangedEvent.raise();
     }
 
     getActionById(id: string): Action {
@@ -33,6 +36,7 @@ export class ActionService {
     addAction(action: Action): void {
         this._actions = this._actions.filter(a => a.isActive).concat(action);
         this._lastAction = null;
+        this.actionsChangedEvent.raise();
     }
 
     setActiveAction(action: Action): void {
@@ -56,5 +60,6 @@ export class ActionService {
             }
         }
         this._lastAction = action;
+        this.actionsChangedEvent.raise();
     }
 }
