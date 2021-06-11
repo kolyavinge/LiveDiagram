@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Diagram } from '../model/diagram';
+import { ActionFactory } from '../infrastructure/action-factory';
 import { Action } from '../contracts/action';
-import { DiagramLoadAction } from '../actions/diagram-load-action';
 import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })
 export class ActionService {
 
+    private _actionFactory = new ActionFactory();
     private _loadAction: Action = null;
     private _lastAction: Action = null;
     private _actions: Action[] = [];
@@ -21,7 +22,7 @@ export class ActionService {
     }
 
     loadDiagram(diagram: Diagram): void {
-        this._loadAction = new DiagramLoadAction(null, diagram);
+        this._loadAction = this._actionFactory.makeDiagramLoadAction(diagram);
         this._actions = [];
     }
 
