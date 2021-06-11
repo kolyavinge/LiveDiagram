@@ -5,8 +5,8 @@ import { DiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';
 import { Method } from '../model/method';
 import { Diagram } from '../model/diagram';
-import { Action } from '../contracts/action';
-import ApiPath from 'src/app/infrastructure/api-path';
+import { Action } from '../common/action';
+import ApiPath from 'src/app/common/api-path';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {

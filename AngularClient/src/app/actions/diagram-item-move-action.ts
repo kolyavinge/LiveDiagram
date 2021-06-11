@@ -1,4 +1,4 @@
-import { Action, ActionInfo, ActionKind } from "../contracts/action";
+import { Action, ActionInfo, ActionKind } from "../common/action";
 import { Point } from "../model/point";
 import { Diagram } from "../model/diagram";
 import { DiagramItem } from "../model/diagram-item";

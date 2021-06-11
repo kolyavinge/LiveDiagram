@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Diagram } from '../model/diagram';
-import { DiagramItem, DiagramItemState } from '../model/diagram-item';
+import { DiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';
 import { Method } from '../model/method';
 import { Point } from '../model/point';
@@ -8,7 +8,7 @@ import { Size } from '../model/size';
 import { InheritanceLogic } from '../model/inheritance-logic';
 import { ApiNotifierService } from 'src/app/services/api-notifier.service';
 import { ActionService } from './action.service';
-import { ActionFactory } from '../infrastructure/action-factory';
+import { ActionFactory } from '../common/action-factory';
 
 @Injectable({ providedIn: 'root' })
 export class DiagramUpdaterService {
@@ -36,7 +36,7 @@ export class DiagramUpdaterService {
             let itemsNew = response.items.map(function (i) {
                 return { id: i.id, position: new Point(i.x, i.y), size: new Size(i.width, i.height) };
             });
-            let action = this._actionFactory.addDiagramLayoutAction(response.actionId, self._diagram, itemsOld, itemsNew);
+            let action = self._actionFactory.addDiagramLayoutAction(response.actionId, self._diagram, itemsOld, itemsNew);
             action.do();
             self._actionService.addAction(action);
         });
@@ -46,7 +46,7 @@ export class DiagramUpdaterService {
             if (movedItem) {
                 let positionOld = movedItem.position;
                 let positionNew = new Point(response.itemX, response.itemY);
-                let action = this._actionFactory.addDiagramItemMoveAction(response.actionId, self._diagram, movedItem, positionOld, positionNew);
+                let action = self._actionFactory.addDiagramItemMoveAction(response.actionId, self._diagram, movedItem, positionOld, positionNew);
                 action.do();
                 self._actionService.addAction(action);
             }
@@ -59,7 +59,7 @@ export class DiagramUpdaterService {
                 let sizeOld = item.size;
                 let positionNew = new Point(response.itemX, response.itemY);
                 let sizeNew = new Size(response.itemWidth, response.itemHeight);
-                let action = this._actionFactory.addDiagramItemResizeAction(response.actionId, self._diagram, item, positionOld, sizeOld, positionNew, sizeNew);
+                let action = self._actionFactory.addDiagramItemResizeAction(response.actionId, self._diagram, item, positionOld, sizeOld, positionNew, sizeNew);
                 action.do();
                 self._actionService.addAction(action);
             }
@@ -92,7 +92,7 @@ export class DiagramUpdaterService {
                     return method;
                 });
             }
-            let action = this._actionFactory.addDiagramItemAddAction(response.actionId, self._diagram, item, parentRelation);
+            let action = self._actionFactory.addDiagramItemAddAction(response.actionId, self._diagram, item, parentRelation);
             action.do();
             self._actionService.addAction(action);
         });
@@ -117,7 +117,7 @@ export class DiagramUpdaterService {
                 method.signature = m.signature;
                 return method;
             });
-            let action = this._actionFactory.addDiagramItemEditAction(
+            let action = self._actionFactory.addDiagramItemEditAction(
                 response.actionId, self._diagram, item, item.title, response.itemTitle, parentRelationOld, parentRelationNew, item.methods, methodsNew);
             action.do();
             self._actionService.addAction(action);
@@ -126,7 +126,7 @@ export class DiagramUpdaterService {
         self._apiNotifierService.onDiagramItemDelete(function (response) {
             let items = self._diagram.getItemsById(response.itemsId);
             let relations = self._diagram.getRelationsById(response.relationsId);
-            let action = this._actionFactory.addDiagramItemDeleteAction(response.actionId, self._diagram, items, relations);
+            let action = self._actionFactory.addDiagramItemDeleteAction(response.actionId, self._diagram, items, relations);
             action.do();
             self._actionService.addAction(action);
         });
@@ -153,7 +153,7 @@ export class DiagramUpdaterService {
                 };
             });
             if (relations.length > 0) {
-                let action = this._actionFactory.addRelationAddAction(response.actionId, self._diagram, relations);
+                let action = self._actionFactory.addRelationAddAction(response.actionId, self._diagram, relations);
                 action.do();
                 self._actionService.addAction(action);
             }
@@ -161,7 +161,7 @@ export class DiagramUpdaterService {
 
         self._apiNotifierService.onRelationDelete(function (response) {
             let relations = self._diagram.getRelationsById(response.relationsId);
-            let action = this._actionFactory.addRelationDeleteAction(response.actionId, self._diagram, relations);
+            let action = self._actionFactory.addRelationDeleteAction(response.actionId, self._diagram, relations);
             action.do();
             self._actionService.addAction(action);
         });

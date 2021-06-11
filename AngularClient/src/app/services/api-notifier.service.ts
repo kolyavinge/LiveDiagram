@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SignalRClient } from '../infrastructure/signalr-client';
+import { SignalRClient } from '../common/signalr-client';
 import { LocalStorageService } from './local-storage.service';
 import { AuthData } from 'src/app/services/local-storage.service'
 

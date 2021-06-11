@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import Utils from 'src/app/infrastructure/utils';
+import Utils from 'src/app/common/utils';
 
 export class AuthData {
     clientId: string = Utils.generateId();

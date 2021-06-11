@@ -1,4 +1,4 @@
-import Utils from 'src/app/infrastructure/utils';
+import Utils from 'src/app/common/utils';
 
 export abstract class Identifiable {
 

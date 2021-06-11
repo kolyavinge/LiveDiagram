@@ -1,4 +1,4 @@
-import { Action, ActionInfo, ActionKind } from "../contracts/action";
+import { Action, ActionInfo, ActionKind } from "../common/action";
 import { Diagram } from "../model/diagram";
 import { Relation } from "../model/relation";
 

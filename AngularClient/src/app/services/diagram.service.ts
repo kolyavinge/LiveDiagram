@@ -7,13 +7,13 @@ import { Diagram } from '../model/diagram';
 import { InheritanceLogic } from '../model/inheritance-logic';
 import { DiagramLayoutLogic } from '../model/diagram-layout-logic';
 import { DiagramItemLayoutLogic } from '../model/diagram-item-layout-logic';
-import { EditDiagramItemResult } from '../contracts/edit-diagram-item-result';
-import { DelayedRequest } from '../infrastructure/delayed-request';
+import { EditDiagramItemResult } from '../common/edit-diagram-item-result';
+import { DelayedRequest } from '../common/delayed-request';
 import { ApiService } from './api.service';
 import { DiagramEventsService } from './diagram-events.service';
 import { DiagramUpdaterService } from './diagram-updater.service';
 import { ActionService } from './action.service';
-import { ActionFactory } from '../infrastructure/action-factory';
+import { ActionFactory } from '../common/action-factory';
 
 @Injectable({ providedIn: 'root' })
 export class DiagramService {

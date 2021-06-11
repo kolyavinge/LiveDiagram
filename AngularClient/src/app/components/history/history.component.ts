@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Action } from 'src/app/contracts/action';
+import { Action } from 'src/app/common/action';
 import { ActionService } from 'src/app/services/action.service';
 
 interface HistoryItem {

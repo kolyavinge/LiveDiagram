@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Diagram } from '../model/diagram';
-import { ActionFactory } from '../infrastructure/action-factory';
-import { Action } from '../contracts/action';
+import { ActionFactory } from '../common/action-factory';
+import { Action } from '../common/action';
 import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })

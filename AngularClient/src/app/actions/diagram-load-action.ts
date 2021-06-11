@@ -1,4 +1,4 @@
-import { Action, ActionInfo, ActionKind } from "../contracts/action";
+import { Action, ActionInfo, ActionKind } from "../common/action";
 import { Diagram, DiagramState } from "../model/diagram";
 
 export class DiagramLoadAction extends Action {

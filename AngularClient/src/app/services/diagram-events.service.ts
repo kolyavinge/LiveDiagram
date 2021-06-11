@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Event } from 'src/app/infrastructure/event';
+import { Event } from 'src/app/common/event';
 
 @Injectable({ providedIn: 'root' })
 export class DiagramEventsService {

@@ -1,4 +1,4 @@
-import Utils from 'src/app/infrastructure/utils';
+import Utils from 'src/app/common/utils';
 import { Diagram } from '../model/diagram';
 
 export abstract class Action {
