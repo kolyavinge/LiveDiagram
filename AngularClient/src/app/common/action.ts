@@ -1,18 +1,15 @@
-import Utils from 'src/app/common/utils';
+import { Identifiable } from './identifiable';
 import { Diagram } from '../model/diagram';
 
-export abstract class Action {
+export abstract class Action extends Identifiable {
 
-    private _id: string;
     private _diagram: Diagram;
     private _isActive: boolean = false;
 
     constructor(id: string = null, diagram: Diagram) {
-        this._id = id ?? Utils.generateId();
+        super(id);
         this._diagram = diagram;
     }
-
-    get id(): string { return this._id; }
 
     get diagram(): Diagram { return this._diagram; }
 

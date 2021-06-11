@@ -1,4 +1,4 @@
-import { Identifiable } from 'src/app/model/identifiable';
+import { Identifiable } from 'src/app/common/identifiable';
 
 export class Method extends Identifiable {
 

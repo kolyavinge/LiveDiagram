@@ -1,6 +1,6 @@
 import { Size } from "./size";
 import { Point } from "./point";
-import { Identifiable } from 'src/app/model/identifiable';
+import { Identifiable } from 'src/app/common/identifiable';
 import { DiagramItem, DiagramItemState } from "./diagram-item";
 import { Relation, RelationState } from "./relation";
 import { ResizeLogic } from "./resize-logic";

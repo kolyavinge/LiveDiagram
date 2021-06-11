@@ -1,4 +1,4 @@
-import { Identifiable } from 'src/app/model/identifiable';
+import { Identifiable } from 'src/app/common/identifiable';
 import { Point } from 'src/app/model/point';
 import { Size } from 'src/app/model/size';
 

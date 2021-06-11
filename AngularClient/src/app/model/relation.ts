@@ -1,4 +1,4 @@
-import { Identifiable } from 'src/app/model/identifiable';
+import { Identifiable } from 'src/app/common/identifiable';
 import { DiagramItem } from "./diagram-item";
 import { Segment } from "./segment";
 import { SegmentCalculator } from "./segment-calculator";
