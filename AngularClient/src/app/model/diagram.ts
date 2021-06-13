@@ -87,6 +87,10 @@ export class Diagram extends Identifiable {
         self._items.forEach(item => self.calculateRelationsSegments(item));
     }
 
+    getRelationById(relationId: string): Relation {
+        return this._relations.find(r => r.id == relationId);
+    }
+
     getRelationsById(relationsId: string[]): Relation[] {
         return this._relations.filter(r => relationsId.includes(r.id));
     }

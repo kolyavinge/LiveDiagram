@@ -95,6 +95,13 @@ export class ApiNotifierService {
         });
     }
 
+    onRelationEdit(handler: any): void {
+        let self = this;
+        self._signalrClient.addHandler("RelationEditResponse", function (response) {
+            if (self._authData.clientId != response.clientId) handler(response);
+        });
+    }
+
     onRelationDelete(handler: any): void {
         let self = this;
         self._signalrClient.addHandler("RelationDeleteResponse", function (response) {

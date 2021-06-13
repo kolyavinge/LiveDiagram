@@ -106,8 +106,11 @@ export class DiagramService {
             self._apiService.diagramItemResize(action, self._diagram, args.item);
         });
 
-        self._diagramEventsService.diagramItemSetTitleEvent.addHandler((diagramItem: DiagramItem) => {
-            self._apiService.diagramItemSetTitle(self._diagram, diagramItem);
+        self._diagramEventsService.diagramItemSetTitleEvent.addHandler((args) => {
+            let action = self._actionFactory.makeDiagramItemSetTitleAction(self._diagram, args.item, args.item.title, args.titleNew);
+            action.do();
+            self._actionService.addAction(action);
+            self._apiService.diagramItemSetTitle(action, self._diagram, args.item);
         });
 
         self._diagramEventsService.diagramItemAddEvent.addHandler((result: EditDiagramItemResult) => {
@@ -143,11 +146,33 @@ export class DiagramService {
                     parentRelationNew.setDiagramItems(result.parentNew, item);
                 }
             }
-            let action = self._actionFactory.makeDiagramItemEditAction(
-                self._diagram, item, result.titleOld, result.titleNew, parentRelationOld, parentRelationNew, result.methodsOld, result.methodsNew);
-            action.do();
-            self._actionService.addAction(action);
-            self._apiService.diagramItemEdit(action, self._diagram, item, result.parentHasChanged, parentRelationNew, result.methodsNew);
+            if (result.titleHasChanged && !result.parentHasChanged && !result.methodsHasChanged) {
+                let action = self._actionFactory.makeDiagramItemSetTitleAction(self._diagram, item, result.titleOld, result.titleNew);
+                action.do();
+                self._actionService.addAction(action);
+                self._apiService.diagramItemSetTitle(action, self._diagram, item);
+            } else if (result.parentHasChanged && result.parentOld == null && result.parentNew != null && !result.titleHasChanged && !result.methodsHasChanged) {
+                let action = self._actionFactory.makeRelationAddAction(self._diagram, [parentRelationNew]);
+                action.do();
+                self._actionService.addAction(action);
+                self._apiService.relationAdd(action, self._diagram, [parentRelationNew]);
+            } else if (result.parentHasChanged && result.parentOld != null && result.parentNew != null && !result.titleHasChanged && !result.methodsHasChanged) {
+                let action = self._actionFactory.makeRelationEditAction(self._diagram, parentRelationOld, parentRelationNew);
+                action.do();
+                self._actionService.addAction(action);
+                self._apiService.relationEdit(action, self._diagram, parentRelationOld, parentRelationNew);
+            } else if (result.parentHasChanged && result.parentOld != null && result.parentNew == null && !result.titleHasChanged && !result.methodsHasChanged) {
+                let action = self._actionFactory.makeRelationDeleteAction(self._diagram, [parentRelationOld]);
+                action.do();
+                self._actionService.addAction(action);
+                self._apiService.relationDelete(action, self._diagram, [parentRelationOld]);
+            } else {
+                let action = self._actionFactory.makeDiagramItemEditAction(
+                    self._diagram, item, result.titleOld, result.titleNew, parentRelationOld, parentRelationNew, result.methodsOld, result.methodsNew);
+                action.do();
+                self._actionService.addAction(action);
+                self._apiService.diagramItemEdit(action, self._diagram, item, result.parentHasChanged, parentRelationNew, result.methodsNew);
+            }
         });
 
         self._diagramEventsService.diagramItemDeleteEvent.addHandler((diagramItems: DiagramItem[]) => {

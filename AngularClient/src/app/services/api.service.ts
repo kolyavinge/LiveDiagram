@@ -85,9 +85,10 @@ export class ApiService {
         this._httpClient.post(ApiPath.diagramItemResizePath, postData).toPromise();
     }
 
-    diagramItemSetTitle(diagram: Diagram, item: DiagramItem): void {
+    diagramItemSetTitle(action: Action, diagram: Diagram, item: DiagramItem): void {
         let postData = {
             clientId: this._localStorage.authData.clientId,
+            actionId: action.id,
             diagramId: diagram.id,
             itemId: item.id,
             itemTitle: item.title
@@ -163,6 +164,17 @@ export class ApiService {
             })
         };
         this._httpClient.post(ApiPath.relationAddPath, postData).toPromise();
+    }
+
+    relationEdit(action: Action, diagram: Diagram, relationOld: Relation, relationNew: Relation): void {
+        let postData = {
+            clientId: this._localStorage.authData.clientId,
+            actionId: action.id,
+            diagramId: diagram.id,
+            relationOld: { id: relationOld.id, itemIdFrom: relationOld.from.id, itemIdTo: relationOld.to.id },
+            relationNew: { id: relationNew.id, itemIdFrom: relationNew.from.id, itemIdTo: relationNew.to.id }
+        };
+        this._httpClient.post(ApiPath.relationEditPath, postData).toPromise();
     }
 
     relationDelete(action: Action, diagram: Diagram, relations: Relation[]): void {

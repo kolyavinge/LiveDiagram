@@ -80,6 +80,11 @@ namespace LiveDiagram.Api.SignalR
             await SendAsync("RelationAddResponse", responseContainerJson);
         }
 
+        public async Task RelationEditResponse(object responseContainerJson)
+        {
+            await SendAsync("RelationEditResponse", responseContainerJson);
+        }
+
         public async Task RelationDeleteResponse(object responseContainerJson)
         {
             await SendAsync("RelationDeleteResponse", responseContainerJson);

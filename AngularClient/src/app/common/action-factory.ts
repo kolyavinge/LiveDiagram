@@ -12,7 +12,9 @@ import { DiagramItemEditAction } from '../actions/diagram-item-edit-action';
 import { DiagramItemDeleteAction } from '../actions/diagram-item-delete-action';
 import { DiagramItemMoveAction } from '../actions/diagram-item-move-action';
 import { DiagramItemResizeAction } from '../actions/diagram-item-resize-action';
+import { DiagramItemSetTitleAction } from '../actions/diagram-item-set-title-action';
 import { RelationAddAction } from '../actions/relation-add-action';
+import { RelationEditAction } from '../actions/relation-edit-action';
 import { RelationDeleteAction } from '../actions/relation-delete-action';
 
 export class ActionFactory {
@@ -94,6 +96,14 @@ export class ActionFactory {
         return new DiagramItemResizeAction(actionId, diagram, item, positionOld, sizeOld, positionNew, sizeNew);
     }
 
+    makeDiagramItemSetTitleAction(diagram: Diagram, item: DiagramItem, titleOld: string, titleNew: string): DiagramItemSetTitleAction {
+        return new DiagramItemSetTitleAction(null, diagram, item, titleOld, titleNew);
+    }
+
+    addDiagramItemSetTitleAction(actionId: string, diagram: Diagram, item: DiagramItem, titleOld: string, titleNew: string): DiagramItemSetTitleAction {
+        return new DiagramItemSetTitleAction(actionId, diagram, item, titleOld, titleNew);
+    }
+
     makeRelationAddAction(diagram: Diagram, relations: Relation[]): RelationAddAction {
         return new RelationAddAction(null, diagram, relations);
     }
@@ -104,6 +114,14 @@ export class ActionFactory {
 
     makeRelationDeleteAction(diagram: Diagram, relations: Relation[]): RelationDeleteAction {
         return new RelationDeleteAction(null, diagram, relations);
+    }
+
+    makeRelationEditAction(diagram: Diagram, relationOld: Relation, relationNew: Relation): RelationEditAction {
+        return new RelationEditAction(null, diagram, relationOld, relationNew);
+    }
+
+    addRelationEditAction(actionId: string, diagram: Diagram, relationOld: Relation, relationNew: Relation): RelationEditAction {
+        return new RelationEditAction(actionId, diagram, relationOld, relationNew);
     }
 
     addRelationDeleteAction(actionId: string, diagram: Diagram, relations: Relation[]): RelationDeleteAction {

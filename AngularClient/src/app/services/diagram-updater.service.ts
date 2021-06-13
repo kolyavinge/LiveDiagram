@@ -70,7 +70,9 @@ export class DiagramUpdaterService {
         self._apiNotifierService.onDiagramItemSetTitle(function (response) {
             let item = self._diagram.getItemById(response.itemId);
             if (item) {
-                item.title = response.itemTitle;
+                let action = self._actionFactory.addDiagramItemSetTitleAction(response.actionId, self._diagram, item, item.title, response.itemTitle);
+                action.do();
+                self._actionService.addAction(action);
             }
         });
 
@@ -159,6 +161,17 @@ export class DiagramUpdaterService {
                 action.do();
                 self._actionService.addAction(action);
             }
+        });
+
+        self._apiNotifierService.onRelationEdit(function (response) {
+            let relationOld = self._diagram.getRelationById(response.relationOld.id);
+            let from = self._diagram.getItemById(response.relationNew.itemIdFrom);
+            let to = self._diagram.getItemById(response.relationNew.itemIdTo);
+            let relationNew = new Relation(response.relationNew.id);
+            relationNew.setDiagramItems(from, to);
+            let action = self._actionFactory.addRelationEditAction(response.actionId, self._diagram, relationOld, relationNew);
+            action.do();
+            self._actionService.addAction(action);
         });
 
         self._apiNotifierService.onRelationDelete(function (response) {

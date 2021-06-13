@@ -138,6 +138,7 @@ namespace LiveDiagram.Api.Controllers
             {
                 Success = true,
                 ClientId = request.ClientId,
+                ActionId = request.ActionId,
                 DiagramId = request.DiagramId,
                 DiagramItemId = request.DiagramItemId,
                 DiagramItemTitle = request.DiagramItemTitle
@@ -240,6 +241,24 @@ namespace LiveDiagram.Api.Controllers
                 Relations = request.Relations
             };
             _mainNotifier.RelationAddResponse(response);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("RelationEdit")]
+        public IActionResult RelationEdit(RelationEditRequest request)
+        {
+            var response = new RelationEditResponse
+            {
+                Success = true,
+                ClientId = request.ClientId,
+                ActionId = request.ActionId,
+                DiagramId = request.DiagramId,
+                RelationOld = request.RelationOld,
+                RelationNew = request.RelationNew
+            };
+            _mainNotifier.RelationEditResponse(response);
 
             return Ok();
         }
