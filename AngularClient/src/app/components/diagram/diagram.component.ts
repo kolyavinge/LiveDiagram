@@ -8,6 +8,7 @@ import { Diagram } from 'src/app/model/diagram';
 import { DiagramService } from 'src/app/services/diagram.service';
 import { DiagramEventsService } from 'src/app/services/diagram-events.service';
 import { KeyboardService } from 'src/app/services/keyboard.service';
+import { SelectionRectangleModel } from '../selection-rectangle/selection-rectangle-model';
 
 @Component({
     selector: 'app-diagram',
@@ -23,6 +24,8 @@ export class DiagramComponent implements OnInit {
     private _pointedOrResizedItemState: DiagramItemState;
     private _mouseLastPosition: Point;
     private _pointedRelation: Relation;
+
+    selectionRectangleModel: SelectionRectangleModel = new SelectionRectangleModel();
 
     constructor(
         private _diagramEventsService: DiagramEventsService,
@@ -80,22 +83,32 @@ export class DiagramComponent implements OnInit {
         } else {
             this._diagramEventsService.diagramClearSelectionEvent.raise();
         }
+        // selection rectangle
+        if (!pointedOrResizedItem) {
+            this.selectionRectangleModel.setStartPoint(new Point(event.x, event.y - 32));
+        }
     }
 
     onMouseMove(event): void {
-        if (this._pointedItem == null && this._resizedItem == null) return;
-        let mouseCurrentPosition = new Point(event.x, event.y);
-        let deltaX = mouseCurrentPosition.x - this._mouseLastPosition.x;
-        let deltaY = mouseCurrentPosition.y - this._mouseLastPosition.y;
-        if (this._resizedItem) {
-            this._diagram.getSelectedItems().forEach(item => {
-                item.resizeDirectionValue = this._resizedItem.resizeDirectionValue;
-                this._diagram.resizeItemBy(item, deltaX, deltaY);
-            });
-        } else if (this._pointedItem) {
-            this._diagram.getSelectedItems().forEach(item => this._diagram.moveItemBy(item, deltaX, deltaY));
+        if (this._pointedItem != null || this._resizedItem != null) {
+            let mouseCurrentPosition = new Point(event.x, event.y);
+            let deltaX = mouseCurrentPosition.x - this._mouseLastPosition.x;
+            let deltaY = mouseCurrentPosition.y - this._mouseLastPosition.y;
+            if (this._resizedItem) {
+                this._diagram.getSelectedItems().forEach(item => {
+                    item.resizeDirectionValue = this._resizedItem.resizeDirectionValue;
+                    this._diagram.resizeItemBy(item, deltaX, deltaY);
+                });
+            } else if (this._pointedItem) {
+                this._diagram.getSelectedItems().forEach(item => this._diagram.moveItemBy(item, deltaX, deltaY));
+            }
+            this._mouseLastPosition = mouseCurrentPosition;
+        } else if (this.selectionRectangleModel.isActive) {
+            this.diagram.items.forEach(i => i.isSelected = false);
+            this.selectionRectangleModel.setEndPoint(new Point(event.x, event.y - 32));
+            let selectedItems = this.selectionRectangleModel.getSelectedItems(this.diagram.items);
+            selectedItems.forEach(i => i.isSelected = true);
         }
-        this._mouseLastPosition = mouseCurrentPosition;
     }
 
     onMouseUp(event): void {
@@ -135,6 +148,10 @@ export class DiagramComponent implements OnInit {
         if (this._pointedRelation) {
             this._diagram.getSelectedRelations().forEach(r => r.isPointed = false);
             this._pointedRelation = null;
+        }
+        // selection rectangle
+        if (this.selectionRectangleModel.isActive) {
+            this.selectionRectangleModel.clear();
         }
     }
 

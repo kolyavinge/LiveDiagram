@@ -17,6 +17,7 @@ import { EditDiagramItemDialogComponent } from './dialogs/edit-diagram-item-dial
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { RelationComponent } from './components/relation/relation.component';
 import { HistoryComponent } from './components/history/history.component';
+import { SelectionRectangleComponent } from './components/selection-rectangle/selection-rectangle.component';
 
 @NgModule({
     declarations: [
@@ -29,6 +30,7 @@ import { HistoryComponent } from './components/history/history.component';
         ConfirmDialogComponent,
         RelationComponent,
         HistoryComponent,
+        SelectionRectangleComponent,
     ],
     imports: [
         BrowserModule,

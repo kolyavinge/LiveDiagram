@@ -1,0 +1,72 @@
+import { DiagramItem } from "src/app/model/diagram-item";
+import { Point } from "src/app/model/point";
+import { Size } from "src/app/model/size";
+
+export class SelectionRectangleModel {
+
+    private _startPoint: Point;
+    private _endPoint: Point;
+
+    isActive: boolean = false;
+    position: Point = new Point(0, 0);
+    size: Size = new Size(0, 0);
+
+    setStartPoint(value: Point): void {
+        this.isActive = true;
+        this._startPoint = value;
+    }
+
+    setEndPoint(value: Point): void {
+        this._endPoint = value;
+        this.calculateRectangle();
+    }
+
+    clear(): void {
+        this.isActive = false;
+        this.position = new Point(0, 0);
+        this.size = new Size(0, 0);
+    }
+
+    getSelectedItems(items: DiagramItem[]): DiagramItem[] {
+        return items.filter(i => this.isSelected(i));
+    }
+
+    private isSelected(item: DiagramItem): boolean {
+        let itemX = item.position.x;
+        let itemY = item.position.y;
+        let itemWidth = item.size.width;
+        let itemHeight = item.size.height;
+        let rectX = this.position.x;
+        let rectY = this.position.y;
+        let rectWidth = this.size.width;
+        let rectHeight = this.size.height;
+
+        return this.pointInRectangle(itemX, itemY) ||
+            this.pointInRectangle(itemX + itemWidth, itemY) ||
+            this.pointInRectangle(itemX, itemY + itemHeight) ||
+            this.pointInRectangle(itemX + itemWidth, itemY + itemHeight) ||
+            this.lineCrossed(itemX, itemY, itemWidth, rectX, rectY, rectHeight) ||
+            this.lineCrossed(itemX, itemY + itemHeight, itemWidth, rectX, rectY, rectHeight) ||
+            this.lineCrossed(rectX, rectY, rectWidth, itemX, itemY, itemHeight) ||
+            this.lineCrossed(rectX, rectY, rectWidth, itemX + itemWidth, itemY, itemHeight);
+    }
+
+    private pointInRectangle(x, y): boolean {
+        return this.position.x <= x && x <= this.position.x + this.size.width &&
+            this.position.y <= y && y <= this.position.y + this.size.height;
+    }
+
+    private lineCrossed(horizontX, horizontY, width, verticalX, verticalY, height): boolean {
+        return horizontX <= verticalX && verticalX <= horizontX + width &&
+            verticalY <= horizontY && horizontY <= verticalY + height;
+    }
+
+    private calculateRectangle(): void {
+        let minX = Math.min(this._startPoint.x, this._endPoint.x);
+        let minY = Math.min(this._startPoint.y, this._endPoint.y);
+        let width = Math.abs(this._startPoint.x - this._endPoint.x);
+        let height = Math.abs(this._startPoint.y - this._endPoint.y);
+        this.position = new Point(minX, minY);
+        this.size = new Size(width, height);
+    }
+}

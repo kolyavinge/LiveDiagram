@@ -1,0 +1,16 @@
+div.root {
+    position: absolute;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(200, 200, 200);
+    background-color: rgba(100, 100, 100, 0.1);
+    z-index: 3;
+}
+
+div.visible {
+    display: block;
+}
+
+div.invisible {
+    display: none;
+}
