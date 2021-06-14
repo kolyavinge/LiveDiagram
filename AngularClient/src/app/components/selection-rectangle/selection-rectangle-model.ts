@@ -1,6 +1,7 @@
 import { DiagramItem } from "src/app/model/diagram-item";
 import { Point } from "src/app/common/point";
 import { Size } from "src/app/common/size";
+import { Geometry } from "src/app/common/geometry";
 
 export class SelectionRectangleModel {
 
@@ -52,13 +53,11 @@ export class SelectionRectangleModel {
     }
 
     private pointInRectangle(x, y): boolean {
-        return this.position.x <= x && x <= this.position.x + this.size.width &&
-            this.position.y <= y && y <= this.position.y + this.size.height;
+        return Geometry.pointInRectangle(x, y, this.position.x, this.position.y, this.size.width, this.size.height);
     }
 
     private lineCrossed(horizontX, horizontY, width, verticalX, verticalY, height): boolean {
-        return horizontX <= verticalX && verticalX <= horizontX + width &&
-            verticalY <= horizontY && horizontY <= verticalY + height;
+        return Geometry.lineCrossed(horizontX, horizontY, width, verticalX, verticalY, height);
     }
 
     private calculateRectangle(): void {
