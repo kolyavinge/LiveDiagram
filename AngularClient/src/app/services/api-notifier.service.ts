@@ -26,92 +26,60 @@ export class ApiNotifierService {
     }
 
     onDiagramSetTitle(handler: any): void {
-        let self = this;
-        self._signalrClient.addHandler("DiagramSetTitleResponse", function (response) {
-            if (self._authData.clientId != response.clientId) handler(response);
-        });
+        this.addHandler("DiagramSetTitleResponse", handler);
     }
 
     onDiagramLayout(handler: any): void {
-        let self = this;
-        self._signalrClient.addHandler("DiagramLayoutResponse", function (response) {
-            if (self._authData.clientId != response.clientId) handler(response);
-        });
+        this.addHandler("DiagramLayoutResponse", handler);
     }
 
     onDiagramItemMove(handler: any): void {
-        let self = this;
-        self._signalrClient.addHandler("DiagramItemMoveResponse", function (response) {
-            if (self._authData.clientId != response.clientId) handler(response);
-        });
+        this.addHandler("DiagramItemMoveResponse", handler);
     }
 
     onDiagramItemResize(handler: any): void {
-        let self = this;
-        self._signalrClient.addHandler("DiagramItemResizeResponse", function (response) {
-            if (self._authData.clientId != response.clientId) handler(response);
-        });
+        this.addHandler("DiagramItemResizeResponse", handler);
     }
 
     onDiagramItemSetTitle(handler: any): void {
-        let self = this;
-        self._signalrClient.addHandler("DiagramItemSetTitleResponse", function (response) {
-            if (self._authData.clientId != response.clientId) handler(response);
-        });
+        this.addHandler("DiagramItemSetTitleResponse", handler);
     }
 
     onDiagramItemAdd(handler: any): void {
-        let self = this;
-        self._signalrClient.addHandler("DiagramItemAddResponse", function (response) {
-            if (self._authData.clientId != response.clientId) handler(response);
-        });
+        this.addHandler("DiagramItemAddResponse", handler);
     }
 
     onDiagramItemEdit(handler: any): void {
-        let self = this;
-        self._signalrClient.addHandler("DiagramItemEditResponse", function (response) {
-            if (self._authData.clientId != response.clientId) handler(response);
-        });
+        this.addHandler("DiagramItemEditResponse", handler);
     }
 
     onDiagramItemDelete(handler: any): void {
-        let self = this;
-        self._signalrClient.addHandler("DiagramItemDeleteResponse", function (response) {
-            if (self._authData.clientId != response.clientId) handler(response);
-        });
+        this.addHandler("DiagramItemDeleteResponse", handler);
     }
 
     onDiagramItemSetMethods(handler: any): void {
-        let self = this;
-        self._signalrClient.addHandler("DiagramItemSetMethodsResponse", function (response) {
-            if (self._authData.clientId != response.clientId) handler(response);
-        });
+        this.addHandler("DiagramItemSetMethodsResponse", handler);
     }
 
     onRelationAdd(handler: any): void {
-        let self = this;
-        self._signalrClient.addHandler("RelationAddResponse", function (response) {
-            if (self._authData.clientId != response.clientId) handler(response);
-        });
+        this.addHandler("RelationAddResponse", handler);
     }
 
     onRelationEdit(handler: any): void {
-        let self = this;
-        self._signalrClient.addHandler("RelationEditResponse", function (response) {
-            if (self._authData.clientId != response.clientId) handler(response);
-        });
+        this.addHandler("RelationEditResponse", handler);
     }
 
     onRelationDelete(handler: any): void {
-        let self = this;
-        self._signalrClient.addHandler("RelationDeleteResponse", function (response) {
-            if (self._authData.clientId != response.clientId) handler(response);
-        });
+        this.addHandler("RelationDeleteResponse", handler);
     }
 
     onActionSetActive(handler: any): void {
+        this.addHandler("ActionSetActiveResponse", handler);
+    }
+
+    private addHandler(method: string, handler: any): void {
         let self = this;
-        self._signalrClient.addHandler("ActionSetActiveResponse", function (response) {
+        self._signalrClient.addHandler(method, function (response) {
             if (self._authData.clientId != response.clientId) handler(response);
         });
     }
