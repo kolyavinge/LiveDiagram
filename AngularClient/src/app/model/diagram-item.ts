@@ -1,7 +1,7 @@
+import { Point } from '../common/point';
+import { Size } from '../common/size';
 import { DiagramItemBase } from 'src/app/model/diagram-item-base';
 import { Method } from 'src/app/model/method';
-import { Point } from './point';
-import { Size } from './size';
 
 export class DiagramItem extends DiagramItemBase {
 

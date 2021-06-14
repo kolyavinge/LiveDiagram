@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Point } from '../common/point';
+import { Size } from '../common/size';
 import { Diagram } from '../model/diagram';
 import { DiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';
 import { Method } from '../model/method';
-import { Point } from '../model/point';
-import { Size } from '../model/size';
 import { InheritanceLogic } from '../model/inheritance-logic';
 import { ApiNotifierService } from 'src/app/services/api-notifier.service';
 import { ActionService } from './action.service';

@@ -1,5 +1,5 @@
-import { Point } from '../model/point';
-import { Size } from '../model/size';
+import { Point } from '../common/point';
+import { Size } from '../common/size';
 import { DiagramItem, DiagramItemState } from '../model/diagram-item';
 import { Method } from '../model/method';
 import { Relation } from '../model/relation';

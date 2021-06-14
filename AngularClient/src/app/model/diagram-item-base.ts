@@ -1,6 +1,6 @@
 import { Identifiable } from 'src/app/common/identifiable';
-import { Point } from 'src/app/model/point';
-import { Size } from 'src/app/model/size';
+import { Point } from 'src/app/common/point';
+import { Size } from 'src/app/common/size';
 
 const minSize: Size = new Size(100, 100);
 

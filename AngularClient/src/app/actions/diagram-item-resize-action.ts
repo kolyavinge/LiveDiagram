@@ -1,6 +1,6 @@
 import { Action, ActionKind } from "../common/action";
-import { Point } from "../model/point";
-import { Size } from "../model/size";
+import { Point } from "../common/point";
+import { Size } from "../common/size";
 import { Diagram } from "../model/diagram";
 import { DiagramItem, DiagramItemState } from "../model/diagram-item";
 

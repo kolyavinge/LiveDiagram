@@ -1,6 +1,6 @@
 import { DiagramItem } from "src/app/model/diagram-item";
-import { Point } from "src/app/model/point";
-import { Size } from "src/app/model/size";
+import { Point } from "src/app/common/point";
+import { Size } from "src/app/common/size";
 
 export class SelectionRectangleModel {
 

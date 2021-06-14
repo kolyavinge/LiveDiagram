@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
-import { Point } from 'src/app/model/point';
-import { Size } from 'src/app/model/size';
+import { Point } from 'src/app/common/point';
+import { Size } from 'src/app/common/size';
 import { DiagramItem, DiagramItemState } from 'src/app/model/diagram-item';
 import { Relation } from 'src/app/model/relation';
 import { Diagram } from 'src/app/model/diagram';

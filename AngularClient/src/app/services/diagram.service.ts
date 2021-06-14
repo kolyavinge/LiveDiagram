@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Point } from '../model/point';
-import { Size } from '../model/size';
+import { Point } from '../common/point';
+import { Size } from '../common/size';
 import { DiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';
 import { Diagram } from '../model/diagram';
