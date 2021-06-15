@@ -124,10 +124,6 @@ export class Diagram extends Identifiable {
         return this._relations.filter(r => r.to.isEquals(item));
     }
 
-    getMatchedItems(point: Point): DiagramItem[] {
-        return this._items.filter(i => i.isMatched(point));
-    }
-
     getState(): DiagramState {
         return {
             title: this.title,

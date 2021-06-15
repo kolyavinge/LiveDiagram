@@ -1,7 +1,6 @@
 import { Identifiable } from 'src/app/common/identifiable';
 import { Point } from 'src/app/common/point';
 import { Size } from 'src/app/common/size';
-import { Geometry } from 'src/app/common/geometry';
 
 const minSize: Size = new Size(100, 100);
 
@@ -46,9 +45,5 @@ export abstract class DiagramItemBase extends Identifiable {
 
     clearResize(): void {
         this._resizeDirectionValue = 0;
-    }
-
-    isMatched(point: Point): boolean {
-        return Geometry.pointInRectangle(point.x, point.y, this._position.x, this._position.y, this._size.width, this._size.height);
     }
 }

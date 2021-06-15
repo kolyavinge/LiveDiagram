@@ -1,6 +1,7 @@
+import { Geometry } from "../common/geometry";
 import { Point } from "../common/point";
-import { Diagram } from "./diagram";
 import { DiagramItem } from "./diagram-item";
+import { Diagram } from "./diagram";
 
 export class DiagramItemLayoutLogic {
 
@@ -23,7 +24,7 @@ export class DiagramItemLayoutLogic {
             if (x <= 0) continue;
             if (x >= diagram.size.width) continue;
             let point = new Point(x, startY);
-            let matched = diagram.getMatchedItems(point);
+            let matched = this.getMatchedItems(diagram, point);
             if (matched.length == 0) {
                 return x;
             } else {
@@ -33,5 +34,9 @@ export class DiagramItemLayoutLogic {
         }
 
         return 0;
+    }
+
+    private getMatchedItems(diagram: Diagram, point: Point): DiagramItem[] {
+        return diagram.items.filter(item => Geometry.pointInRectangle(point.x, point.y, item.position.x, item.position.y, item.size.width, item.size.height));
     }
 }
