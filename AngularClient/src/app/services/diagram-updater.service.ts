@@ -129,7 +129,7 @@ export class DiagramUpdaterService {
 
         self._apiNotifierService.onDiagramItemDelete(function (response) {
             let items = response.itemsId.map(id => self._diagram.getItemById(id));
-            let relations = self._diagram.getRelationsById(response.relationsId);
+            let relations = response.relationsId.map(id => self._diagram.getRelationById(id));
             let action = self._actionFactory.addDiagramItemDeleteAction(response.actionId, self._diagram, items, relations);
             action.do();
             self._actionService.addAction(action);
@@ -175,7 +175,7 @@ export class DiagramUpdaterService {
         });
 
         self._apiNotifierService.onRelationDelete(function (response) {
-            let relations = self._diagram.getRelationsById(response.relationsId);
+            let relations = response.relationsId.map(id => self._diagram.getRelationById(id));
             let action = self._actionFactory.addRelationDeleteAction(response.actionId, self._diagram, relations);
             action.do();
             self._actionService.addAction(action);

@@ -91,10 +91,6 @@ export class Diagram extends Identifiable {
         return this._relations.find(r => r.id == relationId);
     }
 
-    getRelationsById(relationsId: string[]): Relation[] {
-        return this._relations.filter(r => relationsId.includes(r.id));
-    }
-
     getPointedRelation(): Relation {
         return this._relations.find(x => x.isPointed);
     }
