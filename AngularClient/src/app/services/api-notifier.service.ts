@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SignalRClient } from '../common/signalr-client';
 import { LocalStorageService } from './local-storage.service';
-import { AuthData } from 'src/app/services/local-storage.service'
+import { AuthData } from 'src/app/services/local-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class ApiNotifierService {
@@ -26,61 +26,61 @@ export class ApiNotifierService {
     }
 
     onDiagramSetTitle(handler: any): void {
-        this.addHandler("DiagramSetTitleResponse", handler);
+        this.addHandler('DiagramSetTitleResponse', handler);
     }
 
     onDiagramLayout(handler: any): void {
-        this.addHandler("DiagramLayoutResponse", handler);
+        this.addHandler('DiagramLayoutResponse', handler);
     }
 
     onDiagramItemMove(handler: any): void {
-        this.addHandler("DiagramItemMoveResponse", handler);
+        this.addHandler('DiagramItemMoveResponse', handler);
     }
 
     onDiagramItemResize(handler: any): void {
-        this.addHandler("DiagramItemResizeResponse", handler);
+        this.addHandler('DiagramItemResizeResponse', handler);
     }
 
     onDiagramItemSetTitle(handler: any): void {
-        this.addHandler("DiagramItemSetTitleResponse", handler);
+        this.addHandler('DiagramItemSetTitleResponse', handler);
     }
 
     onDiagramItemAdd(handler: any): void {
-        this.addHandler("DiagramItemAddResponse", handler);
+        this.addHandler('DiagramItemAddResponse', handler);
     }
 
     onDiagramItemEdit(handler: any): void {
-        this.addHandler("DiagramItemEditResponse", handler);
+        this.addHandler('DiagramItemEditResponse', handler);
     }
 
     onDiagramItemDelete(handler: any): void {
-        this.addHandler("DiagramItemDeleteResponse", handler);
+        this.addHandler('DiagramItemDeleteResponse', handler);
     }
 
     onDiagramItemSetMethods(handler: any): void {
-        this.addHandler("DiagramItemSetMethodsResponse", handler);
+        this.addHandler('DiagramItemSetMethodsResponse', handler);
     }
 
     onRelationAdd(handler: any): void {
-        this.addHandler("RelationAddResponse", handler);
+        this.addHandler('RelationAddResponse', handler);
     }
 
     onRelationEdit(handler: any): void {
-        this.addHandler("RelationEditResponse", handler);
+        this.addHandler('RelationEditResponse', handler);
     }
 
     onRelationDelete(handler: any): void {
-        this.addHandler("RelationDeleteResponse", handler);
+        this.addHandler('RelationDeleteResponse', handler);
     }
 
     onActionSetActive(handler: any): void {
-        this.addHandler("ActionSetActiveResponse", handler);
+        this.addHandler('ActionSetActiveResponse', handler);
     }
 
     private addHandler(method: string, handler: any): void {
         let self = this;
-        self._signalrClient.addHandler(method, function (response) {
-            if (self._authData.clientId != response.clientId) handler(response);
+        self._signalrClient.addHandler(method, (response) => {
+            if (self._authData.clientId !== response.clientId) handler(response);
         });
     }
 }

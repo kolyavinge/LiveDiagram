@@ -12,13 +12,13 @@ export class Method extends Identifiable {
         if (!x && !y) return true;
         if (x && !y) return false;
         if (!x && y) return false;
-        if (x.length != y.length) return false;
+        if (x.length !== y.length) return false;
         for (let i = 0; i < x.length; i++) {
             let xm = x[i];
             let ym = y[i];
-            if (xm.isEquals(ym) == false) return false;
-            let signatureEquals = xm.signature.localeCompare(ym.signature) == 0;
-            if (signatureEquals == false) return false;
+            if (xm.isEquals(ym) === false) return false;
+            let signatureEquals = xm.signature.localeCompare(ym.signature) === 0;
+            if (signatureEquals === false) return false;
         }
 
         return true;

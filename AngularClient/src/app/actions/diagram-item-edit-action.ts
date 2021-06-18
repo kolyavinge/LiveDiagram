@@ -1,8 +1,8 @@
-import { Action, ActionKind } from "../common/action";
-import { Diagram } from "../model/diagram";
-import { DiagramItem } from "../model/diagram-item";
-import { Method } from "../model/method";
-import { Relation } from "../model/relation";
+import { Action, ActionKind } from '../common/action';
+import { Diagram } from '../model/diagram';
+import { DiagramItem } from '../model/diagram-item';
+import { Method } from '../model/method';
+import { Relation } from '../model/relation';
 
 export class DiagramItemEditAction extends Action {
 

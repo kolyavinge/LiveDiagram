@@ -46,7 +46,7 @@ export class ApiService {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
-            items: diagram.items.map(function (item) {
+            items: diagram.items.map((item) => {
                 return {
                     id: item.id,
                     x: item.position.x,
@@ -108,7 +108,7 @@ export class ApiService {
             itemWidth: item.size.width,
             itemHeight: item.size.height,
             parentRelation: parentRelation ? { id: parentRelation.id, itemIdFrom: parentRelation.from.id, itemIdTo: parentRelation.to.id } : null,
-            methods: methods.map(function (m) {
+            methods: methods.map((m) => {
                 return { id: m.id, signature: m.signature };
             })
         };
@@ -124,7 +124,7 @@ export class ApiService {
             itemTitle: item.title,
             parentHasChanged: parentHasChanged,
             parentRelation: parentRelation ? { id: parentRelation.id, itemIdFrom: parentRelation.from.id, itemIdTo: parentRelation.to.id } : null,
-            methods: methods.map(function (m) {
+            methods: methods.map((m) => {
                 return { id: m.id, signature: m.signature };
             })
         };
@@ -147,7 +147,7 @@ export class ApiService {
             clientId: this._localStorage.authData.clientId,
             diagramId: diagram.id,
             itemId: item.id,
-            methods: item.methods.map(function (m) {
+            methods: item.methods.map((m) => {
                 return { id: m.id, signature: m.signature };
             })
         };
@@ -159,8 +159,8 @@ export class ApiService {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
-            relations: relations.map(function (r) {
-                return { id: r.id, itemIdFrom: r.from.id, itemIdTo: r.to.id }
+            relations: relations.map((r) => {
+                return { id: r.id, itemIdFrom: r.from.id, itemIdTo: r.to.id };
             })
         };
         this._httpClient.post(ApiPath.relationAddPath, postData).toPromise();
@@ -182,7 +182,7 @@ export class ApiService {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
-            relationsId: relations.map(r => r.id)
+            relationsId: relations.map((r) => r.id)
         };
         this._httpClient.post(ApiPath.relationDeletePath, postData).toPromise();
     }

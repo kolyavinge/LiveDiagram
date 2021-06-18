@@ -28,7 +28,7 @@ export class DiagramItem extends DiagramItemBase {
 
     deleteMethods(methods: Method[]): void {
         let methodIncludeInDeleted = (method: Method) => methods.find(m => method.isEquals(m)) != null;
-        this._methods = this._methods.filter(m => methodIncludeInDeleted(m) == false);
+        this._methods = this._methods.filter(m => methodIncludeInDeleted(m) === false);
     }
 
     getState(args: GetDiagramItemStateArgs = null): DiagramItemState {
@@ -39,7 +39,7 @@ export class DiagramItem extends DiagramItemBase {
             title: args.title ? this._title : null,
             position: args.position ? this.position : null,
             size: args.size ? this.size : null,
-            methods: args.methods ? this.methods.map(m => m.copy()): null
+            methods: args.methods ? this.methods.map(m => m.copy()) : null
         };
     }
 

@@ -1,6 +1,6 @@
-import { MatDialog } from "@angular/material/dialog";
-import { EditDiagramItemDialogComponent } from "../dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component";
-import { DiagramEventsService } from "../services/diagram-events.service";
+import { MatDialog } from '@angular/material/dialog';
+import { EditDiagramItemDialogComponent } from '../dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
+import { DiagramEventsService } from '../services/diagram-events.service';
 
 export class CreateDiagramItemCommand {
 

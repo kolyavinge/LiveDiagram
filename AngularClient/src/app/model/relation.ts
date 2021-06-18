@@ -1,7 +1,7 @@
 import { Identifiable } from 'src/app/common/identifiable';
-import { DiagramItem } from "./diagram-item";
-import { Segment } from "./segment";
-import { SegmentCalculator } from "./segment-calculator";
+import { DiagramItem } from './diagram-item';
+import { Segment } from './segment';
+import { SegmentCalculator } from './segment-calculator';
 import { Event } from 'src/app/common/event';
 
 const segmentCalculator = new SegmentCalculator();
@@ -21,7 +21,7 @@ export class Relation extends Identifiable {
         this._isSelected = false;
     }
 
-    setDiagramItems(from: DiagramItem, to: DiagramItem) {
+    setDiagramItems(from: DiagramItem, to: DiagramItem): void {
         this._from = from;
         this._to = to;
         this.calculateSegments();
@@ -33,11 +33,11 @@ export class Relation extends Identifiable {
 
     get segments(): Segment[] { return this._segments; }
 
-    get isPointed(): boolean { return this._isPointed };
+    get isPointed(): boolean { return this._isPointed; }
 
     set isPointed(value: boolean) { this._isPointed = value; }
 
-    get isSelected(): boolean { return this._isSelected };
+    get isSelected(): boolean { return this._isSelected; }
 
     set isSelected(value: boolean) { this._isSelected = value; }
 
@@ -54,7 +54,7 @@ export class Relation extends Identifiable {
             id: this.id,
             from: this.from,
             to: this.to,
-        }
+        };
     }
 
     setState(state: RelationState): void {
@@ -63,8 +63,8 @@ export class Relation extends Identifiable {
 }
 
 export interface RelationState {
-    relation: Relation,
-    id: string,
+    relation: Relation;
+    id: string;
     from: DiagramItem;
     to: DiagramItem;
 }

@@ -1,8 +1,8 @@
-import { Action, ActionKind } from "../common/action";
-import { Point } from "../common/point";
-import { Size } from "../common/size";
-import { Diagram } from "../model/diagram";
-import { DiagramItem, DiagramItemState } from "../model/diagram-item";
+import { Action, ActionKind } from '../common/action';
+import { Point } from '../common/point';
+import { Size } from '../common/size';
+import { Diagram } from '../model/diagram';
+import { DiagramItem, DiagramItemState } from '../model/diagram-item';
 
 export class DiagramItemResizeAction extends Action {
 

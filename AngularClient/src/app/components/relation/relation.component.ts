@@ -47,12 +47,15 @@ export class RelationComponent implements OnInit {
 
     calculateSegments(segments: Segment[]): void {
         this._segments = segments.map((s: Segment) => {
-            let newX = s.position.x, newY = s.position.y, newWidth = s.size.width, newHeight = s.size.height;
-            if (s.size.width == 1) {
+            let newX = s.position.x;
+            let newY = s.position.y;
+            let newWidth = s.size.width;
+            let newHeight = s.size.height;
+            if (s.size.width === 1) {
                 newWidth = 5;
                 newX -= 2;
             }
-            if (s.size.height == 1) {
+            if (s.size.height === 1) {
                 newHeight = 5;
                 newY -= 2;
             }
@@ -64,11 +67,11 @@ export class RelationComponent implements OnInit {
         this.arrowDown = null;
         this.arrowUp = null;
         let last = this._segments[this._segments.length - 1];
-        if (last.direction == this._direction.up) {
+        if (last.direction === this._direction.up) {
             this.arrowUp = new Point(last.position.x - 5, last.position.y - 2);
             last.position = new Point(last.position.x, last.position.y + 10);
             last.size = new Size(last.size.width, last.size.height - 10);
-        } else if (last.direction == this._direction.down) {
+        } else if (last.direction === this._direction.down) {
             this.arrowDown = new Point(last.position.x - 5, last.position.y + last.size.height - 17);
             last.size = new Size(last.size.width, last.size.height - 10);
         }
@@ -77,13 +80,13 @@ export class RelationComponent implements OnInit {
     calculateCaps(): void {
         this.cap1 = null;
         this.cap2 = null;
-        if (this._segments.length == 1) return;
+        if (this._segments.length === 1) return;
         let first = this._segments[0];
         let second = this._segments[1];
         this.cap1 = new Point(first.position.x - 2, first.position.y + first.size.height - 10);
-        if (second.direction == this._direction.left) {
+        if (second.direction === this._direction.left) {
             this.cap2 = new Point(second.position.x - 4, second.position.y - 8);
-        } else if (second.direction == this._direction.right) {
+        } else if (second.direction === this._direction.right) {
             this.cap2 = new Point(second.position.x + second.size.width - 4, second.position.y - 8);
         }
     }

@@ -1,5 +1,5 @@
-import { Action, ActionKind } from "../common/action";
-import { Diagram } from "../model/diagram";
+import { Action, ActionKind } from '../common/action';
+import { Diagram } from '../model/diagram';
 
 export class DiagramSetTitleAction extends Action {
 

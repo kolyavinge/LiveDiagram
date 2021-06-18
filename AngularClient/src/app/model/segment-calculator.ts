@@ -1,6 +1,6 @@
-import { Direction } from "src/app/model/direction";
-import { DiagramItem } from "./diagram-item";
-import { Segment } from "./segment";
+import { Direction } from 'src/app/model/direction';
+import { DiagramItem } from './diagram-item';
+import { Segment } from './segment';
 
 export class SegmentCalculator {
 

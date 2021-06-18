@@ -1,5 +1,5 @@
-import { DiagramItem } from "../model/diagram-item";
-import { Method } from "../model/method";
+import { DiagramItem } from '../model/diagram-item';
+import { Method } from '../model/method';
 
 export interface EditDiagramItemResult {
 

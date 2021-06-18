@@ -32,8 +32,8 @@ export class HistoryComponent implements OnInit {
             self._items = self._actionService.actions.map(a => {
                 return {
                     action: a,
-                    title: a.info.kind + (a.info.title ? ": " + a.info.title : "")
-                }
+                    title: a.info.kind + (a.info.title ? ': ' + a.info.title : '')
+                };
             }).reverse();
         });
     }

@@ -1,7 +1,7 @@
 
 export default {
 
-    generateId() {
+    generateId(): string {
         return Date.now().toString();
     }
-}
+};

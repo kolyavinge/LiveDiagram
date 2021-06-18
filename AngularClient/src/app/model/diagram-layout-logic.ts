@@ -1,7 +1,7 @@
-import { Point } from "../common/point";
-import { Diagram } from "./diagram";
-import { DiagramItemState } from "./diagram-item";
-import { InheritanceTree } from "./inheritance-tree";
+import { Point } from '../common/point';
+import { Diagram } from './diagram';
+import { DiagramItemState } from './diagram-item';
+import { InheritanceTree } from './inheritance-tree';
 
 export interface LayoutDiagramResult {
     items: DiagramItemState[];

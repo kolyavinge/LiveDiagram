@@ -13,6 +13,6 @@ export class Size {
     get height(): number { return this._height; }
 
     isEquals(other: Size): boolean {
-        return this.width == other.width && this.height == other.height;
+        return this.width === other.width && this.height === other.height;
     }
 }

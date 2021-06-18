@@ -12,9 +12,9 @@ export class KeyboardService {
         private _commandService: CommandService
     ) { }
 
-    onKeyDown(event: KeyboardEvent) {
+    onKeyDown(event: KeyboardEvent): void {
         // console.log(event.code);
-        if (event.code == "Delete") {
+        if (event.code === 'Delete') {
             let selectedItems = this._diagramService.diagram.getSelectedItems();
             if (selectedItems.length > 0) {
                 let cmd = this._commandService.makeDeleteDiagramItemCommand();
@@ -25,16 +25,16 @@ export class KeyboardService {
                 let cmd = this._commandService.makeDeleteRelationCommand();
                 cmd.exec(selectedRelations);
             }
-        } else if (event.code == "NumpadAdd") {
+        } else if (event.code === 'NumpadAdd') {
             let cmd = this._commandService.makeCreateDiagramItemCommand();
             cmd.exec();
-        } else if (event.code == "ControlLeft" || event.code == "ControlRight") {
+        } else if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
             this._isControlPressed = true;
         }
     }
 
-    onKeyUp(event: KeyboardEvent) {
-        if (event.code == "ControlLeft" || event.code == "ControlRight") {
+    onKeyUp(event: KeyboardEvent): void {
+        if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
             this._isControlPressed = false;
         }
     }

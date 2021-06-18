@@ -1,5 +1,5 @@
-let host = "https://localhost:44305/";
-let apiPath = host + "api/";
+let host = 'https://localhost:44305/';
+let apiPath = host + 'api/';
 
 export default {
     host: host,
@@ -18,4 +18,4 @@ export default {
     relationEditPath: apiPath + 'relationEdit',
     relationDeletePath: apiPath + 'RelationDelete',
     actionSetActivePath: apiPath + 'ActionSetActive',
-}
+};

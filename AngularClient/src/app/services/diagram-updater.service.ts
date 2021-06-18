@@ -27,15 +27,15 @@ export class DiagramUpdaterService {
 
         self._apiNotifierService.clearHandlers();
 
-        self._apiNotifierService.onDiagramSetTitle(function (response) {
+        self._apiNotifierService.onDiagramSetTitle((response) => {
             let action = self._actionFactory.addDiagramSetTitleAction(response.actionId, self._diagram, self._diagram.title, response.diagramTitle);
             action.do();
             self._actionService.addAction(action);
         });
 
-        self._apiNotifierService.onDiagramLayout(function (response) {
+        self._apiNotifierService.onDiagramLayout((response) => {
             let itemsOld = diagram.items.map(i => i.getState({ position: true }));
-            let itemsNew = response.items.map(function (i) {
+            let itemsNew = response.items.map((i) => {
                 return { id: i.id, position: new Point(i.x, i.y), size: new Size(i.width, i.height) };
             });
             let action = self._actionFactory.addDiagramLayoutAction(response.actionId, self._diagram, itemsOld, itemsNew);
@@ -43,7 +43,7 @@ export class DiagramUpdaterService {
             self._actionService.addAction(action);
         });
 
-        self._apiNotifierService.onDiagramItemMove(function (response) {
+        self._apiNotifierService.onDiagramItemMove((response) => {
             let movedItem = self._diagram.getItemById(response.itemId);
             if (movedItem) {
                 let positionOld = movedItem.position;
@@ -54,7 +54,7 @@ export class DiagramUpdaterService {
             }
         });
 
-        self._apiNotifierService.onDiagramItemResize(function (response) {
+        self._apiNotifierService.onDiagramItemResize((response) => {
             let item = self._diagram.getItemById(response.itemId);
             if (item) {
                 let positionOld = item.position;
@@ -67,7 +67,7 @@ export class DiagramUpdaterService {
             }
         });
 
-        self._apiNotifierService.onDiagramItemSetTitle(function (response) {
+        self._apiNotifierService.onDiagramItemSetTitle((response) => {
             let item = self._diagram.getItemById(response.itemId);
             if (item) {
                 let action = self._actionFactory.addDiagramItemSetTitleAction(response.actionId, self._diagram, item, item.title, response.itemTitle);
@@ -76,7 +76,7 @@ export class DiagramUpdaterService {
             }
         });
 
-        self._apiNotifierService.onDiagramItemAdd(function (response) {
+        self._apiNotifierService.onDiagramItemAdd((response) => {
             let item = new DiagramItem(response.itemId);
             item.title = response.itemTitle;
             item.position = new Point(response.itemX, response.itemY);
@@ -101,7 +101,7 @@ export class DiagramUpdaterService {
             self._actionService.addAction(action);
         });
 
-        self._apiNotifierService.onDiagramItemEdit(function (response) {
+        self._apiNotifierService.onDiagramItemEdit((response) => {
             let item = self._diagram.getItemById(response.itemId);
             let parentRelationOld: Relation = null;
             if (response.parentHasChanged) {
@@ -127,7 +127,7 @@ export class DiagramUpdaterService {
             self._actionService.addAction(action);
         });
 
-        self._apiNotifierService.onDiagramItemDelete(function (response) {
+        self._apiNotifierService.onDiagramItemDelete((response) => {
             let items = response.itemsId.map(id => self._diagram.getItemById(id));
             let relations = response.relationsId.map(id => self._diagram.getRelationById(id));
             let action = self._actionFactory.addDiagramItemDeleteAction(response.actionId, self._diagram, items, relations);
@@ -135,7 +135,7 @@ export class DiagramUpdaterService {
             self._actionService.addAction(action);
         });
 
-        self._apiNotifierService.onDiagramItemSetMethods(function (response) {
+        self._apiNotifierService.onDiagramItemSetMethods((response) => {
             let item = self._diagram.getItemById(response.itemId);
             if (item) {
                 item.methods = response.methods.map(m => {
@@ -146,7 +146,7 @@ export class DiagramUpdaterService {
             }
         });
 
-        self._apiNotifierService.onRelationAdd(function (response) {
+        self._apiNotifierService.onRelationAdd((response) => {
             let relations: Relation[] = response.relations.map(r => {
                 let from = self._diagram.getItemById(r.itemIdFrom);
                 let to = self._diagram.getItemById(r.itemIdTo);
@@ -154,7 +154,7 @@ export class DiagramUpdaterService {
                     let relation = new Relation(r.id);
                     relation.setDiagramItems(from, to);
                     return relation;
-                };
+                }
             });
             if (relations.length > 0) {
                 let action = self._actionFactory.addRelationAddAction(response.actionId, self._diagram, relations);
@@ -163,7 +163,7 @@ export class DiagramUpdaterService {
             }
         });
 
-        self._apiNotifierService.onRelationEdit(function (response) {
+        self._apiNotifierService.onRelationEdit((response) => {
             let relationOld = self._diagram.getRelationById(response.relationOld.id);
             let from = self._diagram.getItemById(response.relationNew.itemIdFrom);
             let to = self._diagram.getItemById(response.relationNew.itemIdTo);
@@ -174,14 +174,14 @@ export class DiagramUpdaterService {
             self._actionService.addAction(action);
         });
 
-        self._apiNotifierService.onRelationDelete(function (response) {
+        self._apiNotifierService.onRelationDelete((response) => {
             let relations = response.relationsId.map(id => self._diagram.getRelationById(id));
             let action = self._actionFactory.addRelationDeleteAction(response.actionId, self._diagram, relations);
             action.do();
             self._actionService.addAction(action);
         });
 
-        self._apiNotifierService.onActionSetActive(function (response) {
+        self._apiNotifierService.onActionSetActive((response) => {
             let action = self._actionService.getActionById(response.actionId);
             self._actionService.updateActiveAction(action);
         });

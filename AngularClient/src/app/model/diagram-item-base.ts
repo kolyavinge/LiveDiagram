@@ -6,7 +6,7 @@ const minSize: Size = new Size(100, 100);
 
 export abstract class DiagramItemBase extends Identifiable {
 
-    protected _title: string = "";
+    protected _title: string = '';
     protected _position: Point = new Point(0, 0);
     protected _size: Size = new Size(0, 0);
     protected _isPointed: boolean = false;
@@ -35,7 +35,7 @@ export abstract class DiagramItemBase extends Identifiable {
 
     set isPointed(value: boolean) { this._isPointed = value; }
 
-    get isSelected(): boolean { return this._isSelected };
+    get isSelected(): boolean { return this._isSelected; }
 
     set isSelected(value: boolean) { this._isSelected = value; }
 

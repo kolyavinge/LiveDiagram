@@ -1,5 +1,5 @@
-import { DiagramItem } from "./diagram-item";
-import { ResizeDirection } from "./resize-direction";
+import { DiagramItem } from './diagram-item';
+import { ResizeDirection } from './resize-direction';
 
 export interface ResizeDiagramItemResult {
     newX: number;
@@ -17,35 +17,35 @@ export class ResizeLogic {
         let newY = item.position.y;
         let newWidth = item.size.width;
         let newHeight = item.size.height;
-        if (item.resizeDirectionValue == this.resize.upLeft) {
+        if (item.resizeDirectionValue === this.resize.upLeft) {
             // deltaWidth и deltaHeight меньше нуля
             newX += deltaWidth;
             newY += deltaHeight;
             newWidth -= deltaWidth;
             newHeight -= deltaHeight;
-        } else if (item.resizeDirectionValue == this.resize.upMiddle) {
+        } else if (item.resizeDirectionValue === this.resize.upMiddle) {
             // deltaHeight меньше нуля
             newY += deltaHeight;
             newHeight -= deltaHeight;
-        } else if (item.resizeDirectionValue == this.resize.upRight) {
+        } else if (item.resizeDirectionValue === this.resize.upRight) {
             // deltaHeight меньше нуля
             newY += deltaHeight;
             newWidth += deltaWidth;
             newHeight -= deltaHeight;
-        } else if (item.resizeDirectionValue == this.resize.middleLeft) {
+        } else if (item.resizeDirectionValue === this.resize.middleLeft) {
             // deltaWidth меньше нуля
             newX += deltaWidth;
             newWidth -= deltaWidth;
-        } else if (item.resizeDirectionValue == this.resize.middleRight) {
+        } else if (item.resizeDirectionValue === this.resize.middleRight) {
             newWidth += deltaWidth;
-        } else if (item.resizeDirectionValue == this.resize.downLeft) {
+        } else if (item.resizeDirectionValue === this.resize.downLeft) {
             // deltaWidth меньше нуля
             newX += deltaWidth;
             newWidth -= deltaWidth;
             newHeight += deltaHeight;
-        } else if (item.resizeDirectionValue == this.resize.downMiddle) {
+        } else if (item.resizeDirectionValue === this.resize.downMiddle) {
             newHeight += deltaHeight;
-        } else if (item.resizeDirectionValue == this.resize.downRight) {
+        } else if (item.resizeDirectionValue === this.resize.downRight) {
             newWidth += deltaWidth;
             newHeight += deltaHeight;
         }

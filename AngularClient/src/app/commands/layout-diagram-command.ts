@@ -1,5 +1,5 @@
-import { Diagram } from "../model/diagram";
-import { DiagramEventsService } from "../services/diagram-events.service";
+import { Diagram } from '../model/diagram';
+import { DiagramEventsService } from '../services/diagram-events.service';
 
 export class LayoutDiagramCommand {
 

@@ -1,13 +1,13 @@
-import { Point } from "../common/point";
-import { Size } from "../common/size";
+import { Point } from '../common/point';
+import { Size } from '../common/size';
 import { Identifiable } from 'src/app/common/identifiable';
-import { DiagramItem, DiagramItemState } from "./diagram-item";
-import { Relation, RelationState } from "./relation";
-import { ResizeLogic } from "./resize-logic";
+import { DiagramItem, DiagramItemState } from './diagram-item';
+import { Relation, RelationState } from './relation';
+import { ResizeLogic } from './resize-logic';
 
 export class Diagram extends Identifiable {
 
-    private _title: string = "";
+    private _title: string = '';
     private _size: Size = new Size(0, 0);
     private _items: DiagramItem[] = [];
     private _relations: Relation[] = [];
@@ -29,7 +29,7 @@ export class Diagram extends Identifiable {
     set size(value: Size) { this._size = value; }
 
     getItemById(id: string): DiagramItem {
-        return this._items.find(item => item.id == id);
+        return this._items.find(item => item.id === id);
     }
 
     getPointedItem(): DiagramItem {
@@ -45,7 +45,7 @@ export class Diagram extends Identifiable {
     }
 
     clearItemSelectionBut(item: DiagramItem): void {
-        this._items.filter(i => i.isEquals(item) == false).forEach(i => i.isSelected = false);
+        this._items.filter(i => i.isEquals(item) === false).forEach(i => i.isSelected = false);
     }
 
     moveItemBy(item: DiagramItem, deltaX: number, deltaY: number): void {
@@ -75,20 +75,20 @@ export class Diagram extends Identifiable {
 
     deleteItems(items: DiagramItem[]): void {
         let includeInDeleteItems = (item: DiagramItem) => items.find(i => i.isEquals(item)) != null;
-        this._items = this._items.filter(i => includeInDeleteItems(i) == false);
+        this._items = this._items.filter(i => includeInDeleteItems(i) === false);
     }
 
     updateItems(updatedItems: DiagramItemState[]): void {
         let self = this;
         updatedItems.forEach(ui => {
-            let item = ui.item ?? self._items.find(item => item.id == ui.id);
+            let item = ui.item ?? self._items.find(i => i.id === ui.id);
             if (item) item.setState(ui);
         });
         self._items.forEach(item => self.calculateRelationsSegments(item));
     }
 
     getRelationById(relationId: string): Relation {
-        return this._relations.find(r => r.id == relationId);
+        return this._relations.find(r => r.id === relationId);
     }
 
     getPointedRelation(): Relation {
@@ -100,7 +100,7 @@ export class Diagram extends Identifiable {
     }
 
     clearRelationSelectionBut(relation: Relation): void {
-        this._relations.filter(r => r.isEquals(relation) == false).forEach(r => r.isSelected = false);
+        this._relations.filter(r => r.isEquals(relation) === false).forEach(r => r.isSelected = false);
     }
 
     addRelations(relations: Relation[]): void {
@@ -109,7 +109,7 @@ export class Diagram extends Identifiable {
 
     deleteRelations(relations: Relation[]): void {
         let includeInDeleteRelations = (relation: Relation) => relations.find(r => r.isEquals(relation)) != null;
-        this._relations = this._relations.filter(r => includeInDeleteRelations(r) == false);
+        this._relations = this._relations.filter(r => includeInDeleteRelations(r) === false);
     }
 
     getItemRelations(item: DiagramItem): Relation[] {
@@ -131,7 +131,7 @@ export class Diagram extends Identifiable {
             itemStates: this.items.map(i => i.getState()),
             relations: this.relations.slice(),
             relationStates: this.relations.map(i => i.getState())
-        }
+        };
     }
 
     setState(state: DiagramState): void {
@@ -139,13 +139,13 @@ export class Diagram extends Identifiable {
         this._items = [];
         this.addItems(state.items);
         state.itemStates.forEach(itemState => {
-            let item = itemState.item ?? this._items.find(i => i.id == itemState.id);
+            let item = itemState.item ?? this._items.find(i => i.id === itemState.id);
             if (item) item.setState(itemState);
         });
         this._relations = [];
         this.addRelations(state.relations);
         state.relationStates.forEach(relationState => {
-            let relation = relationState.relation ?? this._relations.find(r => r.id == relationState.id);
+            let relation = relationState.relation ?? this._relations.find(r => r.id === relationState.id);
             if (relation) relation.setState(relationState);
         });
         this._items.forEach(item => this.calculateRelationsSegments(item));
@@ -157,7 +157,8 @@ export class Diagram extends Identifiable {
     }
 
     private correctItemPosition(item: DiagramItem): void {
-        let x, y;
+        let x = 0;
+        let y = 0;
         if (item.position.x < 0) x = 0;
         if (item.position.y < 0) y = 0;
         if (item.position.x + item.size.width > this._size.width) x = this._size.width - item.size.width;
@@ -168,7 +169,8 @@ export class Diagram extends Identifiable {
     }
 
     private correctItemSize(item: DiagramItem): void {
-        let width, height;
+        let width = 0;
+        let height = 0;
         if (item.size.width <= item.minSize.width) width = item.minSize.width;
         if (item.size.height <= item.minSize.height) height = item.minSize.height;
         if (width || height) {

@@ -13,6 +13,6 @@ export class Point {
     get y(): number { return this._y; }
 
     isEquals(other: Point): boolean {
-        return this.x == other.x && this.y == other.y;
+        return this.x === other.x && this.y === other.y;
     }
 }

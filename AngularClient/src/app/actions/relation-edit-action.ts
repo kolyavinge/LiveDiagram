@@ -1,6 +1,6 @@
-import { Action, ActionKind } from "../common/action";
-import { Diagram } from "../model/diagram";
-import { Relation } from "../model/relation";
+import { Action, ActionKind } from '../common/action';
+import { Diagram } from '../model/diagram';
+import { Relation } from '../model/relation';
 
 export class RelationEditAction extends Action {
 
@@ -12,7 +12,7 @@ export class RelationEditAction extends Action {
         super(id, diagram);
         this._info = {
             kind: ActionKind.edit,
-            title: this._relationNew.from.title + "-" + this._relationNew.to.title
+            title: this._relationNew.from.title + '-' + this._relationNew.to.title
         };
     }
 

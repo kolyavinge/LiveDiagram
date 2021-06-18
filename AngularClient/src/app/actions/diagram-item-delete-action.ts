@@ -1,7 +1,7 @@
-import { Action, ActionKind } from "../common/action";
-import { Diagram } from "../model/diagram";
-import { DiagramItem } from "../model/diagram-item";
-import { Relation } from "../model/relation";
+import { Action, ActionKind } from '../common/action';
+import { Diagram } from '../model/diagram';
+import { DiagramItem } from '../model/diagram-item';
+import { Relation } from '../model/relation';
 
 export class DiagramItemDeleteAction extends Action {
 
@@ -13,7 +13,7 @@ export class DiagramItemDeleteAction extends Action {
         super(id, diagram);
         this._info = {
             kind: ActionKind.delete,
-            title: this._items.length == 1 ? this._items[0].title : "(" + this._items.length + ")"
+            title: this._items.length === 1 ? this._items[0].title : '(' + this._items.length + ')'
         };
     }
 

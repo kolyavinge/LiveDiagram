@@ -1,6 +1,6 @@
-import { Action, ActionKind } from "../common/action";
-import { Diagram } from "../model/diagram";
-import { DiagramItemState } from "../model/diagram-item";
+import { Action, ActionKind } from '../common/action';
+import { Diagram } from '../model/diagram';
+import { DiagramItemState } from '../model/diagram-item';
 
 export class DiagramLayoutAction extends Action {
 

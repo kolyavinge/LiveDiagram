@@ -14,11 +14,11 @@ export class AppComponent {
         private _keyboardService: KeyboardService
     ) { }
 
-    onKeyDown(event: KeyboardEvent) {
+    onKeyDown(event: KeyboardEvent): void {
         this._keyboardService.onKeyDown(event);
     }
 
-    onKeyUp(event: KeyboardEvent) {
+    onKeyUp(event: KeyboardEvent): void {
         this._keyboardService.onKeyUp(event);
     }
 }

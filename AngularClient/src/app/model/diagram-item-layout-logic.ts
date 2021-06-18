@@ -1,7 +1,7 @@
-import { Geometry } from "../common/geometry";
-import { Point } from "../common/point";
-import { DiagramItem } from "./diagram-item";
-import { Diagram } from "./diagram";
+import { Geometry } from '../common/geometry';
+import { Point } from '../common/point';
+import { DiagramItem } from './diagram-item';
+import { Diagram } from './diagram';
 
 export class DiagramItemLayoutLogic {
 
@@ -9,7 +9,7 @@ export class DiagramItemLayoutLogic {
         let startX = parent ? parent.position.x + parent.size.width / 2 : diagram.size.width / 2;
         let startY = parent ? parent.position.y + parent.size.height + 50 : 20;
         let x = this.getFreeX(diagram, startX, startY);
-        if (x == 0) {
+        if (x === 0) {
             startY += 50;
             x = startX + 50;
         }
@@ -25,7 +25,7 @@ export class DiagramItemLayoutLogic {
             if (x >= diagram.size.width) continue;
             let point = new Point(x, startY);
             let matched = this.getMatchedItems(diagram, point);
-            if (matched.length == 0) {
+            if (matched.length === 0) {
                 return x;
             } else {
                 stack.push(x - 2 * matched[0].size.width);

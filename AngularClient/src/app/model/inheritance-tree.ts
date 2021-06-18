@@ -1,5 +1,5 @@
-import { Diagram } from "./diagram";
-import { DiagramItem } from "./diagram-item";
+import { Diagram } from './diagram';
+import { DiagramItem } from './diagram-item';
 
 export interface TreeNode {
     level: number;
@@ -20,7 +20,7 @@ export class InheritanceTree {
             });
             return node;
         };
-        let rootItems = diagram.items.filter(i => diagram.getRelationsToItem(i).length == 0);
+        let rootItems = diagram.items.filter(i => diagram.getRelationsToItem(i).length === 0);
         let trees = rootItems.map(rootItem => {
             let tree = new InheritanceTree();
             tree.root = makeNode(0, null, rootItem);
@@ -46,7 +46,7 @@ export class InheritanceTree {
 
     deleteNode(node: TreeNode): void {
         if (node.parent) {
-            node.parent.children = node.parent.children.filter(c => c != node);
+            node.parent.children = node.parent.children.filter(c => c !== node);
         } else {
             this.root = null;
         }
@@ -89,7 +89,7 @@ export class InheritanceTree {
         if (this.root == null) return [];
         let result = [];
         this.depth((node: TreeNode) => {
-            if (node.level == level) {
+            if (node.level === level) {
                 result.push(node);
             }
             return true;
@@ -99,14 +99,14 @@ export class InheritanceTree {
     }
 
     private depth(action): void {
-        let rec = (node: TreeNode, action) => {
+        let rec = (node: TreeNode) => {
             let needToContinue = action(node);
-            if (needToContinue == false) return false;
-            for (let i = 0; i < node.children.length; i++) {
-                if (rec(node.children[i], action) == false) return false;
+            if (needToContinue === false) return false;
+            for (let child of node.children) {
+                if (rec(child) === false) return false;
             }
             return true;
         };
-        rec(this.root, action);
+        rec(this.root);
     }
 }

@@ -30,7 +30,7 @@ export class ActionService {
     }
 
     getActionById(id: string): Action {
-        return this._actions.find(a => a.id == id);
+        return this._actions.find(a => a.id === id);
     }
 
     addAction(action: Action): void {
@@ -45,7 +45,7 @@ export class ActionService {
     }
 
     updateActiveAction(action: Action): void {
-        if (action == this._loadAction && this._loadAction != this._lastAction) {
+        if (action === this._loadAction && this._loadAction !== this._lastAction) {
             action.do();
             this._actions.forEach(a => a.isActive = false);
         } else {

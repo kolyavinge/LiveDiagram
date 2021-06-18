@@ -1,5 +1,5 @@
-import { Action, ActionKind } from "../common/action";
-import { Diagram, DiagramState } from "../model/diagram";
+import { Action, ActionKind } from '../common/action';
+import { Diagram, DiagramState } from '../model/diagram';
 
 export class DiagramLoadAction extends Action {
 

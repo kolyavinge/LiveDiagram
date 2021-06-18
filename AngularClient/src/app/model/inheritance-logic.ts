@@ -1,7 +1,7 @@
-import { Diagram } from "./diagram";
-import { DiagramItem } from "./diagram-item";
-import { InheritanceTree } from "./inheritance-tree";
-import { Relation } from "./relation";
+import { Diagram } from './diagram';
+import { DiagramItem } from './diagram-item';
+import { InheritanceTree } from './inheritance-tree';
+import { Relation } from './relation';
 
 export class InheritanceLogic {
 

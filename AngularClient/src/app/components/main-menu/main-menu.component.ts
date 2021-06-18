@@ -12,7 +12,7 @@ import { DiagramService } from 'src/app/services/diagram.service';
 })
 export class MainMenuComponent implements OnInit {
 
-    deleteTitle: string = "Удалить элемент";
+    deleteTitle: string = 'Удалить элемент';
     deleteIsDisabled: boolean = true;
     availableDiagrams: AvailableDiagram[] = [];
 
@@ -27,13 +27,13 @@ export class MainMenuComponent implements OnInit {
             self.availableDiagrams = response.availableDiagrams;
         });
         self._diagramEventsService.diagramItemSetSelectionEvent.addHandler((item) => {
-            self.deleteTitle = self._diagramService.diagram.getSelectedItems().length == 1
-                ? "Удалить элемент" : "Удалить элементы";
+            self.deleteTitle = self._diagramService.diagram.getSelectedItems().length === 1
+                ? 'Удалить элемент' : 'Удалить элементы';
             self.deleteIsDisabled = false;
         });
         self._diagramEventsService.relationSetSelectionEvent.addHandler((relation) => {
-            self.deleteTitle = self._diagramService.diagram.getSelectedRelations().length == 1
-                ? "Удалить связь" : "Удалить связи";
+            self.deleteTitle = self._diagramService.diagram.getSelectedRelations().length === 1
+                ? 'Удалить связь' : 'Удалить связи';
             self.deleteIsDisabled = false;
         });
         self._diagramEventsService.diagramClearSelectionEvent.addHandler(() => {

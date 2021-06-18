@@ -12,6 +12,6 @@ export abstract class Identifiable {
 
     isEquals(x: Identifiable): boolean {
         if (!x) return false;
-        return this.id == x.id;
+        return this.id === x.id;
     }
 }
