@@ -157,23 +157,23 @@ export class Diagram extends Identifiable {
     }
 
     private correctItemPosition(item: DiagramItem): void {
-        let x = 0;
-        let y = 0;
+        let x: number = null;
+        let y: number = null;
         if (item.position.x < 0) x = 0;
         if (item.position.y < 0) y = 0;
         if (item.position.x + item.size.width > this._size.width) x = this._size.width - item.size.width;
         if (item.position.y + item.size.height > this._size.height) y = this._size.height - item.size.height;
-        if (x || y) {
+        if (x != null || y != null) {
             item.position = new Point(x ?? item.position.x, y ?? item.position.y);
         }
     }
 
     private correctItemSize(item: DiagramItem): void {
-        let width = 0;
-        let height = 0;
+        let width: number = null;
+        let height: number = null;
         if (item.size.width <= item.minSize.width) width = item.minSize.width;
         if (item.size.height <= item.minSize.height) height = item.minSize.height;
-        if (width || height) {
+        if (width != null || height != null) {
             item.size = new Size(width ?? item.size.width, height ?? item.size.height);
         }
     }
