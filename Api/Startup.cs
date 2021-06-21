@@ -1,16 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using LiveDiagram.Api.Common;
+using LiveDiagram.Api.Services;
 using LiveDiagram.Api.SignalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace LiveDiagram.Api
 {
@@ -29,9 +25,18 @@ namespace LiveDiagram.Api
             {
                 options.MaximumReceiveMessageSize = Int64.MaxValue;
             });
+
+            var diagramLoader = new DiagramLoader();
+            var diagramService = new DiagramService(diagramLoader);
+            services.AddSingleton<IDiagramService>(diagramService);
+
+            var actionService = new ActionService();
+            services.AddSingleton<IActionService>(actionService);
+
             var mainNotifier = new MainNotifier();
             mainNotifier.Start();
             services.AddSingleton<IMainNotifier>(mainNotifier);
+
             services.AddControllers();
         }
 

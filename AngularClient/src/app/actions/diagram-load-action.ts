@@ -6,9 +6,8 @@ export class DiagramLoadAction extends Action {
     private _diagramState: DiagramState;
 
     constructor(
-        id: string = null,
         diagram: Diagram) {
-        super(id, diagram);
+        super('0', diagram);
         this._info = { kind: ActionKind.load };
         this.isActive = true;
         this._diagramState = this.diagram.getState();

@@ -1,19 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LiveDiagram.Api.Model;
 
-namespace LiveDiagram.Api.Model
+namespace LiveDiagram.Api.Common
 {
-    public class DiagramLoader
+    public interface IDiagramLoader
     {
-        public List<AvailableDiagram> GetAvailableDiagrams()
-        {
-            return new List<AvailableDiagram>
-            {
-                new AvailableDiagram { Id = "12345", Title = "Новая диаграмма" },
-                new AvailableDiagram { Id = "6789", Title = "Еще одна новая диаграмма" },
-            }.OrderBy(x => x.Title).ToList();
-        }
+        Diagram LoadDiagramById(string id);
+    }
 
+    public class DiagramLoader : IDiagramLoader
+    {
         public Diagram LoadDiagramById(string id)
         {
             if (id == "12345")

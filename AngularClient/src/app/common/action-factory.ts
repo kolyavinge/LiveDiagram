@@ -20,7 +20,7 @@ import { RelationDeleteAction } from '../actions/relation-delete-action';
 export class ActionFactory {
 
     makeDiagramLoadAction(diagram: Diagram): DiagramLoadAction {
-        return new DiagramLoadAction(null, diagram);
+        return new DiagramLoadAction(diagram);
     }
 
     makeDiagramSetTitleAction(diagram: Diagram, titleOld: string, titleNew: string): DiagramSetTitleAction {

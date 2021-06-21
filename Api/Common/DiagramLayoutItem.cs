@@ -1,15 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace LiveDiagram.Api.Model
+namespace LiveDiagram.Api.Common
 {
-    public class DiagramItem
+    public class DiagramLayoutItem
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }
-
-        [JsonPropertyName("title")]
-        public string Title { get; set; }
 
         [JsonPropertyName("x")]
         public float X { get; set; }
@@ -22,8 +18,5 @@ namespace LiveDiagram.Api.Model
 
         [JsonPropertyName("height")]
         public float Height { get; set; }
-
-        [JsonPropertyName("methods")]
-        public List<Method> Methods { get; set; }
     }
 }

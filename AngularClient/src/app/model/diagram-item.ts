@@ -11,6 +11,20 @@ export class DiagramItem extends DiagramItemBase {
         super(id);
     }
 
+    static makeFromObject(obj): DiagramItem {
+        let item = new DiagramItem(obj.id);
+        item.title = obj.title;
+        item.position = new Point(obj.x, obj.y);
+        item.size = new Size(obj.width, obj.height);
+        item.methods = (obj.methods ?? []).map(m => {
+            let method = new Method(m.id);
+            method.signature = m.signature;
+            return method;
+        });
+
+        return item;
+    }
+
     static isEquals(x: DiagramItem, y: DiagramItem): boolean {
         if (!x && !y) return true;
         if (x && !y) return false;

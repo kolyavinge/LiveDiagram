@@ -1,29 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using LiveDiagram.Api.Common;
 
 namespace LiveDiagram.Api.Contracts
 {
     public class DiagramLayoutRequest : Request
     {
         [JsonPropertyName("items")]
-        public IEnumerable<DiagramLayoutRequestItem> Items { get; set; }
-    }
-
-    public class DiagramLayoutRequestItem
-    {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
-
-        [JsonPropertyName("x")]
-        public float X { get; set; }
-
-        [JsonPropertyName("y")]
-        public float Y { get; set; }
-
-        [JsonPropertyName("width")]
-        public float Width { get; set; }
-
-        [JsonPropertyName("height")]
-        public float Height { get; set; }
+        public IEnumerable<DiagramLayoutItem> Items { get; set; }
     }
 }

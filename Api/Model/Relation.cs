@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace LiveDiagram.Api.Model
 {
@@ -16,5 +12,11 @@ namespace LiveDiagram.Api.Model
 
         [JsonPropertyName("itemIdTo")]
         public string DiagramItemIdTo { get; set; }
+
+        [JsonPropertyName("itemFrom")]
+        public DiagramItem DiagramItemFrom { get; set; }
+
+        [JsonPropertyName("itemTo")]
+        public DiagramItem DiagramItemTo { get; set; }
     }
 }

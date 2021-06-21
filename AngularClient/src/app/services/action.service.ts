@@ -30,11 +30,18 @@ export class ActionService {
     }
 
     getActionById(id: string): Action {
+        if (this._loadAction.id === id) return this._loadAction;
         return this._actions.find(a => a.id === id);
     }
 
     addAction(action: Action): void {
         this._actions = this._actions.filter(a => a.isActive).concat(action);
+        this._lastAction = null;
+        this.actionsChangedEvent.raise();
+    }
+
+    addActions(actions: Action[]): void {
+        this._actions = this._actions.filter(a => a.isActive).concat(actions);
         this._lastAction = null;
         this.actionsChangedEvent.raise();
     }
