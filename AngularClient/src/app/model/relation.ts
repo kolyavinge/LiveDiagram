@@ -21,6 +21,12 @@ export class Relation extends Identifiable {
         this._isSelected = false;
     }
 
+    static makeWithItems(relationId: string, from: DiagramItem, to: DiagramItem): Relation {
+        let relation = new Relation(relationId);
+        relation.setDiagramItems(from, to);
+        return relation;
+    }
+
     setDiagramItems(from: DiagramItem, to: DiagramItem): void {
         this._from = from;
         this._to = to;
