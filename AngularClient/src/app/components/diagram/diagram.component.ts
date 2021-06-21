@@ -85,7 +85,7 @@ export class DiagramComponent implements OnInit {
         }
         // selection rectangle
         if (!pointedOrResizedItem) {
-            this.selectionRectangleModel.setStartPoint(new Point(event.x, event.y - 32));
+            this.selectionRectangleModel.setStartPoint(new Point(event.x, event.y - this._root.nativeElement.offsetTop));
         }
     }
 
@@ -105,7 +105,7 @@ export class DiagramComponent implements OnInit {
             this._mouseLastPosition = mouseCurrentPosition;
         } else if (this.selectionRectangleModel.isActive) {
             this.diagram.items.forEach(i => i.isSelected = false);
-            this.selectionRectangleModel.setEndPoint(new Point(event.x, event.y - 32));
+            this.selectionRectangleModel.setEndPoint(new Point(event.x, event.y - this._root.nativeElement.offsetTop));
             let selectedItems = this.selectionRectangleModel.getSelectedItems(this.diagram.items);
             selectedItems.forEach(i => i.isSelected = true);
         }
