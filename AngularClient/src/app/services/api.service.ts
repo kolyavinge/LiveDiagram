@@ -46,15 +46,13 @@ export class ApiService {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
-            items: diagram.items.map((item) => {
-                return {
-                    id: item.id,
-                    x: item.position.x,
-                    y: item.position.y,
-                    width: item.size.width,
-                    height: item.size.height
-                };
-            })
+            items: diagram.items.map(item => ({
+                id: item.id,
+                x: item.position.x,
+                y: item.position.y,
+                width: item.size.width,
+                height: item.size.height
+            }))
         };
         this._httpClient.post(ApiPath.diagramLayoutPath, postData).toPromise();
     }
@@ -101,16 +99,16 @@ export class ApiService {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
-            itemId: item.id,
-            itemTitle: item.title,
-            itemX: item.position.x,
-            itemY: item.position.y,
-            itemWidth: item.size.width,
-            itemHeight: item.size.height,
+            item: {
+                id: item.id,
+                title: item.title,
+                x: item.position.x,
+                y: item.position.y,
+                width: item.size.width,
+                height: item.size.height,
+                methods: methods.map((m) => ({ id: m.id, signature: m.signature }))
+            },
             parentRelation: parentRelation ? { id: parentRelation.id, itemIdFrom: parentRelation.from.id, itemIdTo: parentRelation.to.id } : null,
-            methods: methods.map((m) => {
-                return { id: m.id, signature: m.signature };
-            })
         };
         this._httpClient.post(ApiPath.diagramItemAddPath, postData).toPromise();
     }
@@ -124,9 +122,7 @@ export class ApiService {
             itemTitle: item.title,
             parentHasChanged: parentHasChanged,
             parentRelation: parentRelation ? { id: parentRelation.id, itemIdFrom: parentRelation.from.id, itemIdTo: parentRelation.to.id } : null,
-            methods: methods.map((m) => {
-                return { id: m.id, signature: m.signature };
-            })
+            methods: methods.map(m => ({ id: m.id, signature: m.signature }))
         };
         this._httpClient.post(ApiPath.diagramItemEditPath, postData).toPromise();
     }
@@ -147,9 +143,7 @@ export class ApiService {
             clientId: this._localStorage.authData.clientId,
             diagramId: diagram.id,
             itemId: item.id,
-            methods: item.methods.map((m) => {
-                return { id: m.id, signature: m.signature };
-            })
+            methods: item.methods.map(m => ({ id: m.id, signature: m.signature }))
         };
         this._httpClient.post(ApiPath.diagramItemSetMethodsPath, postData).toPromise();
     }
@@ -159,9 +153,7 @@ export class ApiService {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
-            relations: relations.map((r) => {
-                return { id: r.id, itemIdFrom: r.from.id, itemIdTo: r.to.id };
-            })
+            relations: relations.map(r => ({ id: r.id, itemIdFrom: r.from.id, itemIdTo: r.to.id }))
         };
         this._httpClient.post(ApiPath.relationAddPath, postData).toPromise();
     }
@@ -182,7 +174,7 @@ export class ApiService {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
-            relationsId: relations.map((r) => r.id)
+            relationsId: relations.map(r => r.id)
         };
         this._httpClient.post(ApiPath.relationDeletePath, postData).toPromise();
     }

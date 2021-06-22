@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using LiveDiagram.Api.Common;
 using LiveDiagram.Api.Model;
 
@@ -43,12 +44,20 @@ namespace LiveDiagram.Api.Services
         {
             if (_actions.ContainsKey(diagram))
             {
-                _actions[diagram].Actions.Add(action);
+                var diagramActions = _actions[diagram];
+                var activeAction = diagramActions.Actions.First(x => x.Id == diagramActions.ActiveActionId);
+                var activeActionIndex = diagramActions.Actions.IndexOf(activeAction);
+                if (activeActionIndex + 1 < diagramActions.Actions.Count)
+                {
+                    diagramActions.Actions.RemoveRange(activeActionIndex + 1, diagramActions.Actions.Count - (activeActionIndex + 1));
+                }
+                diagramActions.Actions.Add(action);
             }
             else
             {
                 _actions.Add(diagram, new DiagramActions { Actions = new List<Action> { action } });
             }
+            _actions[diagram].ActiveActionId = action.Id;
         }
 
         public string GetActiveActionId(Diagram diagram)

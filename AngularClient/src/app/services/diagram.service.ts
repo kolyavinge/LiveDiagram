@@ -75,21 +75,21 @@ export class DiagramService {
             self._apiService.diagramLayout(action, diagram);
         });
 
-        self._diagramEventsService.diagramItemMoveEvent.addHandler((args) => {
+        self._diagramEventsService.diagramItemMoveEvent.addHandler(args => {
             let action = self._actionFactory.makeDiagramItemMoveAction(self._diagram, args.item, args.startPosition, args.item.position);
             action.do();
             self._actionService.addAction(action);
             self._apiService.diagramItemMove(action, self._diagram, args.item);
         });
 
-        self._diagramEventsService.diagramItemResizeEvent.addHandler((args) => {
+        self._diagramEventsService.diagramItemResizeEvent.addHandler(args => {
             let action = self._actionFactory.makeDiagramItemResizeAction(self._diagram, args.item, args.startPosition, args.startSize, args.item.position, args.item.size);
             action.do();
             self._actionService.addAction(action);
             self._apiService.diagramItemResize(action, self._diagram, args.item);
         });
 
-        self._diagramEventsService.diagramItemSetTitleEvent.addHandler((args) => {
+        self._diagramEventsService.diagramItemSetTitleEvent.addHandler(args => {
             let action = self._actionFactory.makeDiagramItemSetTitleAction(self._diagram, args.item, args.item.title, args.titleNew);
             action.do();
             self._actionService.addAction(action);

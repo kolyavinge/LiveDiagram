@@ -9,6 +9,7 @@ import { DiagramService } from 'src/app/services/diagram.service';
 import { DiagramEventsService } from 'src/app/services/diagram-events.service';
 import { KeyboardService } from 'src/app/services/keyboard.service';
 import { SelectionRectangleModel } from '../selection-rectangle/selection-rectangle-model';
+import Utils from 'src/app/common/utils';
 
 @Component({
     selector: 'app-diagram',
@@ -44,7 +45,7 @@ export class DiagramComponent implements OnInit {
 
     get diagram(): Diagram { return this._diagram; }
 
-    onMouseDown(event): void {
+    onMouseDown(event: MouseEvent): void {
         // item selection
         this._pointedItem = this._diagram.getPointedItem();
         this._resizedItem = this._diagram.getResizedItem();
@@ -85,11 +86,11 @@ export class DiagramComponent implements OnInit {
         }
         // selection rectangle
         if (!pointedOrResizedItem) {
-            this.selectionRectangleModel.setStartPoint(new Point(event.x, event.y - this._root.nativeElement.offsetTop));
+            this.selectionRectangleModel.setStartPoint(Utils.pointInElement(this._root, event));
         }
     }
 
-    onMouseMove(event): void {
+    onMouseMove(event: MouseEvent): void {
         if (this._pointedItem != null || this._resizedItem != null) {
             let mouseCurrentPosition = new Point(event.x, event.y);
             let deltaX = mouseCurrentPosition.x - this._mouseLastPosition.x;
@@ -105,13 +106,13 @@ export class DiagramComponent implements OnInit {
             this._mouseLastPosition = mouseCurrentPosition;
         } else if (this.selectionRectangleModel.isActive) {
             this.diagram.items.forEach(i => i.isSelected = false);
-            this.selectionRectangleModel.setEndPoint(new Point(event.x, event.y - this._root.nativeElement.offsetTop));
+            this.selectionRectangleModel.setEndPoint(Utils.pointInElement(this._root, event));
             let selectedItems = this.selectionRectangleModel.getSelectedItems(this.diagram.items);
             selectedItems.forEach(i => i.isSelected = true);
         }
     }
 
-    onMouseUp(event): void {
+    onMouseUp(event: MouseEvent): void {
         let pointedOrResizedItem = this._pointedItem ?? this._resizedItem;
         let hasMoved = pointedOrResizedItem ? pointedOrResizedItem.position.isEquals(this._pointedOrResizedItemState.position) === false : false;
         let hasResized = pointedOrResizedItem ? pointedOrResizedItem.size.isEquals(this._pointedOrResizedItemState.size) === false : false;

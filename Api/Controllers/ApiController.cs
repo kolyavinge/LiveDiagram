@@ -192,29 +192,17 @@ namespace LiveDiagram.Api.Controllers
                 ClientId = request.ClientId,
                 ActionId = request.ActionId,
                 DiagramId = request.DiagramId,
-                DiagramItemId = request.DiagramItemId,
-                DiagramItemTitle = request.DiagramItemTitle,
-                DiagramItemX = request.DiagramItemX,
-                DiagramItemY = request.DiagramItemY,
-                DiagramItemWidth = request.DiagramItemWidth,
-                DiagramItemHeight = request.DiagramItemHeight,
+                Item = request.Item,
                 ParentRelation = request.ParentRelation,
-                Methods = request.Methods
             };
             _mainNotifier.DiagramItemAddResponse(response);
             var diagram = _diagramService.GetDiagramById(request.DiagramId);
-            var parentItem = request.ParentRelation != null ? diagram.Items.First(x => x.Id == request.ParentRelation.DiagramItemIdFrom) : null;
-            var item = new DiagramItem
+            if (request.ParentRelation != null)
             {
-                Id = request.DiagramItemId,
-                Title = request.DiagramItemTitle,
-                Methods = request.Methods.ToList(),
-                X = request.DiagramItemX,
-                Y = request.DiagramItemY,
-                Width = request.DiagramItemWidth,
-                Height = request.DiagramItemHeight
-            };
-            var action = new DiagramItemAddAction(request.ActionId, diagram, parentItem, item, request.ParentRelation);
+                request.ParentRelation.DiagramItemFrom = diagram.Items.FirstOrDefault(x => x.Id == request.ParentRelation.DiagramItemIdFrom);
+                request.ParentRelation.DiagramItemTo = diagram.Items.FirstOrDefault(x => x.Id == request.ParentRelation.DiagramItemIdTo);
+            }
+            var action = new DiagramItemAddAction(request.ActionId, diagram, request.Item, request.ParentRelation);
             action.Do();
             _actionService.AddAction(diagram, action);
 

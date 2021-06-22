@@ -7,19 +7,15 @@ namespace LiveDiagram.Api.Actions
     {
         private readonly Diagram _diagram;
 
-        [JsonPropertyName("parentItem")]
-        public DiagramItem ParentItem { get; }
-
         [JsonPropertyName("item")]
         public DiagramItem Item { get; }
 
         [JsonPropertyName("parentRelation")]
         public Relation ParentRelation { get; }
 
-        public DiagramItemAddAction(string actionId, Diagram diagram, DiagramItem parentItem, DiagramItem item, Relation parentRelation) : base(actionId)
+        public DiagramItemAddAction(string actionId, Diagram diagram, DiagramItem item, Relation parentRelation) : base(actionId)
         {
             _diagram = diagram;
-            ParentItem = parentItem;
             Item = item;
             ParentRelation = parentRelation;
         }

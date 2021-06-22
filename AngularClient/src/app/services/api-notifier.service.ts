@@ -79,7 +79,7 @@ export class ApiNotifierService {
 
     private addHandler(method: string, handler: any): void {
         let self = this;
-        self._signalrClient.addHandler(method, (response) => {
+        self._signalrClient.addHandler(method, response => {
             if (self._authData.clientId !== response.clientId) handler(response);
         });
     }

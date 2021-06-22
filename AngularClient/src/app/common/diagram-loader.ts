@@ -2,7 +2,6 @@ import { Point } from '../common/point';
 import { Size } from '../common/size';
 import { DiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';
-import { Method } from '../model/method';
 import { Diagram } from '../model/diagram';
 import { Action } from '../common/action';
 import { ActionFactory } from './action-factory';
@@ -28,7 +27,7 @@ export class DiagramLoader {
     }
 
     public makeActions(diagram: Diagram, response): Action[] {
-        var actions = response.actions.map(action => this.makeAction(diagram, action)).filter(x => x != null);
+        let actions = response.actions.map(action => this.makeAction(diagram, action)).filter(x => x != null);
         actions.forEach(x => x.isActive = true);
         return actions;
     }
@@ -38,11 +37,10 @@ export class DiagramLoader {
             let item = diagram.getItemById(response.item.id) ?? DiagramItem.makeFromObject(response.item);
             let parentRelation: Relation = null;
             if (response.parentRelation) {
-                let parentItem = diagram.getItemById(response.parentItem.id) ?? DiagramItem.makeFromObject(response.parentItem);
+                let parentItem = diagram.getItemById(response.parentRelation.itemFromId) ?? DiagramItem.makeFromObject(response.parentRelation.itemFrom);
                 parentRelation = diagram.getRelationById(response.parentRelation.id);
                 if (!parentRelation) {
-                    parentRelation = new Relation(response.parentRelation.id);
-                    parentRelation.setDiagramItems(parentItem, item);
+                    parentRelation = Relation.makeWithItems(response.parentRelation.id, parentItem, item);
                 }
             }
             return this._actionFactory.addDiagramItemAddAction(response.id, diagram, item, parentRelation);
@@ -100,12 +98,8 @@ export class DiagramLoader {
             let item = diagram.getItemById(response.item.id) ?? DiagramItem.makeFromObject(response.item);
             return this._actionFactory.addDiagramItemSetTitleAction(response.id, diagram, item, response.titleOld, response.titleNew);
         } else if (response.type === 'DiagramLayoutAction') {
-            let itemsOld = response.layoutItemsOld.map(i => {
-                return { id: i.id, position: new Point(i.x, i.y), size: new Size(i.width, i.height) };
-            });
-            let itemsNew = response.layoutItemsNew.map(i => {
-                return { id: i.id, position: new Point(i.x, i.y), size: new Size(i.width, i.height) };
-            });
+            let itemsOld = response.layoutItemsOld.map(i => ({ id: i.id, position: new Point(i.x, i.y), size: new Size(i.width, i.height) }));
+            let itemsNew = response.layoutItemsNew.map(i => ({ id: i.id, position: new Point(i.x, i.y), size: new Size(i.width, i.height) }));
             return this._actionFactory.addDiagramLayoutAction(response.id, diagram, itemsOld, itemsNew);
         } else if (response.type === 'DiagramSetTitleAction') {
             return this._actionFactory.addDiagramSetTitleAction(response.id, diagram, response.titleOld, response.titleNew);
@@ -147,7 +141,6 @@ export class DiagramLoader {
             return this._actionFactory.addRelationDeleteAction(response.id, diagram, relations);
         } else if (response.type === 'RelationEditAction') {
             let itemsForRelations: DiagramItem[] = [];
-
             let from = diagram.getItemById(response.relationOld.itemIdFrom) ?? itemsForRelations.find(x => x.id === response.relationOld.itemIdFrom);
             if (!from) {
                 from = DiagramItem.makeFromObject(response.relationOld.itemFrom);
@@ -159,7 +152,6 @@ export class DiagramLoader {
                 itemsForRelations.push(to);
             }
             let relationOld = Relation.makeWithItems(response.relationOld.id, from, to);
-
             let relationNew = diagram.getRelationById(response.relationNew.id);
             if (!relationNew) {
                 from = diagram.getItemById(response.relationNew.itemIdFrom) ?? itemsForRelations.find(x => x.id === response.relationNew.itemIdFrom);
