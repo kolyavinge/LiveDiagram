@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using System.Threading.Tasks;
-using LiveDiagram.Api.Contracts;
+using LiveDiagram.Api.Contracts.RequestResponse;
 using Microsoft.AspNetCore.SignalR.Client;
 
 namespace LiveDiagram.Api.SignalR

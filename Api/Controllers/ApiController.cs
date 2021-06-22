@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using LiveDiagram.Api.Actions;
 using LiveDiagram.Api.Common;
-using LiveDiagram.Api.Contracts;
+using LiveDiagram.Api.Contracts.RequestResponse;
 using LiveDiagram.Api.Model;
 using LiveDiagram.Api.Services;
 using LiveDiagram.Api.SignalR;
