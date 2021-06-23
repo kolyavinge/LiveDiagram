@@ -15,11 +15,11 @@ import { DiagramUpdaterService } from './diagram-updater.service';
 import { ActionService } from './action.service';
 import { ActionFactory } from '../common/action-factory';
 import { DiagramLoader } from '../common/diagram-loader';
+import { ActionLoader } from '../common/action-loader';
 
 @Injectable({ providedIn: 'root' })
 export class DiagramService {
 
-    private _actionFactory = new ActionFactory();
     private _diagram: Diagram;
 
     constructor(
@@ -38,13 +38,15 @@ export class DiagramService {
     loadDiagramById(id: string): void {
         let self = this;
         self._apiService.getDiagramById(id).then(response => {
-            let diagramLoader = new DiagramLoader(self._actionFactory);
+            let diagramLoader = new DiagramLoader();
             self._diagram = diagramLoader.makeDiagram(response);
             self._diagramUpdaterService.connectToDiagram(self._diagram);
             self._diagramEventsService.diagramLoadEvent.raise(self._diagram);
             self._actionService.loadDiagram(self._diagram);
-            let actions = diagramLoader.makeActions(self._diagram, response);
-            self._actionService.addActions(actions);
+            let actionLoader = new ActionLoader();
+            let actions = actionLoader.makeActions(self._diagram, response);
+            actions.forEach(a => a.do());
+            actions.forEach(a => self._actionService.addAction(a));
             if (response.activeActionId) {
                 let activeAction = self._actionService.getActionById(response.activeActionId);
                 self._actionService.setActiveAction(activeAction);
@@ -54,9 +56,10 @@ export class DiagramService {
 
     setHandlers(): void {
         let self = this;
+        let actionFactory = new ActionFactory();
 
         let diagramSetTitleDelayedRequest = new DelayedRequest((titleNew: string) => {
-            let action = self._actionFactory.makeDiagramSetTitleAction(self._diagram, self._diagram.title, titleNew);
+            let action = actionFactory.makeDiagramSetTitleAction(self._diagram, self._diagram.title, titleNew);
             action.do();
             self._actionService.addAction(action);
             self._apiService.diagramSetTitle(action, self._diagram);
@@ -69,28 +72,28 @@ export class DiagramService {
             let itemsOld = diagram.items.map(i => i.getState({ position: true }));
             let layoutLogic = new DiagramLayoutLogic();
             let layoutResult = layoutLogic.layoutDiagram(diagram);
-            let action = self._actionFactory.makeDiagramLayoutAction(self._diagram, itemsOld, layoutResult.items);
+            let action = actionFactory.makeDiagramLayoutAction(self._diagram, itemsOld, layoutResult.items);
             action.do();
             self._actionService.addAction(action);
             self._apiService.diagramLayout(action, diagram);
         });
 
         self._diagramEventsService.diagramItemMoveEvent.addHandler(args => {
-            let action = self._actionFactory.makeDiagramItemMoveAction(self._diagram, args.item, args.startPosition, args.item.position);
+            let action = actionFactory.makeDiagramItemMoveAction(self._diagram, args.item, args.startPosition, args.item.position);
             action.do();
             self._actionService.addAction(action);
             self._apiService.diagramItemMove(action, self._diagram, args.item);
         });
 
         self._diagramEventsService.diagramItemResizeEvent.addHandler(args => {
-            let action = self._actionFactory.makeDiagramItemResizeAction(self._diagram, args.item, args.startPosition, args.startSize, args.item.position, args.item.size);
+            let action = actionFactory.makeDiagramItemResizeAction(self._diagram, args.item, args.startPosition, args.startSize, args.item.position, args.item.size);
             action.do();
             self._actionService.addAction(action);
             self._apiService.diagramItemResize(action, self._diagram, args.item);
         });
 
         self._diagramEventsService.diagramItemSetTitleEvent.addHandler(args => {
-            let action = self._actionFactory.makeDiagramItemSetTitleAction(self._diagram, args.item, args.item.title, args.titleNew);
+            let action = actionFactory.makeDiagramItemSetTitleAction(self._diagram, args.item, args.item.title, args.titleNew);
             action.do();
             self._actionService.addAction(action);
             self._apiService.diagramItemSetTitle(action, self._diagram, args.item);
@@ -111,7 +114,7 @@ export class DiagramService {
             if (result.methodsNew.length > 0) {
                 item.addMethods(result.methodsNew);
             }
-            let action = self._actionFactory.makeDiagramItemAddAction(self._diagram, item, parentRelation);
+            let action = actionFactory.makeDiagramItemAddAction(self._diagram, item, parentRelation);
             action.do();
             self._actionService.addAction(action);
             self._apiService.diagramItemAdd(action, self._diagram, item, parentRelation, result.methodsNew);
@@ -130,27 +133,27 @@ export class DiagramService {
                 }
             }
             if (result.titleHasChanged && !result.parentHasChanged && !result.methodsHasChanged) {
-                let action = self._actionFactory.makeDiagramItemSetTitleAction(self._diagram, item, result.titleOld, result.titleNew);
+                let action = actionFactory.makeDiagramItemSetTitleAction(self._diagram, item, result.titleOld, result.titleNew);
                 action.do();
                 self._actionService.addAction(action);
                 self._apiService.diagramItemSetTitle(action, self._diagram, item);
             } else if (result.parentHasChanged && result.parentOld == null && result.parentNew != null && !result.titleHasChanged && !result.methodsHasChanged) {
-                let action = self._actionFactory.makeRelationAddAction(self._diagram, [parentRelationNew]);
+                let action = actionFactory.makeRelationAddAction(self._diagram, [parentRelationNew]);
                 action.do();
                 self._actionService.addAction(action);
                 self._apiService.relationAdd(action, self._diagram, [parentRelationNew]);
             } else if (result.parentHasChanged && result.parentOld != null && result.parentNew != null && !result.titleHasChanged && !result.methodsHasChanged) {
-                let action = self._actionFactory.makeRelationEditAction(self._diagram, parentRelationOld, parentRelationNew);
+                let action = actionFactory.makeRelationEditAction(self._diagram, parentRelationOld, parentRelationNew);
                 action.do();
                 self._actionService.addAction(action);
                 self._apiService.relationEdit(action, self._diagram, parentRelationOld, parentRelationNew);
             } else if (result.parentHasChanged && result.parentOld != null && result.parentNew == null && !result.titleHasChanged && !result.methodsHasChanged) {
-                let action = self._actionFactory.makeRelationDeleteAction(self._diagram, [parentRelationOld]);
+                let action = actionFactory.makeRelationDeleteAction(self._diagram, [parentRelationOld]);
                 action.do();
                 self._actionService.addAction(action);
                 self._apiService.relationDelete(action, self._diagram, [parentRelationOld]);
             } else {
-                let action = self._actionFactory.makeDiagramItemEditAction(
+                let action = actionFactory.makeDiagramItemEditAction(
                     self._diagram, item, result.titleOld, result.titleNew, parentRelationOld, parentRelationNew, result.methodsOld, result.methodsNew);
                 action.do();
                 self._actionService.addAction(action);
@@ -162,14 +165,14 @@ export class DiagramService {
             diagramItems.forEach(i => i.isSelected = false);
             let relations = diagramItems.map(i => self._diagram.getItemRelations(i)).reduce((x, y) => x.concat(y), []); // flat array
             let relationsDistinct = Array.from(new Set(relations));
-            let action = self._actionFactory.makeDiagramItemDeleteAction(self._diagram, diagramItems, relationsDistinct);
+            let action = actionFactory.makeDiagramItemDeleteAction(self._diagram, diagramItems, relationsDistinct);
             action.do();
             self._actionService.addAction(action);
             self._apiService.diagramItemDelete(action, self._diagram, diagramItems, relationsDistinct);
         });
 
         self._diagramEventsService.relationAddEvent.addHandler((relations: Relation[]) => {
-            let action = self._actionFactory.makeRelationAddAction(self._diagram, relations);
+            let action = actionFactory.makeRelationAddAction(self._diagram, relations);
             action.do();
             self._actionService.addAction(action);
             self._apiService.relationAdd(action, self._diagram, relations);
@@ -177,7 +180,7 @@ export class DiagramService {
 
         self._diagramEventsService.relationDeleteEvent.addHandler((relations: Relation[]) => {
             relations.forEach(i => i.isSelected = false);
-            let action = self._actionFactory.makeRelationDeleteAction(self._diagram, relations);
+            let action = actionFactory.makeRelationDeleteAction(self._diagram, relations);
             action.do();
             self._actionService.addAction(action);
             self._apiService.relationDelete(action, self._diagram, relations);

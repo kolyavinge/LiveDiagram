@@ -1,39 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Serialization;
 using LiveDiagram.Api.Common;
-using LiveDiagram.Api.Model;
+using LiveDiagram.Api.Contracts.Data;
 
 namespace LiveDiagram.Api.Actions
 {
-    public class DiagramLayoutAction : LiveDiagram.Api.Common.Action
+    public class DiagramLayoutAction : LiveDiagram.Api.Common.Action, IDiagramLayoutData
     {
-        private readonly Diagram _diagram;
+        [JsonPropertyName("items")]
+        public IEnumerable<DiagramLayoutItem> Items { get; set; }
 
-        [JsonPropertyName("layoutItemsOld")]
-        public List<DiagramLayoutItem> LayoutItemsOld { get; }
-
-        [JsonPropertyName("layoutItemsNew")]
-        public List<DiagramLayoutItem> LayoutItemsNew { get; }
-
-        public DiagramLayoutAction(string actionId, Diagram diagram, List<DiagramLayoutItem> layoutItemsOld, List<DiagramLayoutItem> layoutItemsNew) : base(actionId)
+        public DiagramLayoutAction(string actionId, IDiagramLayoutData data) : base(actionId)
         {
-            _diagram = diagram;
-            LayoutItemsOld = layoutItemsOld;
-            LayoutItemsNew = layoutItemsNew;
-        }
-
-        public override void Do()
-        {
-            foreach (var layoutItem in LayoutItemsNew)
-            {
-                var item = _diagram.Items.FirstOrDefault(x => x.Id == layoutItem.Id);
-                if (item == null) continue;
-                item.X = layoutItem.X;
-                item.Y = layoutItem.Y;
-                item.Width = layoutItem.Width;
-                item.Height = layoutItem.Height;
-            }
+            Items = data.Items;
         }
     }
 }

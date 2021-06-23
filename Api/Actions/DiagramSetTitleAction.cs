@@ -1,28 +1,16 @@
 ﻿using System.Text.Json.Serialization;
-using LiveDiagram.Api.Model;
+using LiveDiagram.Api.Contracts.Data;
 
 namespace LiveDiagram.Api.Actions
 {
-    public class DiagramSetTitleAction : LiveDiagram.Api.Common.Action
+    public class DiagramSetTitleAction : LiveDiagram.Api.Common.Action, IDiagramSetTitleData
     {
-        private readonly Diagram _diagram;
+        [JsonPropertyName("diagramTitle")]
+        public string DiagramTitle { get; set; }
 
-        [JsonPropertyName("titleOld")]
-        public string TitleOld { get; }
-
-        [JsonPropertyName("titleNew")]
-        public string TitleNew { get; }
-
-        public DiagramSetTitleAction(string actionId, Diagram diagram, string titleOld, string titleNew) : base(actionId)
+        public DiagramSetTitleAction(string actionId, IDiagramSetTitleData data) : base(actionId)
         {
-            _diagram = diagram;
-            TitleOld = titleOld;
-            TitleNew = titleNew;
-        }
-
-        public override void Do()
-        {
-            _diagram.Title = TitleNew;
+            DiagramTitle = data.DiagramTitle;
         }
     }
 }

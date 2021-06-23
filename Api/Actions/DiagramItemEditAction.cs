@@ -1,67 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using LiveDiagram.Api.Contracts.Data;
 using LiveDiagram.Api.Model;
 
 namespace LiveDiagram.Api.Actions
 {
-    public class DiagramItemEditAction : LiveDiagram.Api.Common.Action
+    public class DiagramItemEditAction : LiveDiagram.Api.Common.Action, IDiagramItemEditData
     {
-        private readonly Diagram _diagram;
+        [JsonPropertyName("itemId")]
+        public string DiagramItemId { get; set; }
 
-        [JsonPropertyName("item")]
-        public DiagramItem Item { get; }
+        [JsonPropertyName("itemTitle")]
+        public string DiagramItemTitle { get; set; }
 
-        [JsonPropertyName("titleOld")]
-        public string TitleOld { get; }
+        [JsonPropertyName("parentHasChanged")]
+        public bool ParentHasChanged { get; set; }
 
-        [JsonPropertyName("titleNew")]
-        public string TitleNew { get; }
+        [JsonPropertyName("parentRelation")]
+        public Relation ParentRelation { get; set; }
 
-        [JsonPropertyName("parentRelationOld")]
-        public Relation ParentRelationOld { get; }
+        [JsonPropertyName("methods")]
+        public IEnumerable<Method> Methods { get; set; }
 
-        [JsonPropertyName("parentRelationNew")]
-        public Relation ParentRelationNew { get; }
-
-        [JsonPropertyName("methodsOld")]
-        public List<Method> MethodsOld { get; }
-
-        [JsonPropertyName("methodsNew")]
-        public List<Method> MethodsNew { get; }
-
-        public DiagramItemEditAction(
-            string actionId,
-            Diagram diagram,
-            DiagramItem item,
-            string titleOld,
-            string titleNew,
-            Relation parentRelationOld,
-            Relation parentRelationNew,
-            List<Method> methodsOld,
-            List<Method> methodsNew) : base(actionId)
+        public DiagramItemEditAction(string actionId, IDiagramItemEditData data) : base(actionId)
         {
-            _diagram = diagram;
-            Item = item;
-            TitleOld = titleOld;
-            TitleNew = titleNew;
-            ParentRelationOld = parentRelationOld;
-            ParentRelationNew = parentRelationNew;
-            MethodsOld = methodsOld;
-            MethodsNew = methodsNew;
-        }
-
-        public override void Do()
-        {
-            Item.Title = TitleNew;
-            Item.Methods = MethodsNew;
-            if (ParentRelationOld != null)
-            {
-                _diagram.Relations.RemoveAll(x => x.Id == ParentRelationOld.Id);
-            }
-            if (ParentRelationNew != null)
-            {
-                _diagram.Relations.Add(ParentRelationNew);
-            }
+            DiagramItemId = data.DiagramItemId;
+            DiagramItemTitle = data.DiagramItemTitle;
+            ParentHasChanged = data.ParentHasChanged;
+            ParentRelation = data.ParentRelation;
+            Methods = data.Methods;
         }
     }
 }

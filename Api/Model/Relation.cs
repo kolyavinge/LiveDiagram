@@ -12,11 +12,5 @@ namespace LiveDiagram.Api.Model
 
         [JsonPropertyName("itemIdTo")]
         public string DiagramItemIdTo { get; set; }
-
-        [JsonPropertyName("itemFrom")]
-        public DiagramItem DiagramItemFrom { get; set; }
-
-        [JsonPropertyName("itemTo")]
-        public DiagramItem DiagramItemTo { get; set; }
     }
 }

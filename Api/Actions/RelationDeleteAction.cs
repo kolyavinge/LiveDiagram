@@ -1,27 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Serialization;
-using LiveDiagram.Api.Model;
+using LiveDiagram.Api.Contracts.Data;
 
 namespace LiveDiagram.Api.Actions
 {
-    public class RelationDeleteAction : LiveDiagram.Api.Common.Action
+    public class RelationDeleteAction : LiveDiagram.Api.Common.Action, IRelationDeleteData
     {
-        private readonly Diagram _diagram;
+        [JsonPropertyName("relationsId")]
+        public IEnumerable<string> RelationsId { get; set; }
 
-        [JsonPropertyName("relations")]
-        public List<Relation> Relations { get; }
-
-        public RelationDeleteAction(string actionId, Diagram diagram, List<Relation> relations) : base(actionId)
+        public RelationDeleteAction(string actionId, IRelationDeleteData data) : base(actionId)
         {
-            _diagram = diagram;
-            Relations = relations;
-        }
-
-        public override void Do()
-        {
-            var ids = Relations.Select(x => x.Id).ToList();
-            _diagram.Relations.RemoveAll(x => ids.Contains(x.Id));
+            RelationsId = data.RelationsId;
         }
     }
 }

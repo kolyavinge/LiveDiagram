@@ -40,12 +40,6 @@ export class ActionService {
         this.actionsChangedEvent.raise();
     }
 
-    addActions(actions: Action[]): void {
-        this._actions = this._actions.filter(a => a.isActive).concat(actions);
-        this._lastAction = null;
-        this.actionsChangedEvent.raise();
-    }
-
     setActiveAction(action: Action): void {
         this.updateActiveAction(action);
         this._apiService.actionSetActive(action);

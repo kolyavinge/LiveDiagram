@@ -1,34 +1,21 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Serialization;
-using LiveDiagram.Api.Model;
+using LiveDiagram.Api.Contracts.Data;
 
 namespace LiveDiagram.Api.Actions
 {
-    public class DiagramItemDeleteAction : LiveDiagram.Api.Common.Action
+    public class DiagramItemDeleteAction : LiveDiagram.Api.Common.Action, IDiagramItemDeleteData
     {
-        private readonly Diagram _diagram;
+        [JsonPropertyName("itemsId")]
+        public IEnumerable<string> DiagramItemsId { get; set; }
 
-        [JsonPropertyName("items")]
-        public List<DiagramItem> Items { get; }
+        [JsonPropertyName("relationsId")]
+        public IEnumerable<string> RelationsId { get; set; }
 
-        [JsonPropertyName("relations")]
-        public List<Relation> Relations { get; }
-
-        public DiagramItemDeleteAction(string actionId, Diagram diagram, List<DiagramItem> items, List<Relation> relations) : base(actionId)
+        public DiagramItemDeleteAction(string actionId, IDiagramItemDeleteData data) : base(actionId)
         {
-            _diagram = diagram;
-            Items = items;
-            Relations = relations;
-        }
-
-        public override void Do()
-        {
-            var itemsId = Items.Select(x => x.Id).ToList();
-            _diagram.Items.RemoveAll(x => itemsId.Contains(x.Id));
-
-            var relationsId = Relations.Select(x => x.Id).ToList();
-            _diagram.Relations.RemoveAll(x => relationsId.Contains(x.Id));
+            DiagramItemsId = data.DiagramItemsId;
+            RelationsId = data.RelationsId;
         }
     }
 }

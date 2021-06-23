@@ -1,66 +1,32 @@
 ﻿using System.Text.Json.Serialization;
-using LiveDiagram.Api.Model;
+using LiveDiagram.Api.Contracts.Data;
 
 namespace LiveDiagram.Api.Actions
 {
-    public class DiagramItemResizeAction : LiveDiagram.Api.Common.Action
+    public class DiagramItemResizeAction : LiveDiagram.Api.Common.Action, IDiagramItemResizeData
     {
-        [JsonPropertyName("item")]
-        public DiagramItem Item { get; }
+        [JsonPropertyName("itemId")]
+        public string DiagramItemId { get; set; }
 
-        [JsonPropertyName("positionXOld")]
-        public float PositionXOld { get; }
+        [JsonPropertyName("itemX")]
+        public float DiagramItemX { get; set; }
 
-        [JsonPropertyName("positionYOld")]
-        public float PositionYOld { get; }
+        [JsonPropertyName("itemY")]
+        public float DiagramItemY { get; set; }
 
-        [JsonPropertyName("positionXNew")]
-        public float PositionXNew { get; }
+        [JsonPropertyName("itemWidth")]
+        public float DiagramItemWidth { get; set; }
 
-        [JsonPropertyName("positionYNew")]
-        public float PositionYNew { get; }
+        [JsonPropertyName("itemHeight")]
+        public float DiagramItemHeight { get; set; }
 
-        [JsonPropertyName("sizeWidthOld")]
-        public float SizeWidthOld { get; }
-
-        [JsonPropertyName("sizeHeightOld")]
-        public float SizeHeightOld { get; }
-
-        [JsonPropertyName("sizeWidthNew")]
-        public float SizeWidthNew { get; }
-
-        [JsonPropertyName("sizeHeightNew")]
-        public float SizeHeightNew { get; }
-
-        public DiagramItemResizeAction(
-            string actionId,
-            DiagramItem item,
-            float positionXOld,
-            float positionYOld,
-            float positionXNew,
-            float positionYNew,
-            float sizeWidthOld,
-            float sizeHeightOld,
-            float sizeWidthNew,
-            float sizeHeightNew) : base(actionId)
+        public DiagramItemResizeAction(string actionId, IDiagramItemResizeData data) : base(actionId)
         {
-            Item = item;
-            PositionXOld = positionXOld;
-            PositionYOld = positionYOld;
-            PositionXNew = positionXNew;
-            PositionYNew = positionYNew;
-            SizeWidthOld = sizeWidthOld;
-            SizeHeightOld = sizeHeightOld;
-            SizeWidthNew = sizeWidthNew;
-            SizeHeightNew = sizeHeightNew;
-        }
-
-        public override void Do()
-        {
-            Item.X = PositionXNew;
-            Item.Y = PositionYNew;
-            Item.Width = SizeWidthNew;
-            Item.Height = SizeHeightNew;
+            DiagramItemId = data.DiagramItemId;
+            DiagramItemX = data.DiagramItemX;
+            DiagramItemY = data.DiagramItemY;
+            DiagramItemWidth = data.DiagramItemWidth;
+            DiagramItemHeight = data.DiagramItemHeight;
         }
     }
 }

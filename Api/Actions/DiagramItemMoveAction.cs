@@ -1,44 +1,24 @@
 ﻿using System.Text.Json.Serialization;
-using LiveDiagram.Api.Model;
+using LiveDiagram.Api.Contracts.Data;
 
 namespace LiveDiagram.Api.Actions
 {
-    public class DiagramItemMoveAction : LiveDiagram.Api.Common.Action
+    public class DiagramItemMoveAction : LiveDiagram.Api.Common.Action, IDiagramItemMoveData
     {
-        [JsonPropertyName("item")]
-        public DiagramItem Item { get; }
+        [JsonPropertyName("itemId")]
+        public string DiagramItemId { get; set; }
 
-        [JsonPropertyName("positionXOld")]
-        public float PositionXOld { get; }
+        [JsonPropertyName("itemX")]
+        public float DiagramItemX { get; set; }
 
-        [JsonPropertyName("positionYOld")]
-        public float PositionYOld { get; }
+        [JsonPropertyName("itemY")]
+        public float DiagramItemY { get; set; }
 
-        [JsonPropertyName("positionXNew")]
-        public float PositionXNew { get; }
-
-        [JsonPropertyName("positionYNew")]
-        public float PositionYNew { get; }
-
-        public DiagramItemMoveAction(
-            string actionId,
-            DiagramItem item,
-            float positionXOld,
-            float positionYOld,
-            float positionXNew,
-            float positionYNew) : base(actionId)
+        public DiagramItemMoveAction(string actionId, IDiagramItemMoveData data) : base(actionId)
         {
-            Item = item;
-            PositionXOld = positionXOld;
-            PositionYOld = positionYOld;
-            PositionXNew = positionXNew;
-            PositionYNew = positionYNew;
-        }
-
-        public override void Do()
-        {
-            Item.X = PositionXNew;
-            Item.Y = PositionYNew;
+            DiagramItemId = data.DiagramItemId;
+            DiagramItemX = data.DiagramItemX;
+            DiagramItemY = data.DiagramItemY;
         }
     }
 }

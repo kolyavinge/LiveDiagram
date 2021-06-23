@@ -1,35 +1,21 @@
 ﻿using System.Text.Json.Serialization;
+using LiveDiagram.Api.Contracts.Data;
 using LiveDiagram.Api.Model;
 
 namespace LiveDiagram.Api.Actions
 {
-    public class RelationEditAction : LiveDiagram.Api.Common.Action
+    public class RelationEditAction : LiveDiagram.Api.Common.Action, IRelationEditData
     {
-        private readonly Diagram _diagram;
-
         [JsonPropertyName("relationOld")]
-        public Relation RelationOld { get; }
+        public Relation RelationOld { get; set; }
 
         [JsonPropertyName("relationNew")]
-        public Relation RelationNew { get; }
+        public Relation RelationNew { get; set; }
 
-        public RelationEditAction(string actionId, Diagram diagram, Relation relationOld, Relation relationNew) : base(actionId)
+        public RelationEditAction(string actionId, IRelationEditData data) : base(actionId)
         {
-            _diagram = diagram;
-            RelationOld = relationOld;
-            RelationNew = relationNew;
-        }
-
-        public override void Do()
-        {
-            if (RelationOld != null)
-            {
-                _diagram.Relations.RemoveAll(x => x.Id == RelationOld.Id);
-            }
-            if (RelationNew != null)
-            {
-                _diagram.Relations.Add(RelationNew);
-            }
+            RelationOld = data.RelationOld;
+            RelationNew = data.RelationNew;
         }
     }
 }

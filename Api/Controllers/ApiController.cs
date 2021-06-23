@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using LiveDiagram.Api.Actions;
-using LiveDiagram.Api.Common;
 using LiveDiagram.Api.Contracts.RequestResponse;
-using LiveDiagram.Api.Model;
 using LiveDiagram.Api.Services;
 using LiveDiagram.Api.SignalR;
 using Microsoft.AspNetCore.Cors;
@@ -79,8 +77,7 @@ namespace LiveDiagram.Api.Controllers
             };
             _mainNotifier.DiagramSetTitleResponse(response);
             var diagram = _diagramService.GetDiagramById(request.DiagramId);
-            var action = new DiagramSetTitleAction(request.ActionId, diagram, diagram.Title, request.DiagramTitle);
-            action.Do();
+            var action = new DiagramSetTitleAction(request.ActionId, request);
             _actionService.AddAction(diagram, action);
 
             return Ok();
@@ -100,9 +97,7 @@ namespace LiveDiagram.Api.Controllers
             };
             _mainNotifier.DiagramLayoutResponse(response);
             var diagram = _diagramService.GetDiagramById(request.DiagramId);
-            var itemsOld = diagram.Items.Select(item => new DiagramLayoutItem { Id = item.Id, X = item.X, Y = item.Y, Width = item.Width, Height = item.Height }).ToList();
-            var action = new DiagramLayoutAction(request.ActionId, diagram, itemsOld, request.Items.ToList());
-            action.Do();
+            var action = new DiagramLayoutAction(request.ActionId, request);
             _actionService.AddAction(diagram, action);
 
             return Ok();
@@ -124,9 +119,7 @@ namespace LiveDiagram.Api.Controllers
             };
             _mainNotifier.DiagramItemMoveResponse(response);
             var diagram = _diagramService.GetDiagramById(request.DiagramId);
-            var item = diagram.Items.FirstOrDefault(x => x.Id == request.DiagramItemId);
-            var action = new DiagramItemMoveAction(request.ActionId, item, item.X, item.Y, request.DiagramItemX, request.DiagramItemY);
-            action.Do();
+            var action = new DiagramItemMoveAction(request.ActionId, request);
             _actionService.AddAction(diagram, action);
 
             return Ok();
@@ -150,10 +143,7 @@ namespace LiveDiagram.Api.Controllers
             };
             _mainNotifier.DiagramItemResizeResponse(response);
             var diagram = _diagramService.GetDiagramById(request.DiagramId);
-            var item = diagram.Items.FirstOrDefault(x => x.Id == request.DiagramItemId);
-            var action = new DiagramItemResizeAction(
-                request.ActionId, item, item.X, item.Y, request.DiagramItemX, request.DiagramItemY, item.Width, item.Height, request.DiagramItemWidth, request.DiagramItemHeight);
-            action.Do();
+            var action = new DiagramItemResizeAction(request.ActionId, request);
             _actionService.AddAction(diagram, action);
 
             return Ok();
@@ -174,9 +164,7 @@ namespace LiveDiagram.Api.Controllers
             };
             _mainNotifier.DiagramItemSetTitleResponse(response);
             var diagram = _diagramService.GetDiagramById(request.DiagramId);
-            var item = diagram.Items.FirstOrDefault(x => x.Id == request.DiagramItemId);
-            var action = new DiagramItemSetTitleAction(request.ActionId, item, item.Title, request.DiagramItemTitle);
-            action.Do();
+            var action = new DiagramItemSetTitleAction(request.ActionId, request);
             _actionService.AddAction(diagram, action);
 
             return Ok();
@@ -197,13 +185,7 @@ namespace LiveDiagram.Api.Controllers
             };
             _mainNotifier.DiagramItemAddResponse(response);
             var diagram = _diagramService.GetDiagramById(request.DiagramId);
-            if (request.ParentRelation != null)
-            {
-                request.ParentRelation.DiagramItemFrom = diagram.Items.FirstOrDefault(x => x.Id == request.ParentRelation.DiagramItemIdFrom);
-                request.ParentRelation.DiagramItemTo = diagram.Items.FirstOrDefault(x => x.Id == request.ParentRelation.DiagramItemIdTo);
-            }
-            var action = new DiagramItemAddAction(request.ActionId, diagram, request.Item, request.ParentRelation);
-            action.Do();
+            var action = new DiagramItemAddAction(request.ActionId, request);
             _actionService.AddAction(diagram, action);
 
             return Ok();
@@ -227,25 +209,7 @@ namespace LiveDiagram.Api.Controllers
             };
             _mainNotifier.DiagramItemEditResponse(response);
             var diagram = _diagramService.GetDiagramById(request.DiagramId);
-            var item = diagram.Items.FirstOrDefault(x => x.Id == request.DiagramItemId);
-            Relation parentRelationOld = null;
-            if (request.ParentHasChanged)
-            {
-                parentRelationOld = diagram.Relations.FirstOrDefault(x => x.DiagramItemIdTo == item.Id);
-                if (parentRelationOld != null)
-                {
-                    parentRelationOld.DiagramItemFrom = diagram.Items.FirstOrDefault(x => x.Id == parentRelationOld.DiagramItemIdFrom);
-                    parentRelationOld.DiagramItemTo = diagram.Items.FirstOrDefault(x => x.Id == parentRelationOld.DiagramItemIdTo);
-                }
-            }
-            if (request.ParentRelation != null)
-            {
-                request.ParentRelation.DiagramItemFrom = diagram.Items.FirstOrDefault(x => x.Id == request.ParentRelation.DiagramItemIdFrom);
-                request.ParentRelation.DiagramItemTo = diagram.Items.FirstOrDefault(x => x.Id == request.ParentRelation.DiagramItemIdTo);
-            }
-            var action = new DiagramItemEditAction(
-                request.ActionId, diagram, item, item.Title, request.DiagramItemTitle, parentRelationOld, request.ParentRelation, item.Methods, request.Methods.ToList());
-            action.Do();
+            var action = new DiagramItemEditAction(request.ActionId, request);
             _actionService.AddAction(diagram, action);
 
             return Ok();
@@ -266,15 +230,7 @@ namespace LiveDiagram.Api.Controllers
             };
             _mainNotifier.DiagramItemDeleteResponse(response);
             var diagram = _diagramService.GetDiagramById(request.DiagramId);
-            var items = diagram.Items.Where(x => request.DiagramItemsId.Contains(x.Id)).ToList();
-            var relations = diagram.Relations.Where(x => request.RelationsId.Contains(x.Id)).ToList();
-            foreach (var relation in relations)
-            {
-                relation.DiagramItemFrom = diagram.Items.FirstOrDefault(x => x.Id == relation.DiagramItemIdFrom);
-                relation.DiagramItemTo = diagram.Items.FirstOrDefault(x => x.Id == relation.DiagramItemIdTo);
-            }
-            var action = new DiagramItemDeleteAction(request.ActionId, diagram, items, relations);
-            action.Do();
+            var action = new DiagramItemDeleteAction(request.ActionId, request);
             _actionService.AddAction(diagram, action);
 
             return Ok();
@@ -311,14 +267,7 @@ namespace LiveDiagram.Api.Controllers
             };
             _mainNotifier.RelationAddResponse(response);
             var diagram = _diagramService.GetDiagramById(request.DiagramId);
-            var relations = request.Relations.ToList();
-            foreach (var relation in relations)
-            {
-                relation.DiagramItemFrom = diagram.Items.FirstOrDefault(x => x.Id == relation.DiagramItemIdFrom);
-                relation.DiagramItemTo = diagram.Items.FirstOrDefault(x => x.Id == relation.DiagramItemIdTo);
-            }
-            var action = new RelationAddAction(request.ActionId, diagram, relations);
-            action.Do();
+            var action = new RelationAddAction(request.ActionId, request);
             _actionService.AddAction(diagram, action);
 
             return Ok();
@@ -339,18 +288,7 @@ namespace LiveDiagram.Api.Controllers
             };
             _mainNotifier.RelationEditResponse(response);
             var diagram = _diagramService.GetDiagramById(request.DiagramId);
-            if (request.RelationOld != null)
-            {
-                request.RelationOld.DiagramItemFrom = diagram.Items.FirstOrDefault(x => x.Id == request.RelationOld.DiagramItemIdFrom);
-                request.RelationOld.DiagramItemTo = diagram.Items.FirstOrDefault(x => x.Id == request.RelationOld.DiagramItemIdTo);
-            }
-            if (request.RelationNew != null)
-            {
-                request.RelationNew.DiagramItemFrom = diagram.Items.FirstOrDefault(x => x.Id == request.RelationNew.DiagramItemIdFrom);
-                request.RelationNew.DiagramItemTo = diagram.Items.FirstOrDefault(x => x.Id == request.RelationNew.DiagramItemIdTo);
-            }
-            var action = new RelationEditAction(request.ActionId, diagram, request.RelationOld, request.RelationNew);
-            action.Do();
+            var action = new RelationEditAction(request.ActionId, request);
             _actionService.AddAction(diagram, action);
 
             return Ok();
@@ -370,14 +308,7 @@ namespace LiveDiagram.Api.Controllers
             };
             _mainNotifier.RelationDeleteResponse(response);
             var diagram = _diagramService.GetDiagramById(request.DiagramId);
-            var relations = diagram.Relations.Where(x => request.RelationsId.Contains(x.Id)).ToList();
-            foreach (var relation in relations)
-            {
-                relation.DiagramItemFrom = diagram.Items.FirstOrDefault(x => x.Id == relation.DiagramItemIdFrom);
-                relation.DiagramItemTo = diagram.Items.FirstOrDefault(x => x.Id == relation.DiagramItemIdTo);
-            }
-            var action = new RelationDeleteAction(request.ActionId, diagram, relations);
-            action.Do();
+            var action = new RelationDeleteAction(request.ActionId, request);
             _actionService.AddAction(diagram, action);
 
             return Ok();
