@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Event } from '../common/event';
+import { Event } from '../infrastructure/event';
 import { Diagram } from '../model/diagram';
 import { ActionFactory } from '../common/action-factory';
 import { Action } from '../common/action';

@@ -1,5 +1,5 @@
 import { ElementRef } from '@angular/core';
-import { Point } from './point';
+import { Point } from 'src/app/common/geometry';
 
 export default {
 

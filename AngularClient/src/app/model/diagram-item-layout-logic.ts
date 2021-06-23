@@ -1,5 +1,5 @@
 import { Geometry } from '../common/geometry';
-import { Point } from '../common/point';
+import { Point } from '../common/geometry';
 import { DiagramItem } from './diagram-item';
 import { Diagram } from './diagram';
 

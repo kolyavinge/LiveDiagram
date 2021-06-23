@@ -1,4 +1,4 @@
-import { Point } from '../common/point';
+import { Point } from '../common/geometry';
 import { Diagram } from './diagram';
 import { DiagramItemState } from './diagram-item';
 import { InheritanceTree } from './inheritance-tree';

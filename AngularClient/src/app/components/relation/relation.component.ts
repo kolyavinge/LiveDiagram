@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Direction } from 'src/app/model/direction';
-import { Point } from 'src/app/common/point';
-import { Size } from 'src/app/common/size';
+import { Point, Size } from 'src/app/common/geometry';
 import { Relation } from 'src/app/model/relation';
 import { Segment } from 'src/app/model/segment';
 

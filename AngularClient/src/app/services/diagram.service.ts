@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Point } from '../common/point';
-import { Size } from '../common/size';
+import { DelayedRequest } from '../infrastructure/delayed-request';
+import { Point, Size } from '../common/geometry';
 import { DiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';
 import { Diagram } from '../model/diagram';
@@ -8,7 +8,6 @@ import { InheritanceLogic } from '../model/inheritance-logic';
 import { DiagramLayoutLogic } from '../model/diagram-layout-logic';
 import { DiagramItemLayoutLogic } from '../model/diagram-item-layout-logic';
 import { EditDiagramItemResult } from '../common/edit-diagram-item-result';
-import { DelayedRequest } from '../common/delayed-request';
 import { ApiService } from './api.service';
 import { DiagramEventsService } from './diagram-events.service';
 import { DiagramUpdaterService } from './diagram-updater.service';

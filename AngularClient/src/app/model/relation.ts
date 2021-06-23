@@ -2,7 +2,7 @@ import { Identifiable } from 'src/app/common/identifiable';
 import { DiagramItem } from './diagram-item';
 import { Segment } from './segment';
 import { SegmentCalculator } from './segment-calculator';
-import { Event } from 'src/app/common/event';
+import { Event } from 'src/app/infrastructure/event';
 
 const segmentCalculator = new SegmentCalculator();
 

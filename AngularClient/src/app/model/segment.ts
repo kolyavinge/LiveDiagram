@@ -1,5 +1,4 @@
-import { Point } from '../common/point';
-import { Size } from '../common/size';
+import { Point, Size } from '../common/geometry';
 
 export class Segment {
 

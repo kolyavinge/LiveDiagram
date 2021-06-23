@@ -1,5 +1,4 @@
-import { Point } from '../common/point';
-import { Size } from '../common/size';
+import { Point, Size } from '../common/geometry';
 import { Identifiable } from 'src/app/common/identifiable';
 import { DiagramItem, DiagramItemState } from './diagram-item';
 import { Relation, RelationState } from './relation';

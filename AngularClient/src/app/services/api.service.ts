@@ -6,7 +6,7 @@ import { Relation } from '../model/relation';
 import { Method } from '../model/method';
 import { Diagram } from '../model/diagram';
 import { Action } from '../common/action';
-import ApiPath from 'src/app/common/api-path';
+import ApiPath from 'src/app/infrastructure/api-path';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {

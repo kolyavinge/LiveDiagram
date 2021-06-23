@@ -1,5 +1,5 @@
 import { Action, ActionKind } from '../common/action';
-import { Point } from '../common/point';
+import { Point } from '../common/geometry';
 import { Diagram } from '../model/diagram';
 import { DiagramItem } from '../model/diagram-item';
 

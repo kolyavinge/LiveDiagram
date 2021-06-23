@@ -1,6 +1,5 @@
 import { Identifiable } from 'src/app/common/identifiable';
-import { Point } from 'src/app/common/point';
-import { Size } from 'src/app/common/size';
+import { Point, Size } from '../common/geometry';
 
 const minSize: Size = new Size(100, 100);
 
