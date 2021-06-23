@@ -13,35 +13,23 @@ export class ActionLoader {
     private _actionFactory = new ActionFactory();
 
     makeActions(diagram: Diagram, response): Action[] {
-        return response.actions.map(action => this.makeAction(diagram, action)).filter(x => x != null);
-    }
+        let actionDictionary = {
+            'DiagramItemAddAction': this.addDiagramItemAddAction,
+            'DiagramItemDeleteAction': this.addDiagramItemDeleteAction,
+            'DiagramItemEditAction': this.addDiagramItemEditAction,
+            'DiagramItemMoveAction': this.addDiagramItemMoveAction,
+            'DiagramItemResizeAction': this.addDiagramItemResizeAction,
+            'DiagramItemSetTitleAction': this.addDiagramItemSetTitleAction,
+            'DiagramLayoutAction': this.addDiagramLayoutAction,
+            'DiagramSetTitleAction': this.addDiagramSetTitleAction,
+            'RelationAddAction': this.addRelationAddAction,
+            'RelationDeleteAction': this.addRelationDeleteAction,
+            'RelationEditAction': this.addRelationEditAction
+        };
 
-    private makeAction(diagram: Diagram, response): Action {
-        if (response.type === 'DiagramItemAddAction') {
-            return this.addDiagramItemAddAction(diagram, response);
-        } else if (response.type === 'DiagramItemDeleteAction') {
-            return this.addDiagramItemDeleteAction(diagram, response);
-        } else if (response.type === 'DiagramItemEditAction') {
-            return this.addDiagramItemEditAction(diagram, response);
-        } else if (response.type === 'DiagramItemMoveAction') {
-            return this.addDiagramItemMoveAction(diagram, response);
-        } else if (response.type === 'DiagramItemResizeAction') {
-            return this.addDiagramItemResizeAction(diagram, response);
-        } else if (response.type === 'DiagramItemSetTitleAction') {
-            return this.addDiagramItemSetTitleAction(diagram, response);
-        } else if (response.type === 'DiagramLayoutAction') {
-            return this.addDiagramLayoutAction(diagram, response);
-        } else if (response.type === 'DiagramSetTitleAction') {
-            return this.addDiagramSetTitleAction(diagram, response);
-        } else if (response.type === 'RelationAddAction') {
-            return this.addRelationAddAction(diagram, response);
-        } else if (response.type === 'RelationDeleteAction') {
-            return this.addRelationDeleteAction(diagram, response);
-        } else if (response.type === 'RelationEditAction') {
-            return this.addRelationEditAction(diagram, response);
-        }
-
-        return null;
+        return response.actions
+            .filter(action => actionDictionary[action.type])
+            .map(action => actionDictionary[action.type].call(this, diagram, action));
     }
 
     addDiagramItemAddAction(diagram: Diagram, response): Action {
