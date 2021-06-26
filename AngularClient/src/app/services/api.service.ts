@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DiagramItemPosition } from '../common/diagram-item-position';
+import { DiagramItemPosition } from '../contracts/diagram-item-position';
 import { LocalStorageService } from './local-storage.service';
 import { DiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';

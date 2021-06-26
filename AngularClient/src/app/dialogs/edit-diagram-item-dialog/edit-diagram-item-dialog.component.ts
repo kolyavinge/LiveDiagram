@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { EditDiagramItemResult } from 'src/app/common/edit-diagram-item-result';
+import { EditDiagramItemResult } from 'src/app/contracts/edit-diagram-item-result';
 import { DiagramItem } from 'src/app/model/diagram-item';
 import { Method } from 'src/app/model/method';
 import { InheritanceLogic } from 'src/app/model/inheritance-logic';

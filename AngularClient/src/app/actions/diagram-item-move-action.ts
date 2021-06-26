@@ -1,5 +1,5 @@
 import { Action, ActionKind } from '../common/action';
-import { DiagramItemPosition } from '../common/diagram-item-position';
+import { DiagramItemPosition } from '../contracts/diagram-item-position';
 import { Diagram } from '../model/diagram';
 
 export class DiagramItemMoveAction extends Action {

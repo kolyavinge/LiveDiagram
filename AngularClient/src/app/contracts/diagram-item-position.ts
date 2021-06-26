@@ -1,5 +1,5 @@
 import { DiagramItem } from '../model/diagram-item';
-import { Point } from './geometry';
+import { Point } from '../common/geometry';
 
 export interface DiagramItemPosition {
     item: DiagramItem;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AvailableDiagram } from 'src/app/common/available-diagram';
+import { AvailableDiagram } from 'src/app/contracts/available-diagram';
 import { ApiService } from 'src/app/services/api.service';
 import { CommandService } from 'src/app/services/command.service';
 import { DiagramEventsService } from 'src/app/services/diagram-events.service';
