@@ -57,6 +57,14 @@ export class DiagramService {
         let self = this;
         let actionFactory = new ActionFactory();
 
+        self._diagramEventsService.saveDiagramEvent.addHandler((diagram: Diagram) => {
+            self._apiService.saveDiagram(diagram).then(response => {
+                if (response.success) {
+                    self._actionService.loadDiagram(diagram);
+                }
+            });
+        });
+
         let diagramSetTitleDelayedRequest = new DelayedRequest((titleNew: string) => {
             let action = actionFactory.makeDiagramSetTitleAction(self._diagram, self._diagram.title, titleNew);
             action.do();

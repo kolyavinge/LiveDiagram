@@ -75,4 +75,9 @@ export class MainMenuComponent implements OnInit {
         let cmd = this._commandService.makeLayoutDiagramCommand();
         cmd.exec(this._diagramService.diagram);
     }
+
+    save(): void {
+        let cmd = this._commandService.makeSaveDiagramCommand();
+        cmd.exec(this._diagramService.diagram);
+    }
 }

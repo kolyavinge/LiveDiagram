@@ -25,6 +25,10 @@ export class ApiNotifierService {
         this._signalrClient.clearHandlers();
     }
 
+    onSaveDiagram(handler: any): void {
+        this.addHandler('SaveDiagramResponse', handler);
+    }
+
     onDiagramSetTitle(handler: any): void {
         this.addHandler('DiagramSetTitleResponse', handler);
     }

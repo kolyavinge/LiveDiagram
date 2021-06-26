@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using LiveDiagram.Api.Common;
 using LiveDiagram.Api.Model;
 
@@ -9,6 +8,7 @@ namespace LiveDiagram.Api.Services
     {
         List<AvailableDiagram> GetAvailableDiagrams();
         Diagram GetDiagramById(string diagramId);
+        bool SaveDiagram(Diagram diagram);
     }
 
     public class DiagramService : IDiagramService
@@ -42,6 +42,19 @@ namespace LiveDiagram.Api.Services
                 var diagram = _diagramLoader.LoadDiagramById(diagramId);
                 _loadedDiagrams.Add(diagramId, diagram);
                 return diagram;
+            }
+        }
+
+        public bool SaveDiagram(Diagram diagram)
+        {
+            if (_loadedDiagrams.ContainsKey(diagram.Id))
+            {
+                _loadedDiagrams[diagram.Id] = diagram;
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

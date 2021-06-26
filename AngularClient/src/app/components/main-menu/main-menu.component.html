@@ -12,5 +12,6 @@
     <button (click)="createDiagramItem()" class="item-button noselect">Новый элемент</button>
     <button (click)="delete()" class="item-button noselect" [disabled]="deleteIsDisabled">{{ deleteTitle }}</button>
     <button (click)="layout()" class="item-button noselect">Выровнять диаграмму</button>
+    <button (click)="save()" class="item-button noselect">Сохранить диаграмму</button>
     <input class="diagram-title" type="text" [value]="diagramTitle" (input)="diagramTitle = $event.target.value" />
 </div>

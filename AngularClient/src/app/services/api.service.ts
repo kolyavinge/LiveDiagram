@@ -31,6 +31,32 @@ export class ApiService {
         return this._httpClient.post(ApiPath.getDiagramByIdPath, postData).toPromise();
     }
 
+    saveDiagram(diagram: Diagram): Promise<any> {
+        let postData = {
+            clientId: this._localStorage.authData.clientId,
+            diagramId: diagram.id,
+            diagram: {
+                id: diagram.id,
+                title: diagram.title,
+                items: diagram.items.map(i => ({
+                    id: i.id,
+                    title: i.title,
+                    x: i.position.x,
+                    y: i.position.y,
+                    width: i.size.width,
+                    height: i.size.height,
+                    methods: i.methods.map(m => ({ id: m.id, signature: m.signature }))
+                })),
+                relations: diagram.relations.map(r => ({
+                    id: r.id,
+                    itemIdFrom: r.from.id,
+                    itemIdTo: r.to.id
+                }))
+            }
+        };
+        return this._httpClient.post(ApiPath.saveDiagramPath, postData).toPromise();
+    }
+
     diagramSetTitle(action: Action, diagram: Diagram): void {
         let postData = {
             clientId: this._localStorage.authData.clientId,

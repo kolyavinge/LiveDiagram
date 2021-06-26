@@ -19,6 +19,10 @@ export class DiagramUpdaterService {
 
         self._apiNotifierService.clearHandlers();
 
+        self._apiNotifierService.onSaveDiagram(response => {
+            self._actionService.loadDiagram(diagram);
+        });
+
         self._apiNotifierService.onDiagramSetTitle(response => {
             let action = actionLoader.addDiagramSetTitleAction(diagram, response);
             action.do();

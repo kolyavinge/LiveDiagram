@@ -5,6 +5,7 @@ import { Event } from 'src/app/infrastructure/event';
 export class DiagramEventsService {
 
     diagramLoadEvent: Event = new Event();
+    saveDiagramEvent: Event = new Event();
     diagramSetTitleEvent: Event = new Event();
     diagramLayoutEvent: Event = new Event();
     diagramClearSelectionEvent: Event = new Event();
