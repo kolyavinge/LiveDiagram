@@ -1,30 +1,29 @@
 import { Action, ActionKind } from '../common/action';
-import { Point } from '../common/geometry';
+import { DiagramItemPosition } from '../common/diagram-item-position';
 import { Diagram } from '../model/diagram';
-import { DiagramItem } from '../model/diagram-item';
 
 export class DiagramItemMoveAction extends Action {
-
-    private _positionOld: Point;
-    private _positionNew: Point;
 
     constructor(
         id: string = null,
         diagram: Diagram,
-        private _item: DiagramItem,
-        positionOld: Point,
-        positionNew: Point) {
+        private _itemPositions: DiagramItemPosition[]) {
         super(id, diagram);
-        this._info = { kind: ActionKind.move, title: this._item.title };
-        this._positionOld = positionOld;
-        this._positionNew = positionNew;
+        this._info = {
+            kind: ActionKind.move,
+            title: this._itemPositions.length === 1 ? this._itemPositions[0].item.title : '(' + this._itemPositions.length + ')'
+        };
     }
 
     protected doInner(): void {
-        this.diagram.moveItemTo(this._item, this._positionNew.x, this._positionNew.y);
+        this._itemPositions.forEach(x => {
+            this.diagram.moveItemTo(x.item, x.positionNew.x, x.positionNew.y);
+        });
     }
 
     protected undoInner(): void {
-        this.diagram.moveItemTo(this._item, this._positionOld.x, this._positionOld.y);
+        this._itemPositions.forEach(x => {
+            this.diagram.moveItemTo(x.item, x.positionOld.x, x.positionOld.y);
+        });
     }
 }

@@ -73,10 +73,11 @@ export class ActionLoader {
     }
 
     addDiagramItemMoveAction(diagram: Diagram, response): Action {
-        let movedItem = diagram.getItemById(response.itemId);
-        let positionOld = movedItem.position;
-        let positionNew = new Point(response.itemX, response.itemY);
-        return this._actionFactory.addDiagramItemMoveAction(response.actionId, diagram, movedItem, positionOld, positionNew);
+        let items = response.items.map(i => {
+            let movedItem = diagram.getItemById(i.id);
+            return { item: movedItem, positionOld: movedItem.position, positionNew: new Point(i.x, i.y) };
+        });
+        return this._actionFactory.addDiagramItemMoveAction(response.actionId, diagram, items);
     }
 
     addDiagramItemResizeAction(diagram: Diagram, response): Action {

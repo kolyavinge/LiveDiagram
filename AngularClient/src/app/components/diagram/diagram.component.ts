@@ -123,10 +123,10 @@ export class DiagramComponent implements OnInit {
             if (hasMoved) {
                 let deltaX = this._pointedItem.position.x - this._pointedOrResizedItemState.position.x;
                 let deltaY = this._pointedItem.position.y - this._pointedOrResizedItemState.position.y;
-                this._diagram.getSelectedItems().forEach(item => {
-                    let startPosition = new Point(item.position.x - deltaX, item.position.y - deltaY);
-                    this._diagramEventsService.diagramItemMoveEvent.raise({ item: item, startPosition: startPosition });
-                });
+                let items = this._diagram.getSelectedItems().map(item =>
+                    ({ item: item, startPosition: new Point(item.position.x - deltaX, item.position.y - deltaY) })
+                );
+                this._diagramEventsService.diagramItemMoveEvent.raise({ items: items });
             }
             this._diagram.getSelectedItems().forEach(item => item.isPointed = false);
             this._pointedItem.isPointed = false;

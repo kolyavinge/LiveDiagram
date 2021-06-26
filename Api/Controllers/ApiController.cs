@@ -129,9 +129,7 @@ namespace LiveDiagram.Api.Controllers
                 ClientId = request.ClientId,
                 ActionId = request.ActionId,
                 DiagramId = request.DiagramId,
-                DiagramItemId = request.DiagramItemId,
-                DiagramItemX = request.DiagramItemX,
-                DiagramItemY = request.DiagramItemY
+                Items = request.Items
             };
             _mainNotifier.DiagramItemMoveResponse(response);
             var diagram = _diagramService.GetDiagramById(request.DiagramId);

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { DiagramItemPosition } from '../common/diagram-item-position';
 import { LocalStorageService } from './local-storage.service';
 import { DiagramItem } from '../model/diagram-item';
 import { Relation } from '../model/relation';
@@ -83,14 +84,12 @@ export class ApiService {
         this._httpClient.post(ApiPath.diagramLayoutPath, postData).toPromise();
     }
 
-    diagramItemMove(action: Action, diagram: Diagram, item: DiagramItem): void {
+    diagramItemMove(action: Action, diagram: Diagram, items: DiagramItemPosition[]): void {
         let postData = {
             clientId: this._localStorage.authData.clientId,
             actionId: action.id,
             diagramId: diagram.id,
-            itemId: item.id,
-            itemX: item.position.x,
-            itemY: item.position.y
+            items: items.map(x => ({ id: x.item.id, x: x.item.position.x, y: x.item.position.y }))
         };
         this._httpClient.post(ApiPath.diagramItemMovePath, postData).toPromise();
     }

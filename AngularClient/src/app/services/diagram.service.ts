@@ -86,10 +86,11 @@ export class DiagramService {
         });
 
         self._diagramEventsService.diagramItemMoveEvent.addHandler(args => {
-            let action = actionFactory.makeDiagramItemMoveAction(self._diagram, args.item, args.startPosition, args.item.position);
+            let items = args.items.map(x => ({ item: x.item, positionOld: x.startPosition, positionNew: x.item.position }));
+            let action = actionFactory.makeDiagramItemMoveAction(self._diagram, items);
             action.do();
             self._actionService.addAction(action);
-            self._apiService.diagramItemMove(action, self._diagram, args.item);
+            self._apiService.diagramItemMove(action, self._diagram, items);
         });
 
         self._diagramEventsService.diagramItemResizeEvent.addHandler(args => {

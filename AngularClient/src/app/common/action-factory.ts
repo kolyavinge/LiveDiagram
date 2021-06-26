@@ -1,4 +1,5 @@
 import { Point, Size } from '../common/geometry';
+import { DiagramItemPosition } from './diagram-item-position';
 import { DiagramItem, DiagramItemState } from '../model/diagram-item';
 import { Method } from '../model/method';
 import { Relation } from '../model/relation';
@@ -79,12 +80,12 @@ export class ActionFactory {
         return new DiagramItemDeleteAction(actionId, diagram, items, relations);
     }
 
-    makeDiagramItemMoveAction(diagram: Diagram, item: DiagramItem, positionOld: Point, positionNew: Point): DiagramItemMoveAction {
-        return new DiagramItemMoveAction(null, diagram, item, positionOld, positionNew);
+    makeDiagramItemMoveAction(diagram: Diagram, items: DiagramItemPosition[]): DiagramItemMoveAction {
+        return new DiagramItemMoveAction(null, diagram, items);
     }
 
-    addDiagramItemMoveAction(actionId: string, diagram: Diagram, item: DiagramItem, positionOld: Point, positionNew: Point): DiagramItemMoveAction {
-        return new DiagramItemMoveAction(actionId, diagram, item, positionOld, positionNew);
+    addDiagramItemMoveAction(actionId: string, diagram: Diagram, items: DiagramItemPosition[]): DiagramItemMoveAction {
+        return new DiagramItemMoveAction(actionId, diagram, items);
     }
 
     makeDiagramItemResizeAction(diagram: Diagram, item: DiagramItem, positionOld: Point, sizeOld: Size, positionNew: Point, sizeNew: Size): DiagramItemResizeAction {
