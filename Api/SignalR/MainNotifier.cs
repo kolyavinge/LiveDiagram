@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using LiveDiagram.Api.Contracts.RequestResponse;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -106,6 +107,10 @@ namespace LiveDiagram.Api.SignalR
 
         private async Task SendResponse(Response response)
         {
+            if (String.IsNullOrWhiteSpace(response.ClientId) || String.IsNullOrWhiteSpace(response.DiagramId))
+            {
+                throw new Exception("MainNotifier. Wrong response.");
+            }
             var callbackMethodName = response.GetType().Name;
             var reponseContainer = new ReponseContainer { ClientId = response.ClientId, DiagramId = response.DiagramId, Response = response };
             var reponseContainerSerialized = JsonSerializer.Serialize(reponseContainer);
