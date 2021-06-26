@@ -1,5 +1,5 @@
-import { Point, Size } from '../common/geometry';
 import { DiagramItemPosition } from '../contracts/diagram-item-position';
+import { DiagramItemResizePosition } from '../contracts/diagram-item-resize-position';
 import { DiagramItem, DiagramItemState } from '../model/diagram-item';
 import { Method } from '../model/method';
 import { Relation } from '../model/relation';
@@ -88,12 +88,12 @@ export class ActionFactory {
         return new DiagramItemMoveAction(actionId, diagram, items);
     }
 
-    makeDiagramItemResizeAction(diagram: Diagram, item: DiagramItem, positionOld: Point, sizeOld: Size, positionNew: Point, sizeNew: Size): DiagramItemResizeAction {
-        return new DiagramItemResizeAction(null, diagram, item, positionOld, sizeOld, positionNew, sizeNew);
+    makeDiagramItemResizeAction(diagram: Diagram, items: DiagramItemResizePosition[]): DiagramItemResizeAction {
+        return new DiagramItemResizeAction(null, diagram, items);
     }
 
-    addDiagramItemResizeAction(actionId: string, diagram: Diagram, item: DiagramItem, positionOld: Point, sizeOld: Size, positionNew: Point, sizeNew: Size): DiagramItemResizeAction {
-        return new DiagramItemResizeAction(actionId, diagram, item, positionOld, sizeOld, positionNew, sizeNew);
+    addDiagramItemResizeAction(actionId: string, diagram: Diagram, items: DiagramItemResizePosition[]): DiagramItemResizeAction {
+        return new DiagramItemResizeAction(actionId, diagram, items);
     }
 
     makeDiagramItemSetTitleAction(diagram: Diagram, item: DiagramItem, titleOld: string, titleNew: string): DiagramItemSetTitleAction {

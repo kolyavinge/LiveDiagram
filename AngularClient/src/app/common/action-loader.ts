@@ -81,12 +81,17 @@ export class ActionLoader {
     }
 
     addDiagramItemResizeAction(diagram: Diagram, response): Action {
-        let item = diagram.getItemById(response.itemId);
-        let positionOld = item.position;
-        let sizeOld = item.size;
-        let positionNew = new Point(response.itemX, response.itemY);
-        let sizeNew = new Size(response.itemWidth, response.itemHeight);
-        return this._actionFactory.addDiagramItemResizeAction(response.actionId, diagram, item, positionOld, sizeOld, positionNew, sizeNew);
+        let items = response.items.map(i => {
+            let item = diagram.getItemById(i.id);
+            return {
+                item: item,
+                positionOld: item.position,
+                sizeOld: item.size,
+                positionNew: new Point(i.x, i.y),
+                sizeNew: new Size(i.width, i.height)
+            };
+        });
+        return this._actionFactory.addDiagramItemResizeAction(response.actionId, diagram, items);
     }
 
     addDiagramItemSetTitleAction(diagram: Diagram, response): Action {

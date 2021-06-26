@@ -1,46 +1,36 @@
 import { Action, ActionKind } from '../common/action';
-import { Point, Size } from '../common/geometry';
+import { DiagramItemResizePosition } from '../contracts/diagram-item-resize-position';
 import { Diagram } from '../model/diagram';
-import { DiagramItem, DiagramItemState } from '../model/diagram-item';
+import { DiagramItemState } from '../model/diagram-item';
 
 export class DiagramItemResizeAction extends Action {
-
-    private _positionOld: Point;
-    private _sizeOld: Size;
-    private _positionNew: Point;
-    private _sizeNew: Size;
 
     constructor(
         id: string = null,
         diagram: Diagram,
-        private _item: DiagramItem,
-        positionOld: Point,
-        sizeOld: Size,
-        positionNew: Point,
-        sizeNew: Size) {
+        private _items: DiagramItemResizePosition[]) {
         super(id, diagram);
-        this._info = { kind: ActionKind.resize, title: this._item.title };
-        this._positionOld = positionOld;
-        this._sizeOld = sizeOld;
-        this._positionNew = positionNew;
-        this._sizeNew = sizeNew;
+        this._info = {
+            kind: ActionKind.resize,
+            title: this._items.length === 1 ? this._items[0].item.title : '(' + this._items.length + ')'
+        };
     }
 
     protected doInner(): void {
-        let updated: DiagramItemState = {
-            item: this._item,
-            position: this._positionNew,
-            size: this._sizeNew
-        };
-        this.diagram.updateItems([updated]);
+        let states: DiagramItemState[] = this._items.map(i => ({
+            item: i.item,
+            position: i.positionNew,
+            size: i.sizeNew
+        }));
+        this.diagram.updateItems(states);
     }
 
     protected undoInner(): void {
-        let updated: DiagramItemState = {
-            item: this._item,
-            position: this._positionOld,
-            size: this._sizeOld
-        };
-        this.diagram.updateItems([updated]);
+        let states: DiagramItemState[] = this._items.map(i => ({
+            item: i.item,
+            position: i.positionOld,
+            size: i.sizeOld
+        }));
+        this.diagram.updateItems(states);
     }
 }

@@ -133,16 +133,19 @@ export class DiagramComponent implements OnInit {
             this._pointedItem = null;
         }
         if (this._resizedItem) {
-            let deltaX = this._resizedItem.position.x - this._pointedOrResizedItemState.position.x;
-            let deltaY = this._resizedItem.position.y - this._pointedOrResizedItemState.position.y;
-            let deltaWidth = this._resizedItem.size.width - this._pointedOrResizedItemState.size.width;
-            let deltaHeight = this._resizedItem.size.height - this._pointedOrResizedItemState.size.height;
-            this._diagram.getSelectedItems().forEach(item => {
-                let startPosition = new Point(item.position.x - deltaX, item.position.y - deltaY);
-                let startSize = new Size(item.size.width - deltaWidth, item.size.height - deltaHeight);
-                if (hasResized) this._diagramEventsService.diagramItemResizeEvent.raise({ item: item, startPosition: startPosition, startSize: startSize });
-                item.clearResize();
-            });
+            if (hasResized) {
+                let deltaX = this._resizedItem.position.x - this._pointedOrResizedItemState.position.x;
+                let deltaY = this._resizedItem.position.y - this._pointedOrResizedItemState.position.y;
+                let deltaWidth = this._resizedItem.size.width - this._pointedOrResizedItemState.size.width;
+                let deltaHeight = this._resizedItem.size.height - this._pointedOrResizedItemState.size.height;
+                let items = this._diagram.getSelectedItems().map(item => ({
+                    item: item,
+                    startPosition: new Point(item.position.x - deltaX, item.position.y - deltaY),
+                    startSize: new Size(item.size.width - deltaWidth, item.size.height - deltaHeight)
+                }));
+                this._diagramEventsService.diagramItemResizeEvent.raise({ items: items });
+                this._diagram.getSelectedItems().forEach(item => item.clearResize());
+            }
             this._resizedItem = null;
         }
         if (this._pointedRelation) {

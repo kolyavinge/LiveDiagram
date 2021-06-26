@@ -1,22 +1,29 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace LiveDiagram.Api.Contracts.Data
 {
     public interface IDiagramItemResizeData
     {
-        [JsonPropertyName("itemId")]
-        string DiagramItemId { get; set; }
+        [JsonPropertyName("items")]
+        IEnumerable<DiagramItemResizePosition> Items { get; set; }
+    }
 
-        [JsonPropertyName("itemX")]
-        float DiagramItemX { get; set; }
+    public class DiagramItemResizePosition
+    {
+        [JsonPropertyName("id")]
+        public string Id { get; set; }
 
-        [JsonPropertyName("itemY")]
-        float DiagramItemY { get; set; }
+        [JsonPropertyName("x")]
+        public float X { get; set; }
 
-        [JsonPropertyName("itemWidth")]
-        float DiagramItemWidth { get; set; }
+        [JsonPropertyName("y")]
+        public float Y { get; set; }
 
-        [JsonPropertyName("itemHeight")]
-        float DiagramItemHeight { get; set; }
+        [JsonPropertyName("width")]
+        public float Width { get; set; }
+
+        [JsonPropertyName("height")]
+        public float Height { get; set; }
     }
 }

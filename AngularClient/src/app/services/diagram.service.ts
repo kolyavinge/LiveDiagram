@@ -94,10 +94,17 @@ export class DiagramService {
         });
 
         self._diagramEventsService.diagramItemResizeEvent.addHandler(args => {
-            let action = actionFactory.makeDiagramItemResizeAction(self._diagram, args.item, args.startPosition, args.startSize, args.item.position, args.item.size);
+            let items = args.items.map(x => ({
+                item: x.item,
+                positionOld: x.startPosition,
+                sizeOld: x.startSize,
+                positionNew: x.item.position,
+                sizeNew: x.item.size
+            }));
+            let action = actionFactory.makeDiagramItemResizeAction(self._diagram, items);
             action.do();
             self._actionService.addAction(action);
-            self._apiService.diagramItemResize(action, self._diagram, args.item);
+            self._apiService.diagramItemResize(action, self._diagram, items);
         });
 
         self._diagramEventsService.diagramItemSetTitleEvent.addHandler(args => {
