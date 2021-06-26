@@ -72,7 +72,9 @@ export class DiagramService {
             self._apiService.diagramSetTitle(action, self._diagram);
         }, 2000);
         self._diagramEventsService.diagramSetTitleEvent.addHandler((titleNew: string) => {
-            diagramSetTitleDelayedRequest.send(titleNew);
+            if (self._diagram.title !== titleNew) {
+                diagramSetTitleDelayedRequest.send(titleNew);
+            }
         });
 
         self._diagramEventsService.diagramLayoutEvent.addHandler((diagram: Diagram) => {
