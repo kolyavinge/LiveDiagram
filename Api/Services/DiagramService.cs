@@ -14,12 +14,12 @@ namespace LiveDiagram.Api.Services
     public class DiagramService : IDiagramService
     {
         private readonly IDiagramLoader _diagramLoader;
-        private readonly Dictionary<string, Diagram> _loadedDiagrams;
+        private readonly LoadedDiagramsCollection _loadedDiagrams;
 
         public DiagramService(IDiagramLoader diagramLoader)
         {
             _diagramLoader = diagramLoader;
-            _loadedDiagrams = new Dictionary<string, Diagram>();
+            _loadedDiagrams = new LoadedDiagramsCollection();
         }
 
         public List<AvailableDiagram> GetAvailableDiagrams()
@@ -33,29 +33,20 @@ namespace LiveDiagram.Api.Services
 
         public Diagram GetDiagramById(string diagramId)
         {
-            if (_loadedDiagrams.ContainsKey(diagramId))
+            var diagram = _loadedDiagrams.GetDiagramByIdOrNull(diagramId);
+            if (diagram == null)
             {
-                return _loadedDiagrams[diagramId];
+                diagram = _diagramLoader.LoadDiagramById(diagramId);
+                _loadedDiagrams.Add(diagram);
             }
-            else
-            {
-                var diagram = _diagramLoader.LoadDiagramById(diagramId);
-                _loadedDiagrams.Add(diagramId, diagram);
-                return diagram;
-            }
+
+            return diagram;
         }
 
         public bool SaveDiagram(Diagram diagram)
         {
-            if (_loadedDiagrams.ContainsKey(diagram.Id))
-            {
-                _loadedDiagrams[diagram.Id] = diagram;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            _loadedDiagrams.Set(diagram);
+            return true;
         }
     }
 }
