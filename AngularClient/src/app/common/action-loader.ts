@@ -13,17 +13,17 @@ export class ActionLoader {
 
     makeActions(diagram: Diagram, response): Action[] {
         let actionDictionary = {
-            'DiagramItemAddAction': this.addDiagramItemAddAction,
-            'DiagramItemDeleteAction': this.addDiagramItemDeleteAction,
-            'DiagramItemEditAction': this.addDiagramItemEditAction,
-            'DiagramItemMoveAction': this.addDiagramItemMoveAction,
-            'DiagramItemResizeAction': this.addDiagramItemResizeAction,
-            'DiagramItemSetTitleAction': this.addDiagramItemSetTitleAction,
-            'DiagramLayoutAction': this.addDiagramLayoutAction,
-            'DiagramSetTitleAction': this.addDiagramSetTitleAction,
-            'RelationAddAction': this.addRelationAddAction,
-            'RelationDeleteAction': this.addRelationDeleteAction,
-            'RelationEditAction': this.addRelationEditAction
+            DiagramItemAddAction: this.addDiagramItemAddAction,
+            DiagramItemDeleteAction: this.addDiagramItemDeleteAction,
+            DiagramItemEditAction: this.addDiagramItemEditAction,
+            DiagramItemMoveAction: this.addDiagramItemMoveAction,
+            DiagramItemResizeAction: this.addDiagramItemResizeAction,
+            DiagramItemSetTitleAction: this.addDiagramItemSetTitleAction,
+            DiagramLayoutAction: this.addDiagramLayoutAction,
+            DiagramSetTitleAction: this.addDiagramSetTitleAction,
+            RelationAddAction: this.addRelationAddAction,
+            RelationDeleteAction: this.addRelationDeleteAction,
+            RelationEditAction: this.addRelationEditAction
         };
 
         return response.actions
