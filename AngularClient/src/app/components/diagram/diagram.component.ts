@@ -118,7 +118,12 @@ export class DiagramComponent implements OnInit {
         let pointedOrResizedItem = this._pointedItem ?? this._resizedItem;
         let hasMoved = pointedOrResizedItem ? pointedOrResizedItem.position.isEquals(this._pointedOrResizedItemState.position) === false : false;
         let hasResized = pointedOrResizedItem ? pointedOrResizedItem.size.isEquals(this._pointedOrResizedItemState.size) === false : false;
-        if (pointedOrResizedItem && pointedOrResizedItem.isSelected && !hasMoved && !hasResized && !this._keyboardService.isControlPressed()) {
+        if (pointedOrResizedItem &&
+            pointedOrResizedItem.isSelected &&
+            this._diagram.getSelectedItems().length > 1 &&
+            !hasMoved &&
+            !hasResized &&
+            !this._keyboardService.isControlPressed()) {
             this._diagram.clearItemSelectionBut(pointedOrResizedItem);
             this._diagramEventsService.diagramItemSetSelectionEvent.raise([pointedOrResizedItem]);
         }

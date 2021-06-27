@@ -10,6 +10,7 @@
         <button [matMenuTriggerFor]="appMenu"><img src="/assets/ico/diagram.png" /></button>
     </div>
     <button (click)="createDiagramItemCommand.exec()" class="item-button noselect">{{ createDiagramItemCommand.title }}</button>
+    <button (click)="addRelationCommand.exec()" class="item-button noselect" [disabled]="!addRelationCommand.isEnabled">{{ addRelationCommand.title }}</button>
     <button (click)="deleteCommand.exec()" class="item-button noselect" [disabled]="!deleteCommand.isEnabled">{{ deleteCommand.title }}</button>
     <button (click)="layoutDiagramCommand.exec()" class="item-button noselect">{{ layoutDiagramCommand.title }}</button>
     <button (click)="saveDiagramCommand.exec()" class="item-button noselect">{{ saveDiagramCommand.title }}</button>

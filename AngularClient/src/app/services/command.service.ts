@@ -3,11 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { DiagramItem } from '../model/diagram-item';
 import { DiagramEventsService } from './diagram-events.service';
 import { DiagramService } from './diagram.service';
-import { SaveDiagramCommand } from '../commands/save-diagram-command';
-import { LayoutDiagramCommand } from '../commands/layout-diagram-command';
+import { EditRelationCommand } from '../commands/edit-relation-command';
 import { CreateDiagramItemCommand } from '../commands/create-diagram-item-command';
-import { EditDiagramItemCommand } from '../commands/edit-diagram-item-command';
 import { DeleteDiagramItemRelationCommand } from '../commands/delete-diagram-item-relation-command';
+import { EditDiagramItemCommand } from '../commands/edit-diagram-item-command';
+import { LayoutDiagramCommand } from '../commands/layout-diagram-command';
+import { SaveDiagramCommand } from '../commands/save-diagram-command';
 
 @Injectable({ providedIn: 'root' })
 export class CommandService {
@@ -28,6 +29,10 @@ export class CommandService {
 
     makeCreateDiagramItemCommand(): CreateDiagramItemCommand {
         return new CreateDiagramItemCommand(this._dialogService, this._diagramEventsService);
+    }
+
+    makeAddRelationCommand(): EditRelationCommand {
+        return new EditRelationCommand(this._diagramService, this._diagramEventsService);
     }
 
     makeEditDiagramItemCommand(item: DiagramItem): EditDiagramItemCommand {
