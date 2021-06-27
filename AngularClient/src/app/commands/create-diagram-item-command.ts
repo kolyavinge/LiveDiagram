@@ -1,21 +1,17 @@
 import { MatDialog } from '@angular/material/dialog';
+import { Command } from '../common/command';
 import { EditDiagramItemDialogComponent } from '../dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
 import { DiagramEventsService } from '../services/diagram-events.service';
 
-export class CreateDiagramItemCommand {
-
-    private _diagramEventsService: DiagramEventsService;
-    private _dialogService: MatDialog;
+export class CreateDiagramItemCommand extends Command {
 
     constructor(
-        dialogService: MatDialog,
-        diagramEventsService: DiagramEventsService
-    ) {
-        this._dialogService = dialogService;
-        this._diagramEventsService = diagramEventsService;
+        private _dialogService: MatDialog,
+        private _diagramEventsService: DiagramEventsService) {
+        super();
     }
 
-    exec(): void {
+    protected execInner(): void {
         let self = this;
         let dialog = self._dialogService.open(EditDiagramItemDialogComponent);
         dialog.afterClosed().subscribe(dialogResult => {
@@ -25,4 +21,6 @@ export class CreateDiagramItemCommand {
             }
         });
     }
+
+    get title(): string { return 'Создать элемент'; }
 }

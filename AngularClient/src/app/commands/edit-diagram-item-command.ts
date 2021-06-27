@@ -1,25 +1,22 @@
 import { MatDialog } from '@angular/material/dialog';
+import { Command } from '../common/command';
 import { DiagramItem } from '../model/diagram-item';
 import { EditDiagramItemDialogComponent } from '../dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
 import { DiagramEventsService } from '../services/diagram-events.service';
 
-export class EditDiagramItemCommand {
-
-    private _diagramEventsService: DiagramEventsService;
-    private _dialogService: MatDialog;
+export class EditDiagramItemCommand extends Command {
 
     constructor(
-        dialogService: MatDialog,
-        diagramEventsService: DiagramEventsService
-    ) {
-        this._dialogService = dialogService;
-        this._diagramEventsService = diagramEventsService;
+        private _dialogService: MatDialog,
+        private _diagramEventsService: DiagramEventsService,
+        private _item: DiagramItem) {
+        super();
     }
 
-    exec(item: DiagramItem): void {
+    protected execInner(): void {
         let self = this;
         let dialog = self._dialogService.open(EditDiagramItemDialogComponent);
-        dialog.componentInstance.item = item;
+        dialog.componentInstance.item = this._item;
         dialog.afterClosed().subscribe(dialogResult => {
             if (dialogResult) {
                 let editItemResult = dialog.componentInstance.getResult();
@@ -27,4 +24,6 @@ export class EditDiagramItemCommand {
             }
         });
     }
+
+    get title(): string { return 'Редактировать элемент'; }
 }

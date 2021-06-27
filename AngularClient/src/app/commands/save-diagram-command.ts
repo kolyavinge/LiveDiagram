@@ -1,15 +1,18 @@
-import { Diagram } from '../model/diagram';
+import { Command } from '../common/command';
 import { DiagramEventsService } from '../services/diagram-events.service';
+import { DiagramService } from '../services/diagram.service';
 
-export class SaveDiagramCommand {
+export class SaveDiagramCommand extends Command {
 
-    private _diagramEventsService: DiagramEventsService;
-
-    constructor(diagramEventsService: DiagramEventsService) {
-        this._diagramEventsService = diagramEventsService;
+    constructor(
+        private _diagramService: DiagramService,
+        private _diagramEventsService: DiagramEventsService) {
+        super();
     }
 
-    exec(diagram: Diagram): void {
-        this._diagramEventsService.saveDiagramEvent.raise(diagram);
+    protected execInner(): void {
+        this._diagramEventsService.saveDiagramEvent.raise(this._diagramService.diagram);
     }
+
+    get title(): string { return 'Сохранить диаграмму'; }
 }

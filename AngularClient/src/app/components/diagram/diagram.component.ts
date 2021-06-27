@@ -77,9 +77,9 @@ export class DiagramComponent implements OnInit {
         }
         // selection events
         if (pointedOrResizedItem) {
-            this._diagramEventsService.diagramItemSetSelectionEvent.raise(pointedOrResizedItem);
+            this._diagramEventsService.diagramItemSetSelectionEvent.raise([pointedOrResizedItem]);
         } else if (this._pointedRelation) {
-            this._diagramEventsService.relationSetSelectionEvent.raise(this._pointedRelation);
+            this._diagramEventsService.relationSetSelectionEvent.raise([this._pointedRelation]);
         } else {
             this._diagramEventsService.diagramClearSelectionEvent.raise();
         }
@@ -107,7 +107,10 @@ export class DiagramComponent implements OnInit {
             this.diagram.items.forEach(i => i.isSelected = false);
             this.selectionRectangleModel.setEndPoint(Utils.pointInElement(this._root, event));
             let selectedItems = this.selectionRectangleModel.getSelectedItems(this.diagram.items);
-            selectedItems.forEach(i => i.isSelected = true);
+            if (selectedItems.length > 0) {
+                selectedItems.forEach(i => i.isSelected = true);
+                this._diagramEventsService.diagramItemSetSelectionEvent.raise(selectedItems);
+            }
         }
     }
 
@@ -117,7 +120,7 @@ export class DiagramComponent implements OnInit {
         let hasResized = pointedOrResizedItem ? pointedOrResizedItem.size.isEquals(this._pointedOrResizedItemState.size) === false : false;
         if (pointedOrResizedItem && pointedOrResizedItem.isSelected && !hasMoved && !hasResized && !this._keyboardService.isControlPressed()) {
             this._diagram.clearItemSelectionBut(pointedOrResizedItem);
-            this._diagramEventsService.diagramItemSetSelectionEvent.raise(pointedOrResizedItem);
+            this._diagramEventsService.diagramItemSetSelectionEvent.raise([pointedOrResizedItem]);
         }
         if (this._pointedItem) {
             if (hasMoved) {

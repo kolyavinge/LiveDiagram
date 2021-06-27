@@ -9,9 +9,9 @@
         </mat-menu>
         <button [matMenuTriggerFor]="appMenu"><img src="/assets/ico/diagram.png" /></button>
     </div>
-    <button (click)="createDiagramItem()" class="item-button noselect">Новый элемент</button>
-    <button (click)="delete()" class="item-button noselect" [disabled]="deleteIsDisabled">{{ deleteTitle }}</button>
-    <button (click)="layout()" class="item-button noselect">Выровнять диаграмму</button>
-    <button (click)="save()" class="item-button noselect">Сохранить диаграмму</button>
+    <button (click)="createDiagramItemCommand.exec()" class="item-button noselect">{{ createDiagramItemCommand.title }}</button>
+    <button (click)="deleteCommand.exec()" class="item-button noselect" [disabled]="!deleteCommand.isEnabled">{{ deleteCommand.title }}</button>
+    <button (click)="layoutDiagramCommand.exec()" class="item-button noselect">{{ layoutDiagramCommand.title }}</button>
+    <button (click)="saveDiagramCommand.exec()" class="item-button noselect">{{ saveDiagramCommand.title }}</button>
     <input class="diagram-title" type="text" [value]="diagramTitle" (input)="diagramTitle = $event.target.value" />
 </div>

@@ -1,15 +1,18 @@
-import { Diagram } from '../model/diagram';
+import { Command } from '../common/command';
 import { DiagramEventsService } from '../services/diagram-events.service';
+import { DiagramService } from '../services/diagram.service';
 
-export class LayoutDiagramCommand {
+export class LayoutDiagramCommand extends Command {
 
-    private _diagramEventsService: DiagramEventsService;
-
-    constructor(diagramEventsService: DiagramEventsService) {
-        this._diagramEventsService = diagramEventsService;
+    constructor(
+        private _diagramService: DiagramService,
+        private _diagramEventsService: DiagramEventsService) {
+        super();
     }
 
-    exec(diagram: Diagram): void {
-        this._diagramEventsService.diagramLayoutEvent.raise(diagram);
+    protected execInner(): void {
+        this._diagramEventsService.diagramLayoutEvent.raise(this._diagramService.diagram);
     }
+
+    get title(): string { return 'Выровнять диаграмму'; }
 }

@@ -10,8 +10,8 @@
         [style.height.px]="item.size.height"
         [class.selected]="item.isSelected"
         (mousedown)="onMouseDown()"
-        (dblclick)="onMouseDoubleClick()">
-        <div class="edit"><a class="edit" (click)="editItem()"><img class="edit" src="/assets/ico/edit.png" /></a></div>
+        (dblclick)="editDiagramItemCommand.exec()">
+        <div class="edit"><a class="edit" (click)="editDiagramItemCommand.exec()"><img class="edit" src="/assets/ico/edit.png" /></a></div>
         <div class="title"><span class="title">{{ item.title }}</span></div>
         <div class="methods">
             <ul [style.height.px]="item.size.height - 28">

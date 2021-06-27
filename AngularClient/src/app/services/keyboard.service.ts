@@ -1,33 +1,27 @@
 import { Injectable } from '@angular/core';
+import { Command } from '../common/command';
 import { CommandService } from './command.service';
-import { DiagramService } from './diagram.service';
 
 @Injectable({ providedIn: 'root' })
 export class KeyboardService {
 
+    private _createDiagramItemCommand: Command;
+    private _deleteCommand: Command;
     private _isControlPressed: boolean = false;
 
     constructor(
-        private _diagramService: DiagramService,
-        private _commandService: CommandService
-    ) { }
+        commandService: CommandService
+    ) {
+        this._createDiagramItemCommand = commandService.makeCreateDiagramItemCommand();
+        this._deleteCommand = commandService.makeDeleteDiagramItemRelationCommand();
+    }
 
     onKeyDown(event: KeyboardEvent): void {
         // console.log(event.code);
         if (event.code === 'Delete') {
-            let selectedItems = this._diagramService.diagram.getSelectedItems();
-            if (selectedItems.length > 0) {
-                let cmd = this._commandService.makeDeleteDiagramItemCommand();
-                cmd.exec(selectedItems);
-            }
-            let selectedRelations = this._diagramService.diagram.getSelectedRelations();
-            if (selectedRelations.length > 0) {
-                let cmd = this._commandService.makeDeleteRelationCommand();
-                cmd.exec(selectedRelations);
-            }
+            this._deleteCommand.exec();
         } else if (event.code === 'NumpadAdd') {
-            let cmd = this._commandService.makeCreateDiagramItemCommand();
-            cmd.exec();
+            this._createDiagramItemCommand.exec();
         } else if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
             this._isControlPressed = true;
         }
