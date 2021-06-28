@@ -4,6 +4,15 @@ div.root {
     background-color: rgb(44, 62, 82);
 }
 
+img.loading {
+    margin: 0 auto;
+    display: block;
+    position: relative;
+    top: 8px;
+    width: 32px;
+    height: 32px;
+}
+
 div.availableDiagrams {
     float: left;
     height: 100%;

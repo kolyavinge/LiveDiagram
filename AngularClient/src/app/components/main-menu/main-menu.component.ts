@@ -13,6 +13,7 @@ import { DiagramService } from 'src/app/services/diagram.service';
 })
 export class MainMenuComponent implements OnInit {
 
+    availableDiagramsLoading: boolean = false;
     availableDiagrams: AvailableDiagram[] = [];
     createDiagramItemCommand: Command;
     addRelationCommand: Command;
@@ -26,18 +27,22 @@ export class MainMenuComponent implements OnInit {
         private _diagramEventsService: DiagramEventsService,
         private _commandService: CommandService
     ) {
-        let self = this;
-        self._apiService.getAvailableDiagrams().then(response => {
-            self.availableDiagrams = response.availableDiagrams;
-        });
-        self.createDiagramItemCommand = self._commandService.makeCreateDiagramItemCommand();
-        self.addRelationCommand = self._commandService.makeAddRelationCommand();
-        self.deleteCommand = self._commandService.makeDeleteDiagramItemRelationCommand();
-        self.layoutDiagramCommand = self._commandService.makeLayoutDiagramCommand();
-        self.saveDiagramCommand = self._commandService.makeSaveDiagramCommand();
+        this.createDiagramItemCommand = this._commandService.makeCreateDiagramItemCommand();
+        this.addRelationCommand = this._commandService.makeAddRelationCommand();
+        this.deleteCommand = this._commandService.makeDeleteDiagramItemRelationCommand();
+        this.layoutDiagramCommand = this._commandService.makeLayoutDiagramCommand();
+        this.saveDiagramCommand = this._commandService.makeSaveDiagramCommand();
     }
 
     ngOnInit(): void { }
+
+    async onAvailableDiagramsOpen() {
+        this.availableDiagramsLoading = true;
+        this.availableDiagrams = [];
+        let result = await this._apiService.getAvailableDiagrams();
+        this.availableDiagrams = result.availableDiagrams;
+        this.availableDiagramsLoading = false;
+    }
 
     get diagramTitle(): string { return this._diagramService.diagram.title; }
 

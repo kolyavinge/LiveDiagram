@@ -1,13 +1,14 @@
 <div class="root">
     <div class="availableDiagrams">
         <mat-menu #appMenu="matMenu">
-            <ul>
+            <img *ngIf="availableDiagramsLoading" class="loading" src="/assets/ico/loading.gif" />
+            <ul *ngIf="!availableDiagramsLoading">
                 <li *ngFor="let availableDiagram of availableDiagrams">
                     <button mat-menu-item (click)="selectDiagram(availableDiagram)">{{ availableDiagram.title }}</button>
                 </li>
             </ul>
         </mat-menu>
-        <button [matMenuTriggerFor]="appMenu"><img src="/assets/ico/diagram.png" /></button>
+        <button [matMenuTriggerFor]="appMenu" (click)="onAvailableDiagramsOpen()"><img src="/assets/ico/diagram.png" /></button>
     </div>
     <button (click)="createDiagramItemCommand.exec()" class="item-button noselect">{{ createDiagramItemCommand.title }}</button>
     <button (click)="addRelationCommand.exec()" class="item-button noselect" [disabled]="!addRelationCommand.isEnabled">{{ addRelationCommand.title }}</button>
