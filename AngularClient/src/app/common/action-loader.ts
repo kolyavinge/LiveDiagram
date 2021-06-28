@@ -11,7 +11,7 @@ export class ActionLoader {
 
     private _actionFactory = new ActionFactory();
 
-    makeActions(diagram: Diagram, response): Action[] {
+    makeAction(diagram: Diagram, action): Action {
         let actionDictionary = {
             DiagramItemAddAction: this.addDiagramItemAddAction,
             DiagramItemDeleteAction: this.addDiagramItemDeleteAction,
@@ -26,9 +26,7 @@ export class ActionLoader {
             RelationEditAction: this.addRelationEditAction
         };
 
-        return response.actions
-            .filter(action => actionDictionary[action.type])
-            .map(action => actionDictionary[action.type].call(this, diagram, action));
+        return actionDictionary[action.type].call(this, diagram, action);
     }
 
     addDiagramItemAddAction(diagram: Diagram, response): Action {

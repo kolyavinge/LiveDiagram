@@ -43,9 +43,11 @@ export class DiagramService {
             self._diagramEventsService.diagramLoadEvent.raise(self._diagram);
             self._actionService.loadDiagram(self._diagram);
             let actionLoader = new ActionLoader();
-            let actions = actionLoader.makeActions(self._diagram, response);
-            actions.forEach(a => a.do());
-            actions.forEach(a => self._actionService.addAction(a));
+            response.actions.forEach(responseAction => {
+                let action = actionLoader.makeAction(self._diagram, responseAction);
+                action.do();
+                self._actionService.addAction(action);
+            });
             if (response.activeActionId) {
                 let activeAction = self._actionService.getActionById(response.activeActionId);
                 self._actionService.setActiveAction(activeAction);
