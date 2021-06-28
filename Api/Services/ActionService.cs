@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using LiveDiagram.Api.Common;
 using LiveDiagram.Api.Model;
@@ -15,17 +16,19 @@ namespace LiveDiagram.Api.Services
 
     public class ActionService : IActionService
     {
+        private readonly string _loadActionId = "0";
+
         class DiagramActions
         {
             public List<Action> Actions { get; set; }
             public string ActiveActionId { get; set; }
         }
 
-        private readonly Dictionary<Diagram, DiagramActions> _actions;
+        private readonly ConcurrentDictionary<Diagram, DiagramActions> _actions;
 
         public ActionService()
         {
-            _actions = new Dictionary<Diagram, DiagramActions>();
+            _actions = new ConcurrentDictionary<Diagram, DiagramActions>();
         }
 
         public List<Action> GetDiagramActions(Diagram diagram)
@@ -45,17 +48,27 @@ namespace LiveDiagram.Api.Services
             if (_actions.ContainsKey(diagram))
             {
                 var diagramActions = _actions[diagram];
-                var activeAction = diagramActions.Actions.First(x => x.Id == diagramActions.ActiveActionId);
-                var activeActionIndex = diagramActions.Actions.IndexOf(activeAction);
-                if (activeActionIndex + 1 < diagramActions.Actions.Count)
+                lock (diagramActions)
                 {
-                    diagramActions.Actions.RemoveRange(activeActionIndex + 1, diagramActions.Actions.Count - (activeActionIndex + 1));
+                    if (diagramActions.ActiveActionId == _loadActionId)
+                    {
+                        diagramActions.Actions.Clear();
+                    }
+                    else
+                    {
+                        var activeAction = diagramActions.Actions.First(x => x.Id == diagramActions.ActiveActionId);
+                        var activeActionIndex = diagramActions.Actions.IndexOf(activeAction);
+                        if (activeActionIndex + 1 < diagramActions.Actions.Count)
+                        {
+                            diagramActions.Actions.RemoveRange(activeActionIndex + 1, diagramActions.Actions.Count - (activeActionIndex + 1));
+                        }
+                    }
+                    diagramActions.Actions.Add(action);
                 }
-                diagramActions.Actions.Add(action);
             }
             else
             {
-                _actions.Add(diagram, new DiagramActions { Actions = new List<Action> { action } });
+                _actions.TryAdd(diagram, new DiagramActions { Actions = new List<Action> { action } });
             }
             _actions[diagram].ActiveActionId = action.Id;
         }
