@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using LiveDiagram.Api.Common;
 using LiveDiagram.Api.Model;
 
@@ -9,6 +10,7 @@ namespace LiveDiagram.Api.Services
         List<AvailableDiagram> GetAvailableDiagrams();
         Diagram GetDiagramById(string diagramId);
         bool SaveDiagram(Diagram diagram);
+        void SetTitle(Diagram diagram, string title);
     }
 
     public class DiagramService : IDiagramService
@@ -24,11 +26,13 @@ namespace LiveDiagram.Api.Services
 
         public List<AvailableDiagram> GetAvailableDiagrams()
         {
-            return new List<AvailableDiagram>
+            var diagramsFromDB = new List<AvailableDiagram>
             {
                 new AvailableDiagram { Id = "12345", Title = "Новая диаграмма" },
                 new AvailableDiagram { Id = "6789", Title = "Еще одна новая диаграмма" },
             };
+
+            return _loadedDiagrams.Select(diagram => new AvailableDiagram { Id = diagram.Id, Title = diagram.Title }).Union(diagramsFromDB).ToList();
         }
 
         public Diagram GetDiagramById(string diagramId)
@@ -47,6 +51,11 @@ namespace LiveDiagram.Api.Services
         {
             _loadedDiagrams.Set(diagram);
             return true;
+        }
+
+        public void SetTitle(Diagram diagram, string title)
+        {
+            diagram.Title = title;
         }
     }
 }

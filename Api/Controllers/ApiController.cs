@@ -93,6 +93,7 @@ namespace LiveDiagram.Api.Controllers
             };
             _mainNotifier.DiagramSetTitleResponse(response);
             var diagram = _diagramService.GetDiagramById(request.DiagramId);
+            _diagramService.SetTitle(diagram, request.DiagramTitle);
             var action = new DiagramSetTitleAction(request.ActionId, request);
             _actionService.AddAction(diagram, action);
 
