@@ -38,7 +38,7 @@ export class MainMenuComponent implements OnInit {
 
     ngOnInit(): void { }
 
-    async onAvailableDiagramsOpen() {
+    async onAvailableDiagramsOpen(): Promise<any> {
         this.availableDiagramsLoading = true;
         this.availableDiagrams = [];
         let result = await this._apiService.getAvailableDiagrams();

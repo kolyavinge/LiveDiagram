@@ -1,5 +1,5 @@
-import { Command } from "../common/command";
-import { DiagramService } from "../services/diagram.service";
+import { Command } from '../common/command';
+import { DiagramService } from '../services/diagram.service';
 
 export class CreateDiagramCommand extends Command {
 
