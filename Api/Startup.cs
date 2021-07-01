@@ -1,5 +1,6 @@
 using System;
 using LiveDiagram.Api.Common;
+using LiveDiagram.Api.DataAccess;
 using LiveDiagram.Api.Services;
 using LiveDiagram.Api.SignalR;
 using Microsoft.AspNetCore.Builder;
@@ -26,8 +27,11 @@ namespace LiveDiagram.Api
                 options.MaximumReceiveMessageSize = Int64.MaxValue;
             });
 
-            var diagramLoader = new DiagramLoader();
-            var diagramService = new DiagramService(diagramLoader);
+            var dbContextInitializer = new DBContextInitializer();
+            var dbContext = dbContextInitializer.MakeDBContext(Configuration);
+            services.AddSingleton<IDBContext>(dbContext);
+
+            var diagramService = new DiagramService(dbContext);
             services.AddSingleton<IDiagramService>(diagramService);
 
             var actionService = new ActionService();

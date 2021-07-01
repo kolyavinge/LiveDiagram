@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using LiveDiagram.Api.Common;
+using LiveDiagram.Api.DataAccess;
 using LiveDiagram.Api.Model;
 
 namespace LiveDiagram.Api.Services
@@ -16,24 +17,21 @@ namespace LiveDiagram.Api.Services
 
     public class DiagramService : IDiagramService
     {
-        private readonly IDiagramLoader _diagramLoader;
+        private readonly IDBContext _dbContext;
         private readonly DiagramsCollection _createdDiagrams;
         private readonly DiagramsCollection _loadedDiagrams;
 
-        public DiagramService(IDiagramLoader diagramLoader)
+        public DiagramService(IDBContext dbContext)
         {
-            _diagramLoader = diagramLoader;
+            _dbContext = dbContext;
             _createdDiagrams = new DiagramsCollection();
             _loadedDiagrams = new DiagramsCollection();
         }
 
         public List<AvailableDiagram> GetAvailableDiagrams()
         {
-            var diagramsFromDB = new List<AvailableDiagram>
-            {
-                new AvailableDiagram { Id = "12345", Title = "Новая диаграмма" },
-                new AvailableDiagram { Id = "6789", Title = "Еще одна новая диаграмма" },
-            };
+            var diagramRepo = _dbContext.RepositoryFactory.Get<IDiagramRepository>();
+            var diagramsFromDB = diagramRepo.GetAvailableDiagrams();
 
             return _loadedDiagrams.Select(diagram => new AvailableDiagram { Id = diagram.Id, Title = diagram.Title }).Union(diagramsFromDB).ToList();
         }
@@ -43,7 +41,8 @@ namespace LiveDiagram.Api.Services
             var diagram = _createdDiagrams.GetDiagramByIdOrNull(diagramId) ?? _loadedDiagrams.GetDiagramByIdOrNull(diagramId);
             if (diagram == null)
             {
-                diagram = _diagramLoader.LoadDiagramById(diagramId);
+                var diagramRepo = _dbContext.RepositoryFactory.Get<IDiagramRepository>();
+                diagram = diagramRepo.GetById(diagramId);
                 _loadedDiagrams.Add(diagram);
             }
 
@@ -59,6 +58,9 @@ namespace LiveDiagram.Api.Services
         {
             _loadedDiagrams.Set(diagram);
             _createdDiagrams.Delete(diagram.Id);
+            var diagramRepo = _dbContext.RepositoryFactory.Get<IDiagramRepository>();
+            diagramRepo.SaveDiagram(diagram);
+
             return true;
         }
 

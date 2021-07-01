@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using LiveDiagram.Api.Actions;
 using LiveDiagram.Api.Contracts.RequestResponse;
+using LiveDiagram.Api.DataAccess;
 using LiveDiagram.Api.Services;
 using LiveDiagram.Api.SignalR;
 using Microsoft.AspNetCore.Cors;
@@ -14,13 +15,15 @@ namespace LiveDiagram.Api.Controllers
     [EnableCors]
     public class ApiController : ControllerBase
     {
+        private readonly IDBContext _dbContext;
         private readonly IDiagramService _diagramService;
         private readonly IActionService _actionService;
         private readonly IMainNotifier _mainNotifier;
         private readonly ILogger<ApiController> _logger;
 
-        public ApiController(IDiagramService diagramService, IActionService actionService, IMainNotifier mainNotifier, ILogger<ApiController> logger)
+        public ApiController(IDBContext dbContext, IDiagramService diagramService, IActionService actionService, IMainNotifier mainNotifier, ILogger<ApiController> logger)
         {
+            _dbContext = dbContext;
             _diagramService = diagramService;
             _actionService = actionService;
             _mainNotifier = mainNotifier;
