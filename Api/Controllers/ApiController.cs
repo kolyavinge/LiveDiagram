@@ -64,6 +64,21 @@ namespace LiveDiagram.Api.Controllers
         }
 
         [HttpPost]
+        [Route("CreateDiagram")]
+        public IActionResult CreateDiagram(CreateDiagramRequest request)
+        {
+            var response = new CreateDiagramResponse
+            {
+                Success = true,
+                ClientId = request.ClientId,
+                DiagramId = request.DiagramId
+            };
+            _diagramService.CreateDiagram(request.DiagramId);
+
+            return new JsonResult(response);
+        }
+
+        [HttpPost]
         [Route("SaveDiagram")]
         public IActionResult SaveDiagram(SaveDiagramRequest request)
         {

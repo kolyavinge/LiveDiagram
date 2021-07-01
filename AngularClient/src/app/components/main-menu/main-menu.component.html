@@ -1,6 +1,8 @@
 <div class="root">
     <div class="availableDiagrams">
         <mat-menu #appMenu="matMenu">
+            <button mat-menu-item (click)="createDiagramCommand.exec()" class="create-diagram">{{ createDiagramCommand.title }}</button>
+            <mat-divider></mat-divider>
             <img *ngIf="availableDiagramsLoading" class="loading" src="/assets/ico/loading.gif" />
             <ul *ngIf="!availableDiagramsLoading">
                 <li *ngFor="let availableDiagram of availableDiagrams">

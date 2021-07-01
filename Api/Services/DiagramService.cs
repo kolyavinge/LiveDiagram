@@ -9,6 +9,7 @@ namespace LiveDiagram.Api.Services
     {
         List<AvailableDiagram> GetAvailableDiagrams();
         Diagram GetDiagramById(string diagramId);
+        void CreateDiagram(string diagramId);
         bool SaveDiagram(Diagram diagram);
         void SetTitle(Diagram diagram, string title);
     }
@@ -16,12 +17,14 @@ namespace LiveDiagram.Api.Services
     public class DiagramService : IDiagramService
     {
         private readonly IDiagramLoader _diagramLoader;
-        private readonly LoadedDiagramsCollection _loadedDiagrams;
+        private readonly DiagramsCollection _createdDiagrams;
+        private readonly DiagramsCollection _loadedDiagrams;
 
         public DiagramService(IDiagramLoader diagramLoader)
         {
             _diagramLoader = diagramLoader;
-            _loadedDiagrams = new LoadedDiagramsCollection();
+            _createdDiagrams = new DiagramsCollection();
+            _loadedDiagrams = new DiagramsCollection();
         }
 
         public List<AvailableDiagram> GetAvailableDiagrams()
@@ -37,7 +40,7 @@ namespace LiveDiagram.Api.Services
 
         public Diagram GetDiagramById(string diagramId)
         {
-            var diagram = _loadedDiagrams.GetDiagramByIdOrNull(diagramId);
+            var diagram = _createdDiagrams.GetDiagramByIdOrNull(diagramId) ?? _loadedDiagrams.GetDiagramByIdOrNull(diagramId);
             if (diagram == null)
             {
                 diagram = _diagramLoader.LoadDiagramById(diagramId);
@@ -47,9 +50,15 @@ namespace LiveDiagram.Api.Services
             return diagram;
         }
 
+        public void CreateDiagram(string diagramId)
+        {
+            _createdDiagrams.Add(new Diagram { Id = diagramId });
+        }
+
         public bool SaveDiagram(Diagram diagram)
         {
             _loadedDiagrams.Set(diagram);
+            _createdDiagrams.Delete(diagram.Id);
             return true;
         }
 

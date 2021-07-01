@@ -5,6 +5,7 @@ export default {
     host: host,
     getAvailableDiagramsPath: apiPath + 'GetAvailableDiagrams',
     getDiagramByIdPath: apiPath + 'GetDiagramById',
+    createDiagramPath: apiPath + 'CreateDiagram',
     saveDiagramPath: apiPath + 'SaveDiagram',
     diagramSetTitlePath: apiPath + 'DiagramSetTitle',
     diagramLayoutPath: apiPath + 'DiagramLayout',

@@ -8,6 +8,7 @@ import { CreateDiagramItemCommand } from '../commands/create-diagram-item-comman
 import { DeleteDiagramItemRelationCommand } from '../commands/delete-diagram-item-relation-command';
 import { EditDiagramItemCommand } from '../commands/edit-diagram-item-command';
 import { LayoutDiagramCommand } from '../commands/layout-diagram-command';
+import { CreateDiagramCommand } from '../commands/create-diagram-command';
 import { SaveDiagramCommand } from '../commands/save-diagram-command';
 
 @Injectable({ providedIn: 'root' })
@@ -18,6 +19,10 @@ export class CommandService {
         private _diagramService: DiagramService,
         private _dialogService: MatDialog
     ) { }
+
+    makeCreateDiagramCommand(): CreateDiagramCommand {
+        return new CreateDiagramCommand(this._diagramService);
+    }
 
     makeSaveDiagramCommand(): SaveDiagramCommand {
         return new SaveDiagramCommand(this._diagramService, this._diagramEventsService);

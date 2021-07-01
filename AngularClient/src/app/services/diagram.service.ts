@@ -55,6 +55,17 @@ export class DiagramService {
         });
     }
 
+    async createDiagram(): Promise<Diagram> {
+        let newDiagram = new Diagram();
+        this._diagram = newDiagram;
+        await this._apiService.createDiagram(newDiagram);
+        this._diagramUpdaterService.connectToDiagram(newDiagram);
+        this._diagramEventsService.diagramLoadEvent.raise(newDiagram);
+        this._actionService.loadDiagram(newDiagram);
+
+        return newDiagram;
+    }
+
     setHandlers(): void {
         let self = this;
         let actionFactory = new ActionFactory();

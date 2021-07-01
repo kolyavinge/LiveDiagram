@@ -8,9 +8,12 @@ img.loading {
     margin: 0 auto;
     display: block;
     position: relative;
-    top: 8px;
     width: 32px;
     height: 32px;
+}
+
+button.create-diagram {
+    font-style: italic;
 }
 
 div.availableDiagrams {

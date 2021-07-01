@@ -5,19 +5,19 @@ using LiveDiagram.Api.Model;
 
 namespace LiveDiagram.Api.Common
 {
-    public class LoadedDiagramsCollection : IEnumerable<Diagram>
+    public class DiagramsCollection : IEnumerable<Diagram>
     {
-        private readonly ConcurrentDictionary<string, Diagram> _loadedDiagrams;
+        private readonly ConcurrentDictionary<string, Diagram> _diagrams;
 
-        public LoadedDiagramsCollection()
+        public DiagramsCollection()
         {
-            _loadedDiagrams = new ConcurrentDictionary<string, Diagram>();
+            _diagrams = new ConcurrentDictionary<string, Diagram>();
         }
 
         public Diagram GetDiagramByIdOrNull(string diagramId)
         {
             Diagram diagram;
-            if (_loadedDiagrams.TryGetValue(diagramId, out diagram))
+            if (_diagrams.TryGetValue(diagramId, out diagram))
             {
                 return diagram;
             }
@@ -29,19 +29,25 @@ namespace LiveDiagram.Api.Common
 
         public void Add(Diagram diagram)
         {
-            _loadedDiagrams.TryAdd(diagram.Id, diagram);
+            _diagrams.TryAdd(diagram.Id, diagram);
         }
 
         public void Set(Diagram diagram)
         {
             Diagram removed;
-            _loadedDiagrams.TryRemove(diagram.Id, out removed);
-            _loadedDiagrams.TryAdd(diagram.Id, diagram);
+            _diagrams.TryRemove(diagram.Id, out removed);
+            _diagrams.TryAdd(diagram.Id, diagram);
+        }
+
+        public void Delete(string diagramId)
+        {
+            Diagram removed;
+            _diagrams.TryRemove(diagramId, out removed);
         }
 
         public IEnumerator<Diagram> GetEnumerator()
         {
-            return _loadedDiagrams.Values.GetEnumerator();
+            return _diagrams.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -33,6 +33,14 @@ export class ApiService {
         return this._httpClient.post(ApiPath.getDiagramByIdPath, postData).toPromise();
     }
 
+    createDiagram(diagram: Diagram): Promise<any> {
+        let postData = {
+            clientId: this._localStorage.authData.clientId,
+            diagramId: diagram.id
+        };
+        return this._httpClient.post(ApiPath.createDiagramPath, postData).toPromise();
+    }
+
     saveDiagram(diagram: Diagram): Promise<any> {
         let postData = {
             clientId: this._localStorage.authData.clientId,

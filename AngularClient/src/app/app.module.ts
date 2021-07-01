@@ -7,6 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { AppComponent } from './app.component';
 import { DiagramComponent } from './components/diagram/diagram.component';
@@ -40,7 +41,8 @@ import { SelectionRectangleComponent } from './components/selection-rectangle/se
         MatDialogModule,
         MatButtonModule,
         MatMenuModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatDividerModule
     ],
     providers: [],
     bootstrap: [AppComponent]
