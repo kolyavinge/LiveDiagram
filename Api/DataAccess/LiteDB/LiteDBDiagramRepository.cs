@@ -1,22 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using LiteDB;
 using LiveDiagram.Api.Model;
 
 namespace LiveDiagram.Api.DataAccess.LiteDB
 {
-    public class LiteDBDiagramRepository : IDiagramRepository
+    class LiteDBDiagramRepository : IDiagramRepository
     {
-        private string _databaseFilePath;
-
-        public LiteDBDiagramRepository(string databaseFilePath)
-        {
-            _databaseFilePath = databaseFilePath;
-        }
+        public DatabaseFile DatabaseFile { get; set; }
 
         public IEnumerable<AvailableDiagram> GetAvailableDiagrams()
         {
-            using (var db = new LiteDatabase(_databaseFilePath))
+            using (var db = DatabaseFile.Open())
             {
                 return db.GetCollection<Diagram>().Query()
                     .Select(x => new { x.Id, x.Title })
@@ -27,7 +21,7 @@ namespace LiveDiagram.Api.DataAccess.LiteDB
 
         public Diagram GetById(string diagramId)
         {
-            using (var db = new LiteDatabase(_databaseFilePath))
+            using (var db = DatabaseFile.Open())
             {
                 return db.GetCollection<Diagram>().Query()
                     .Where(x => x.Id == diagramId)
@@ -37,7 +31,7 @@ namespace LiveDiagram.Api.DataAccess.LiteDB
 
         public void SaveDiagram(Diagram diagram)
         {
-            using (var db = new LiteDatabase(_databaseFilePath))
+            using (var db = DatabaseFile.Open())
             {
                 db.GetCollection<Diagram>().Upsert(diagram);
             }

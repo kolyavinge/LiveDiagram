@@ -1,13 +1,10 @@
 ﻿namespace LiveDiagram.Api.DataAccess.LiteDB
 {
-    public class LiteDBRepositoryFactory : RepositoryFactory
+    class LiteDBRepositoryFactory : RepositoryFactory
     {
-        private string _databaseFilePath;
-
-        public LiteDBRepositoryFactory(string databaseFilePath)
+        public LiteDBRepositoryFactory(DatabaseFile databaseFile)
         {
-            _databaseFilePath = databaseFilePath;
-            Add<IDiagramRepository>(new LiteDBDiagramRepository(_databaseFilePath));
+            Add<IDiagramRepository>(new LiteDBDiagramRepository { DatabaseFile = databaseFile });
         }
     }
 }

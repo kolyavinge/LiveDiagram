@@ -11,25 +11,24 @@ namespace LiveDiagram.Api.DataAccess.LiteDB
 {
     public class LiteDBContext : IDBContext
     {
-        private readonly string _databaseFilePath;
-
         public LiteDBContext(IConfiguration configuration)
         {
-            _databaseFilePath = configuration["DatabaseFilePath"];
-            CreateDBIfNeeded();
+            var databaseFilePath = configuration["DatabaseFilePath"];
+            CreateDBIfNeeded(databaseFilePath);
+            RepositoryFactory = new LiteDBRepositoryFactory(new DatabaseFile(databaseFilePath));
         }
 
-        private void CreateDBIfNeeded()
+        private void CreateDBIfNeeded(string databaseFilePath)
         {
-            if (File.Exists(_databaseFilePath)) return;
-            using (var db = new LiteDatabase(_databaseFilePath))
+            if (File.Exists(databaseFilePath)) return;
+            using (var db = new LiteDatabase(databaseFilePath))
             {
                 db.Mapper.Entity<Diagram>().Id(x => x.Id);
                 db.GetCollection<Diagram>().Insert(GetDefaultDiagram());
             }
         }
 
-        public IRepositoryFactory RepositoryFactory => new LiteDBRepositoryFactory(_databaseFilePath);
+        public IRepositoryFactory RepositoryFactory { get; private set; }
 
         private Diagram GetDefaultDiagram()
         {
