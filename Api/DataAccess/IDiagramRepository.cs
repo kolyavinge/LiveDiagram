@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LiveDiagram.Api.Contracts.Common;
 using LiveDiagram.Api.Model;
 
 namespace LiveDiagram.Api.DataAccess

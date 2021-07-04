@@ -5,6 +5,7 @@
         public LiteDBRepositoryFactory(DatabaseFile databaseFile)
         {
             Add<IDiagramRepository>(new LiteDBDiagramRepository { DatabaseFile = databaseFile });
+            Add<IDiagramThumbnailRepository>(new LiteDBDiagramThumbnailRepository { DatabaseFile = databaseFile });
         }
     }
 }

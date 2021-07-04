@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace LiveDiagram.Api.Model
 {
@@ -13,6 +10,12 @@ namespace LiveDiagram.Api.Model
 
         [JsonPropertyName("title")]
         public string Title { get; set; }
+
+        [JsonPropertyName("width")]
+        public float Width { get; set; }
+
+        [JsonPropertyName("height")]
+        public float Height { get; set; }
 
         [JsonPropertyName("items")]
         public List<DiagramItem> Items { get; set; }

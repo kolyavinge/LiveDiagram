@@ -41,10 +41,11 @@ namespace LiveDiagram.Api.Controllers
         [Route("GetAvailableDiagrams")]
         public IActionResult GetAvailableDiagrams(GetAvailableDiagramsRequest request)
         {
+            var availableDiagrams = _diagramService.GetAvailableDiagrams(new GetAvailableDiagramsParams { IncludeThumbnails = request.IncludeThumbnails }).OrderBy(x => x.Title).ToList();
             var response = new GetAvailableDiagramsResponse
             {
                 Success = true,
-                AvailableDiagrams = _diagramService.GetAvailableDiagrams().OrderBy(x => x.Title).ToList()
+                AvailableDiagrams = availableDiagrams
             };
 
             return new JsonResult(response);

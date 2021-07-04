@@ -18,9 +18,10 @@ export class ApiService {
         private _httpClient: HttpClient
     ) { }
 
-    getAvailableDiagrams(): Promise<any> {
+    async getAvailableDiagrams(args = null): Promise<any> {
         let postData = {
-            clientId: this._localStorage.authData.clientId
+            clientId: this._localStorage.authData.clientId,
+            includeThumbnails: args && args.includeThumbnails ? true : false
         };
         return this._httpClient.post(ApiPath.getAvailableDiagramsPath, postData).toPromise();
     }
@@ -48,6 +49,8 @@ export class ApiService {
             diagram: {
                 id: diagram.id,
                 title: diagram.title,
+                width: diagram.size.width,
+                height: diagram.size.height,
                 items: diagram.items.map(i => ({
                     id: i.id,
                     title: i.title,
@@ -60,7 +63,8 @@ export class ApiService {
                 relations: diagram.relations.map(r => ({
                     id: r.id,
                     itemIdFrom: r.from.id,
-                    itemIdTo: r.to.id
+                    itemIdTo: r.to.id,
+                    segments: r.segments.map(s => ({ x: s.position.x, y: s.position.y, width: s.size.width, height: s.size.height }))
                 }))
             }
         };

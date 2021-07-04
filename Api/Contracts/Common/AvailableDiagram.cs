@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace LiveDiagram.Api.Model
+namespace LiveDiagram.Api.Contracts.Common
 {
     public class AvailableDiagram : IEquatable<AvailableDiagram>
     {
@@ -11,6 +11,9 @@ namespace LiveDiagram.Api.Model
 
         [JsonPropertyName("title")]
         public string Title { get; set; }
+
+        [JsonPropertyName("thumbnail")]
+        public string Thumbnail { get; set; }
 
         public override bool Equals(object obj)
         {

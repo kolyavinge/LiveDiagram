@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LiveDiagram.Api.Contracts.Common;
 using LiveDiagram.Api.Model;
 
 namespace LiveDiagram.Api.DataAccess.LiteDB

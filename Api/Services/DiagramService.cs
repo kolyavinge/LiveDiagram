@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using LiveDiagram.Api.Common;
+using LiveDiagram.Api.Contracts.Common;
 using LiveDiagram.Api.DataAccess;
 using LiveDiagram.Api.Model;
 
@@ -8,7 +11,7 @@ namespace LiveDiagram.Api.Services
 {
     public interface IDiagramService
     {
-        List<AvailableDiagram> GetAvailableDiagrams();
+        List<AvailableDiagram> GetAvailableDiagrams(GetAvailableDiagramsParams param);
         Diagram GetDiagramById(string diagramId);
         void CreateDiagram(string diagramId);
         bool SaveDiagram(Diagram diagram);
@@ -28,12 +31,25 @@ namespace LiveDiagram.Api.Services
             _loadedDiagrams = new DiagramsCollection();
         }
 
-        public List<AvailableDiagram> GetAvailableDiagrams()
+        public List<AvailableDiagram> GetAvailableDiagrams(GetAvailableDiagramsParams param)
         {
             var diagramRepo = _dbContext.RepositoryFactory.Get<IDiagramRepository>();
             var diagramsFromDB = diagramRepo.GetAvailableDiagrams();
+            var availableDiagrams = _loadedDiagrams.Select(diagram => new AvailableDiagram { Id = diagram.Id, Title = diagram.Title }).Union(diagramsFromDB).ToList();
+            if (param.IncludeThumbnails)
+            {
+                var diagramThumbnailRepo = _dbContext.RepositoryFactory.Get<IDiagramThumbnailRepository>();
+                var thumbnails = diagramThumbnailRepo.Get(availableDiagrams).ToDictionary(k => k.DiagramId, v => v.Content);
+                foreach (var availableDiagram in availableDiagrams)
+                {
+                    if (thumbnails.ContainsKey(availableDiagram.Id))
+                    {
+                        availableDiagram.Thumbnail = "data:image/jpg;base64," + thumbnails[availableDiagram.Id];
+                    }
+                }
+            }
 
-            return _loadedDiagrams.Select(diagram => new AvailableDiagram { Id = diagram.Id, Title = diagram.Title }).Union(diagramsFromDB).ToList();
+            return availableDiagrams;
         }
 
         public Diagram GetDiagramById(string diagramId)
@@ -61,6 +77,15 @@ namespace LiveDiagram.Api.Services
             var diagramRepo = _dbContext.RepositoryFactory.Get<IDiagramRepository>();
             diagramRepo.SaveDiagram(diagram);
 
+            var painter = new DiagramPainter();
+            var diagramImage = painter.CreateImage(diagram);
+            var diagramImageStream = new MemoryStream();
+            diagramImage.Save(diagramImageStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+            var diagramImageContent = Convert.ToBase64String(diagramImageStream.ToArray());
+            var diagramThumbnailRepo = _dbContext.RepositoryFactory.Get<IDiagramThumbnailRepository>();
+            var diagramThumbnail = new DiagramThumbnail { DiagramId = diagram.Id, Content = diagramImageContent };
+            diagramThumbnailRepo.Save(diagramThumbnail);
+
             return true;
         }
 
@@ -68,5 +93,10 @@ namespace LiveDiagram.Api.Services
         {
             diagram.Title = title;
         }
+    }
+
+    public class GetAvailableDiagramsParams
+    {
+        public bool IncludeThumbnails { get; set; }
     }
 }

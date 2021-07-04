@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using LiteDB;
+using LiveDiagram.Api.Contracts.Common;
 using LiveDiagram.Api.Model;
 using Microsoft.Extensions.Configuration;
 
@@ -20,11 +18,15 @@ namespace LiveDiagram.Api.DataAccess.LiteDB
 
         private void CreateDBIfNeeded(string databaseFilePath)
         {
-            if (File.Exists(databaseFilePath)) return;
+            bool databaseFileExists = File.Exists(databaseFilePath);
             using (var db = new LiteDatabase(databaseFilePath))
             {
                 db.Mapper.Entity<Diagram>().Id(x => x.Id);
-                db.GetCollection<Diagram>().Insert(GetDefaultDiagram());
+                if (!databaseFileExists)
+                {
+                    db.GetCollection<Diagram>().Insert(GetDefaultDiagram());
+                }
+                db.Mapper.Entity<DiagramThumbnail>().Id(x => x.DiagramId);
             }
         }
 
