@@ -1,0 +1,20 @@
+div.thumbnail {
+    float: left;
+    width: 200px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    text-align: center;
+}
+
+div.thumbnail:hover {
+    box-shadow: rgb(0 0 0 / 50%) 0px 0px 5px;
+}
+
+div.thumbnail>img {
+    width: 200px;
+}
+
+div.thumbnail>span {
+    font-size: 14px;
+}
