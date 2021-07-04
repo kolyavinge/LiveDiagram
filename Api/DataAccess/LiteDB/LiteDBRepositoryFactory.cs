@@ -1,8 +1,10 @@
-﻿namespace LiveDiagram.Api.DataAccess.LiteDB
+﻿using LiteDB;
+
+namespace LiveDiagram.Api.DataAccess.LiteDB
 {
     class LiteDBRepositoryFactory : RepositoryFactory
     {
-        public LiteDBRepositoryFactory(DatabaseFile databaseFile)
+        public LiteDBRepositoryFactory(LiteDatabase databaseFile)
         {
             Add<IDiagramRepository>(new LiteDBDiagramRepository { DatabaseFile = databaseFile });
             Add<IDiagramThumbnailRepository>(new LiteDBDiagramThumbnailRepository { DatabaseFile = databaseFile });
