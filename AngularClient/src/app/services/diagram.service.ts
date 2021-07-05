@@ -29,7 +29,7 @@ export class DiagramService {
     ) {
         this.setHandlers();
         this._diagram = new Diagram();
-        this.loadDiagramById('12345');
+        this.loadDiagramById('1');
     }
 
     get diagram(): Diagram { return this._diagram; }
