@@ -14,12 +14,13 @@ import { DiagramComponent } from './components/diagram/diagram.component';
 import { DiagramItemComponent } from './components/diagram-item/diagram-item.component';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { StatusBarComponent } from './components/status-bar/status-bar.component';
-import { EditDiagramItemDialogComponent } from './dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
-import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { RelationComponent } from './components/relation/relation.component';
 import { HistoryComponent } from './components/history/history.component';
 import { SelectionRectangleComponent } from './components/selection-rectangle/selection-rectangle.component';
 import { DiagramSelectorComponent } from './components/diagram-selector/diagram-selector.component';
+import { EditDiagramItemDialogComponent } from './dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
+import { DiagramSelectorDialogComponent } from './dialogs/diagram-selector-dialog/diagram-selector-dialog.component';
 
 @NgModule({
     declarations: [
@@ -28,12 +29,13 @@ import { DiagramSelectorComponent } from './components/diagram-selector/diagram-
         DiagramItemComponent,
         MainMenuComponent,
         StatusBarComponent,
-        EditDiagramItemDialogComponent,
-        ConfirmDialogComponent,
         RelationComponent,
         HistoryComponent,
         SelectionRectangleComponent,
         DiagramSelectorComponent,
+        EditDiagramItemDialogComponent,
+        ConfirmDialogComponent,
+        DiagramSelectorDialogComponent,
     ],
     imports: [
         BrowserModule,

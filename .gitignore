@@ -3,3 +3,4 @@ AngularClient/node_modules
 Api/bin
 Api/obj
 LiveDiagram.db
+LiveDiagram-log.db

@@ -1,5 +1,8 @@
 <div class="root">
-    <div class="availableDiagrams">
+    <button (click)="selectDiagramCommand.exec()" class="item-button-mini noselect">
+        <img src="/assets/ico/diagram.png" />
+    </button>
+    <div class="available-diagrams">
         <mat-menu #appMenu="matMenu">
             <button mat-menu-item (click)="createDiagramCommand.exec()" class="create-diagram">{{ createDiagramCommand.title }}</button>
             <mat-divider></mat-divider>
@@ -10,7 +13,7 @@
                 </li>
             </ul>
         </mat-menu>
-        <button [matMenuTriggerFor]="appMenu" (click)="onAvailableDiagramsOpen()"><img src="/assets/ico/diagram.png" /></button>
+        <button [matMenuTriggerFor]="appMenu" (click)="onAvailableDiagramsOpen()">▼</button>
     </div>
     <button (click)="createDiagramItemCommand.exec()" class="item-button noselect">{{ createDiagramItemCommand.title }}</button>
     <button (click)="addRelationCommand.exec()" class="item-button noselect" [disabled]="!addRelationCommand.isEnabled">{{ addRelationCommand.title }}</button>

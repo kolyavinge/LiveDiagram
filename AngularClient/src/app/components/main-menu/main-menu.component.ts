@@ -15,6 +15,7 @@ export class MainMenuComponent implements OnInit {
 
     availableDiagramsLoading: boolean = false;
     availableDiagrams: AvailableDiagram[] = [];
+    selectDiagramCommand: Command;
     createDiagramCommand: Command;
     createDiagramItemCommand: Command;
     addRelationCommand: Command;
@@ -28,6 +29,7 @@ export class MainMenuComponent implements OnInit {
         private _diagramEventsService: DiagramEventsService,
         private _commandService: CommandService
     ) {
+        this.selectDiagramCommand = this._commandService.makeSelectDiagramCommand();
         this.createDiagramCommand = this._commandService.makeCreateDiagramCommand();
         this.createDiagramItemCommand = this._commandService.makeCreateDiagramItemCommand();
         this.addRelationCommand = this._commandService.makeAddRelationCommand();

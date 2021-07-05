@@ -4,6 +4,7 @@ import { DiagramItem } from '../model/diagram-item';
 import { DiagramEventsService } from './diagram-events.service';
 import { DiagramService } from './diagram.service';
 import { EditRelationCommand } from '../commands/edit-relation-command';
+import { SelectDiagramCommand } from '../commands/select-diagram-command';
 import { CreateDiagramItemCommand } from '../commands/create-diagram-item-command';
 import { DeleteDiagramItemRelationCommand } from '../commands/delete-diagram-item-relation-command';
 import { EditDiagramItemCommand } from '../commands/edit-diagram-item-command';
@@ -19,6 +20,10 @@ export class CommandService {
         private _diagramService: DiagramService,
         private _dialogService: MatDialog
     ) { }
+
+    makeSelectDiagramCommand(): SelectDiagramCommand {
+        return new SelectDiagramCommand(this._dialogService, this._diagramService);
+    }
 
     makeCreateDiagramCommand(): CreateDiagramCommand {
         return new CreateDiagramCommand(this._diagramService);

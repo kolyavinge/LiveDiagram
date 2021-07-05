@@ -1,0 +1,36 @@
+div.root {
+    width: 860px;
+    height: 500px;
+}
+
+div.diagram-selector {
+    height: 440px;
+    overflow-y: scroll;
+    margin: auto;
+    margin-bottom: 32px;
+    padding: 4px;
+}
+
+div.selected-diagram-title {
+    float: left;
+}
+
+div.buttons {
+    float: right;
+    width: 158px;
+}
+
+div.button-ok {
+    float: left;
+    margin-right: 8px;
+}
+
+div.button-ok>button {
+    width: 75px;
+    height: 22px;
+}
+
+div.button-cancel>button {
+    width: 75px;
+    height: 22px;
+}

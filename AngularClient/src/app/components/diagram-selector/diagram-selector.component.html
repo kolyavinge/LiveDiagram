@@ -1,6 +1,7 @@
 <div class="root">
     <div *ngFor="let availableDiagram of availableDiagrams"
         class="thumbnail"
+        [class.selected]="availableDiagram.id === selectedDiagramId"
         (click)="selectDiagram(availableDiagram)">
         <img [src]="availableDiagram.thumbnail" />
         <span>{{ availableDiagram.title }}</span>

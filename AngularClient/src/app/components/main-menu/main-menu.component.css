@@ -16,17 +16,26 @@ button.create-diagram {
     font-style: italic;
 }
 
-div.availableDiagrams {
+div.available-diagrams {
     float: left;
     height: 100%;
 }
 
-div.availableDiagrams>button {
-    width: 48px;
+div.available-diagrams>button {
+    width: 24px;
+    height: 100%;
+}
+
+.item-button-mini {
+    display: block;
+    float: left;
+    width: 36px;
     height: 100%;
 }
 
 .item-button {
+    display: block;
+    float: left;
     width: 150px;
     height: 100%;
 }
