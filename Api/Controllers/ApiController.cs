@@ -4,6 +4,7 @@ using LiveDiagram.Api.Contracts.RequestResponse;
 using LiveDiagram.Api.DataAccess;
 using LiveDiagram.Api.Services;
 using LiveDiagram.Api.SignalR;
+using LiveDiagram.Api.Utils;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -41,7 +42,10 @@ namespace LiveDiagram.Api.Controllers
         [Route("GetAvailableDiagrams")]
         public IActionResult GetAvailableDiagrams(GetAvailableDiagramsRequest request)
         {
-            var availableDiagrams = _diagramService.GetAvailableDiagrams(new GetAvailableDiagramsParams { IncludeThumbnails = request.IncludeThumbnails }).OrderBy(x => x.Title).ToList();
+            var availableDiagrams = _diagramService
+                .GetAvailableDiagrams(new GetAvailableDiagramsParams { IncludeThumbnails = request.IncludeThumbnails })
+                .OrderBy(x => x.Title, new StringLogicalComparer())
+                .ToList();
             var response = new GetAvailableDiagramsResponse
             {
                 Success = true,

@@ -2,5 +2,7 @@
 AngularClient/node_modules
 Api/bin
 Api/obj
+Api.Test/bin
+Api.Test/obj
 LiveDiagram.db
 LiveDiagram-log.db
