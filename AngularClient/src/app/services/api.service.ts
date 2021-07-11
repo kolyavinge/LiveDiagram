@@ -21,7 +21,9 @@ export class ApiService {
     async getAvailableDiagrams(args = null): Promise<any> {
         let postData = {
             clientId: this._localStorage.authData.clientId,
-            includeThumbnails: args && args.includeThumbnails ? true : false
+            countOnly: args && args.countOnly ? true : false,
+            includeThumbnails: args && args.includeThumbnails ? true : false,
+            batch: args && args.batch
         };
         return this._httpClient.post(ApiPath.getAvailableDiagramsPath, postData).toPromise();
     }

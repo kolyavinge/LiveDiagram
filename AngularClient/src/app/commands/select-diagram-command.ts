@@ -18,7 +18,7 @@ export class SelectDiagramCommand extends Command {
             if (dialogResult) {
                 self._diagramService.loadDiagramById(dialog.componentInstance.selectedDiagram.id);
             }
-        })
+        });
     }
 
     get title(): string { return 'Выбрать диаграмму'; }

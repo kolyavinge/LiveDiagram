@@ -4,7 +4,6 @@ using LiveDiagram.Api.Contracts.RequestResponse;
 using LiveDiagram.Api.DataAccess;
 using LiveDiagram.Api.Services;
 using LiveDiagram.Api.SignalR;
-using LiveDiagram.Api.Utils;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -42,15 +41,19 @@ namespace LiveDiagram.Api.Controllers
         [Route("GetAvailableDiagrams")]
         public IActionResult GetAvailableDiagrams(GetAvailableDiagramsRequest request)
         {
-            var availableDiagrams = _diagramService
-                .GetAvailableDiagrams(new GetAvailableDiagramsParams { IncludeThumbnails = request.IncludeThumbnails })
-                .OrderBy(x => x.Title, new StringLogicalComparer())
-                .ToList();
-            var response = new GetAvailableDiagramsResponse
+            var response = new GetAvailableDiagramsResponse { Success = true };
+            if (request.CountOnly)
             {
-                Success = true,
-                AvailableDiagrams = availableDiagrams
-            };
+                response.Count = _diagramService.GetAvailableDiagramsCount();
+            }
+            else
+            {
+                var availableDiagrams = _diagramService
+                    .GetAvailableDiagrams(new GetAvailableDiagramsParams { IncludeThumbnails = request.IncludeThumbnails, Batch = request.Batch })
+                    .ToList();
+                response.Count = availableDiagrams.Count;
+                response.AvailableDiagrams = availableDiagrams;
+            }
 
             return new JsonResult(response);
         }

@@ -11,13 +11,31 @@ div.diagram-selector {
     padding: 4px;
 }
 
+div.status-bar {
+    height: 22px;
+}
+
 div.selected-diagram-title {
+    height: 20px;
+    margin-bottom: 8px;
+}
+
+span.selected-diagram-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 850px;
+    display: inline-block;
+}
+
+div.pagenator {
     float: left;
 }
 
 div.buttons {
     float: right;
     width: 158px;
+    height: 100%;
 }
 
 div.button-ok {

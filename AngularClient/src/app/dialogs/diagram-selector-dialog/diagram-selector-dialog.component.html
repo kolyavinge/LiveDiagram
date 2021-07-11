@@ -1,10 +1,20 @@
 <div class="root">
     <div class="diagram-selector">
-        <app-diagram-selector (selectedDiagram)="selectDiagram($event)"></app-diagram-selector>
+        <app-diagram-selector
+            [pageSize]="50"
+            [pageNumber]="pageNumber"
+            (selectedDiagramChange)="selectDiagram($event)"></app-diagram-selector>
     </div>
-    <div>
-        <div *ngIf="selectedDiagram" class="selected-diagram-title">
-            <span>Выбрана диаграмма: </span><span>{{ selectedDiagram.title }}</span>
+    <div class="selected-diagram-title">
+        <span class="selected-diagram-title">Выбрана: {{ selectedDiagram ? selectedDiagram.title : '---' }}</span>
+    </div>
+    <div class="status-bar">
+        <div class="pagenator">
+            <app-pagenator
+                [maxDisplayPagesCount]="5"
+                [pageSize]="50"
+                [totalItemsCount]="totalItemsCount"
+                (pageNumberChange)="pageNumber = $event"></app-pagenator>
         </div>
         <div class="buttons">
             <div class="button-ok"><button [mat-dialog-close]="true" [disabled]="!okEnable">Выбрать</button></div>

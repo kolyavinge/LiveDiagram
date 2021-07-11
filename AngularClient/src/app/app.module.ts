@@ -21,6 +21,7 @@ import { DiagramSelectorComponent } from './components/diagram-selector/diagram-
 import { EditDiagramItemDialogComponent } from './dialogs/edit-diagram-item-dialog/edit-diagram-item-dialog.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { DiagramSelectorDialogComponent } from './dialogs/diagram-selector-dialog/diagram-selector-dialog.component';
+import { PagenatorComponent } from './components/pagenator/pagenator.component';
 
 @NgModule({
     declarations: [
@@ -36,6 +37,7 @@ import { DiagramSelectorDialogComponent } from './dialogs/diagram-selector-dialo
         EditDiagramItemDialogComponent,
         ConfirmDialogComponent,
         DiagramSelectorDialogComponent,
+        PagenatorComponent,
     ],
     imports: [
         BrowserModule,

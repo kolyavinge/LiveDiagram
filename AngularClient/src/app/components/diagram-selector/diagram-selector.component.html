@@ -1,4 +1,5 @@
 <div class="root">
+    <img *ngIf="availableDiagramsLoading" class="loading" src="/assets/ico/loading.gif" />
     <div *ngFor="let availableDiagram of availableDiagrams"
         class="thumbnail"
         [class.selected]="availableDiagram.id === selectedDiagramId"

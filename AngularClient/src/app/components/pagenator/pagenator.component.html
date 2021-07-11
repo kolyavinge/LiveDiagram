@@ -1,0 +1,11 @@
+<div class="root">
+    <button (click)="firstPage()" [disabled]="!firstPageEnabled">&lt;&lt;</button>
+    <button (click)="prevPage()" [disabled]="!prevPageEnabled">&lt;</button>
+    <button *ngFor="let pageButton of pageButtons"
+        (click)="gotoPage(pageButton.page)"
+        [class.selected]="pageNumber === pageButton.page">
+        {{ pageButton.title }}
+    </button>
+    <button (click)="nextPage()" [disabled]="!nextPageEnabled">&gt;</button>
+    <button (click)="lastPage()" [disabled]="!lastPageEnabled">&gt;&gt;</button>
+</div>

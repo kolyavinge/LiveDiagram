@@ -1,3 +1,7 @@
+div.root {
+    text-align: center;
+}
+
 div.thumbnail {
     float: left;
     width: 200px;
@@ -21,4 +25,11 @@ div.thumbnail>img {
 
 div.thumbnail>span {
     font-size: 14px;
+}
+
+img.loading {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
 }

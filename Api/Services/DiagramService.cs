@@ -6,11 +6,13 @@ using LiveDiagram.Api.Common;
 using LiveDiagram.Api.Contracts.Common;
 using LiveDiagram.Api.DataAccess;
 using LiveDiagram.Api.Model;
+using LiveDiagram.Api.Utils;
 
 namespace LiveDiagram.Api.Services
 {
     public interface IDiagramService
     {
+        int GetAvailableDiagramsCount();
         List<AvailableDiagram> GetAvailableDiagrams(GetAvailableDiagramsParams param);
         Diagram GetDiagramById(string diagramId);
         void CreateDiagram(string diagramId);
@@ -31,11 +33,37 @@ namespace LiveDiagram.Api.Services
             _loadedDiagrams = new DiagramsCollection();
         }
 
+        public int GetAvailableDiagramsCount()
+        {
+            var diagramRepo = _dbContext.RepositoryFactory.Get<IDiagramRepository>();
+            var diagramsFromDB = diagramRepo.GetAvailableDiagrams();
+
+            return _loadedDiagrams
+                .Select(diagram => new AvailableDiagram { Id = diagram.Id, Title = diagram.Title })
+                .Union(diagramsFromDB)
+                .Count();
+        }
+
         public List<AvailableDiagram> GetAvailableDiagrams(GetAvailableDiagramsParams param)
         {
             var diagramRepo = _dbContext.RepositoryFactory.Get<IDiagramRepository>();
             var diagramsFromDB = diagramRepo.GetAvailableDiagrams();
-            var availableDiagrams = _loadedDiagrams.Select(diagram => new AvailableDiagram { Id = diagram.Id, Title = diagram.Title }).Union(diagramsFromDB).ToList();
+            var availableDiagrams = _loadedDiagrams
+                .Select(diagram => new AvailableDiagram { Id = diagram.Id, Title = diagram.Title })
+                .Union(diagramsFromDB)
+                .OrderBy(x => x.Title, new StringLogicalComparer())
+                .ToList();
+            if (param.Batch != null)
+            {
+                if (availableDiagrams.Count > param.Batch.StartIndex)
+                {
+                    availableDiagrams.RemoveRange(0, param.Batch.StartIndex);
+                }
+                if (availableDiagrams.Count > param.Batch.Count)
+                {
+                    availableDiagrams.RemoveRange(param.Batch.Count, availableDiagrams.Count - param.Batch.Count);
+                }
+            }
             if (param.IncludeThumbnails)
             {
                 var diagramThumbnailRepo = _dbContext.RepositoryFactory.Get<IDiagramThumbnailRepository>();
@@ -98,5 +126,7 @@ namespace LiveDiagram.Api.Services
     public class GetAvailableDiagramsParams
     {
         public bool IncludeThumbnails { get; set; }
+
+        public Batch Batch { get; set; }
     }
 }

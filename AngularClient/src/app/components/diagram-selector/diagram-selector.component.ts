@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Output, EventEmitter } from '@angular/core';
+import { Input, Output, EventEmitter } from '@angular/core';
 import { AvailableDiagram } from 'src/app/contracts/available-diagram';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -10,22 +10,44 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class DiagramSelectorComponent implements OnInit {
 
-    @Output() selectedDiagram = new EventEmitter<AvailableDiagram>();
+    private _pageNumber: number = 0;
+
+    @Input() pageSize: number = 0;
+    @Output() selectedDiagramChange = new EventEmitter<AvailableDiagram>();
     availableDiagrams: AvailableDiagram[] = [];
-    selectedDiagramId: string = "";
+    selectedDiagramId: string = '';
+    availableDiagramsLoading: boolean = false;
 
     constructor(
         private _apiService: ApiService
     ) { }
 
-    ngOnInit(): void {
-        this._apiService.getAvailableDiagrams({ includeThumbnails: true }).then(response => {
-            this.availableDiagrams = response.availableDiagrams;
-        });
+    @Input() set pageNumber(value: number) {
+        this._pageNumber = value;
+        this.loadDiagrams();
     }
+
+    ngOnInit(): void { }
 
     selectDiagram(selectedDiagram: AvailableDiagram): void {
         this.selectedDiagramId = selectedDiagram.id;
-        this.selectedDiagram.emit(selectedDiagram);
+        this.selectedDiagramChange.emit(selectedDiagram);
+    }
+
+    private loadDiagrams(): void {
+        if (this.pageSize === 0) return;
+        let params = {
+            includeThumbnails: true,
+            batch: {
+                startIndex: this._pageNumber * this.pageSize,
+                count: this.pageSize
+            }
+        };
+        this.availableDiagrams = [];
+        this.availableDiagramsLoading = true;
+        this._apiService.getAvailableDiagrams(params).then(response => {
+            this.availableDiagrams = response.availableDiagrams;
+            this.availableDiagramsLoading = false;
+        });
     }
 }
