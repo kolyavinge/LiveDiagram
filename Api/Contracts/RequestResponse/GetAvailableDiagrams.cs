@@ -12,6 +12,9 @@ namespace LiveDiagram.Api.Contracts.RequestResponse
         [JsonPropertyName("includeThumbnails")]
         public bool IncludeThumbnails { get; set; }
 
+        [JsonPropertyName("filterTitle")]
+        public string FilterTitle { get; set; }
+
         [JsonPropertyName("batch")]
         public Batch Batch { get; set; }
 

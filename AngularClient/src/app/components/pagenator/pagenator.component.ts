@@ -15,16 +15,25 @@ export class PagenatorComponent implements OnInit {
     private _totalPagesCount: number = 0;
     private _totalItemsCount: number = 0;
     private _displayPagesCount: number = 0;
+    private _pageNumber: number = 0;
 
-    pageNumber: number = 0;
     pageButtons: PageButton[] = [];
     firstPageEnabled: boolean = false;
     prevPageEnabled: boolean = false;
     nextPageEnabled: boolean = true;
     lastPageEnabled: boolean = true;
-    @Output() pageNumberChange = new EventEmitter<number>();
     @Input() pageSize: number = 0;
     @Input() maxDisplayPagesCount: number = 0;
+
+    get pageNumber(): number {
+        return this._pageNumber;
+    }
+
+    @Input() set pageNumber(value: number) {
+        this.gotoPage(value);
+    }
+
+    @Output() pageNumberChange = new EventEmitter<number>();
 
     constructor() { }
 
@@ -46,14 +55,14 @@ export class PagenatorComponent implements OnInit {
     }
 
     prevPage(): void {
-        if (this.pageNumber > 0) {
-            this.gotoPage(this.pageNumber - 1);
+        if (this._pageNumber > 0) {
+            this.gotoPage(this._pageNumber - 1);
         }
     }
 
     nextPage(): void {
-        if (this.pageNumber < this._totalPagesCount - 1) {
-            this.gotoPage(this.pageNumber + 1);
+        if (this._pageNumber < this._totalPagesCount - 1) {
+            this.gotoPage(this._pageNumber + 1);
         }
     }
 
@@ -62,14 +71,14 @@ export class PagenatorComponent implements OnInit {
     }
 
     gotoPage(pageNumber: number): void {
-        this.pageNumber = pageNumber;
+        this._pageNumber = pageNumber;
         this.calculatePageButtons();
         this.updateButtonsEnabled();
-        this.pageNumberChange.emit(this.pageNumber);
+        this.pageNumberChange.emit(this._pageNumber);
     }
 
     private calculatePageButtons(): void {
-        let delta = this.pageNumber - Math.trunc(this._displayPagesCount / 2);
+        let delta = this._pageNumber - Math.trunc(this._displayPagesCount / 2);
         if (delta < 0) delta = 0;
         if (delta + this._displayPagesCount >= this._totalPagesCount) delta = this._totalPagesCount - this._displayPagesCount;
         let numbers = [];
@@ -80,9 +89,9 @@ export class PagenatorComponent implements OnInit {
     }
 
     private updateButtonsEnabled(): void {
-        this.firstPageEnabled = this.pageNumber > 0;
-        this.prevPageEnabled = this.pageNumber > 0;
-        this.nextPageEnabled = this.pageNumber < this._totalPagesCount - 1;
-        this.lastPageEnabled = this.pageNumber < this._totalPagesCount - 1;
+        this.firstPageEnabled = this._pageNumber > 0;
+        this.prevPageEnabled = this._pageNumber > 0;
+        this.nextPageEnabled = this._pageNumber < this._totalPagesCount - 1;
+        this.lastPageEnabled = this._pageNumber < this._totalPagesCount - 1;
     }
 }

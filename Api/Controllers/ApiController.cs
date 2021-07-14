@@ -44,12 +44,14 @@ namespace LiveDiagram.Api.Controllers
             var response = new GetAvailableDiagramsResponse { Success = true };
             if (request.CountOnly)
             {
-                response.Count = _diagramService.GetAvailableDiagramsCount();
+                var param = new GetAvailableDiagramsCountParams { FilterTitle = request.FilterTitle };
+                response.Count = _diagramService.GetAvailableDiagramsCount(param);
             }
             else
             {
+                var param = new GetAvailableDiagramsParams { IncludeThumbnails = request.IncludeThumbnails, FilterTitle = request.FilterTitle, Batch = request.Batch };
                 var availableDiagrams = _diagramService
-                    .GetAvailableDiagrams(new GetAvailableDiagramsParams { IncludeThumbnails = request.IncludeThumbnails, Batch = request.Batch })
+                    .GetAvailableDiagrams(param)
                     .ToList();
                 response.Count = availableDiagrams.Count;
                 response.AvailableDiagrams = availableDiagrams;

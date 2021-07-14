@@ -1,10 +1,18 @@
 div.root {
     width: 860px;
-    height: 500px;
+}
+
+div.filter {
+    margin-bottom: 16px;
+}
+
+input.filter {
+    width: 350px;
+    height: 20px;
 }
 
 div.diagram-selector {
-    height: 440px;
+    height: 520px;
     overflow-y: scroll;
     margin: auto;
     margin-bottom: 32px;

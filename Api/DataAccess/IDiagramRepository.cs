@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using LiveDiagram.Api.Contracts.Common;
 using LiveDiagram.Api.Model;
 
@@ -7,6 +9,8 @@ namespace LiveDiagram.Api.DataAccess
     public interface IDiagramRepository : IRepository
     {
         IEnumerable<AvailableDiagram> GetAvailableDiagrams();
+
+        IEnumerable<AvailableDiagram> GetAvailableDiagrams(Expression<Func<Diagram, bool>> predicate);
 
         Diagram GetById(string diagramId);
 

@@ -12,7 +12,7 @@ namespace LiveDiagram.Api.Services
 {
     public interface IDiagramService
     {
-        int GetAvailableDiagramsCount();
+        int GetAvailableDiagramsCount(GetAvailableDiagramsCountParams param);
         List<AvailableDiagram> GetAvailableDiagrams(GetAvailableDiagramsParams param);
         Diagram GetDiagramById(string diagramId);
         void CreateDiagram(string diagramId);
@@ -33,13 +33,25 @@ namespace LiveDiagram.Api.Services
             _loadedDiagrams = new DiagramsCollection();
         }
 
-        public int GetAvailableDiagramsCount()
+        public int GetAvailableDiagramsCount(GetAvailableDiagramsCountParams param)
         {
             var diagramRepo = _dbContext.RepositoryFactory.Get<IDiagramRepository>();
-            var diagramsFromDB = diagramRepo.GetAvailableDiagrams();
+            IEnumerable<AvailableDiagram> diagramsFromDB = null;
+            if (String.IsNullOrWhiteSpace(param.FilterTitle))
+            {
+                diagramsFromDB = diagramRepo.GetAvailableDiagrams();
+            }
+            else
+            {
+                diagramsFromDB = diagramRepo.GetAvailableDiagrams(x => x.Title.Contains(param.FilterTitle));
+            }
+            var loadedDiagramsAvailableDiagrams = _loadedDiagrams.Select(diagram => new AvailableDiagram { Id = diagram.Id, Title = diagram.Title });
+            if (!String.IsNullOrWhiteSpace(param.FilterTitle))
+            {
+                loadedDiagramsAvailableDiagrams = loadedDiagramsAvailableDiagrams.Where(x => x.Title.Contains(param.FilterTitle));
+            }
 
-            return _loadedDiagrams
-                .Select(diagram => new AvailableDiagram { Id = diagram.Id, Title = diagram.Title })
+            return loadedDiagramsAvailableDiagrams
                 .Union(diagramsFromDB)
                 .Count();
         }
@@ -47,9 +59,21 @@ namespace LiveDiagram.Api.Services
         public List<AvailableDiagram> GetAvailableDiagrams(GetAvailableDiagramsParams param)
         {
             var diagramRepo = _dbContext.RepositoryFactory.Get<IDiagramRepository>();
-            var diagramsFromDB = diagramRepo.GetAvailableDiagrams();
-            var availableDiagrams = _loadedDiagrams
-                .Select(diagram => new AvailableDiagram { Id = diagram.Id, Title = diagram.Title })
+            IEnumerable<AvailableDiagram> diagramsFromDB = null;
+            if (String.IsNullOrWhiteSpace(param.FilterTitle))
+            {
+                diagramsFromDB = diagramRepo.GetAvailableDiagrams();
+            }
+            else
+            {
+                diagramsFromDB = diagramRepo.GetAvailableDiagrams(x => x.Title.Contains(param.FilterTitle));
+            }
+            var loadedDiagramsAvailableDiagrams = _loadedDiagrams.Select(diagram => new AvailableDiagram { Id = diagram.Id, Title = diagram.Title });
+            if (!String.IsNullOrWhiteSpace(param.FilterTitle))
+            {
+                loadedDiagramsAvailableDiagrams = loadedDiagramsAvailableDiagrams.Where(x => x.Title.Contains(param.FilterTitle));
+            }
+            var availableDiagrams = loadedDiagramsAvailableDiagrams
                 .Union(diagramsFromDB)
                 .OrderBy(x => x.Title, new StringLogicalComparer())
                 .ToList();
@@ -123,9 +147,16 @@ namespace LiveDiagram.Api.Services
         }
     }
 
+    public class GetAvailableDiagramsCountParams
+    {
+        public string FilterTitle { get; set; }
+    }
+
     public class GetAvailableDiagramsParams
     {
         public bool IncludeThumbnails { get; set; }
+
+        public string FilterTitle { get; set; }
 
         public Batch Batch { get; set; }
     }
