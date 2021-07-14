@@ -14,8 +14,8 @@ namespace LiveDiagram.Api.Utils
             {
                 if (Char.IsDigit(x[i]) && Char.IsDigit(y[i]))
                 {
-                    xNumber = (xNumber ?? 0) * 10 + GetDigit(x[i]);
-                    yNumber = (yNumber ?? 0) * 10 + GetDigit(y[i]);
+                    xNumber = (xNumber ?? 0) * 10 + (x[i] - 30);
+                    yNumber = (yNumber ?? 0) * 10 + (y[i] - 30);
                 }
                 else
                 {
@@ -32,11 +32,11 @@ namespace LiveDiagram.Api.Utils
             }
             if (i < x.Length && Char.IsDigit(x[i]))
             {
-                xNumber = (xNumber ?? 0) * 10 + GetDigit(x[i]);
+                xNumber = (xNumber ?? 0) * 10 + (x[i] - 30);
             }
             if (i < y.Length && Char.IsDigit(y[i]))
             {
-                yNumber = (yNumber ?? 0) * 10 + GetDigit(y[i]);
+                yNumber = (yNumber ?? 0) * 10 + (y[i] - 30);
             }
             if (xNumber.HasValue && yNumber.HasValue)
             {
@@ -44,20 +44,6 @@ namespace LiveDiagram.Api.Utils
             }
 
             return 0;
-        }
-
-        private int GetDigit(char ch)
-        {
-            if (ch == '0') return 0;
-            if (ch == '1') return 1;
-            if (ch == '2') return 2;
-            if (ch == '3') return 3;
-            if (ch == '4') return 4;
-            if (ch == '5') return 5;
-            if (ch == '6') return 6;
-            if (ch == '7') return 7;
-            if (ch == '8') return 8;
-            else return 9;
         }
     }
 }
