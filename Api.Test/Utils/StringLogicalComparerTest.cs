@@ -40,5 +40,14 @@ namespace LiveDiagram.Api.Test.Utils
             Assert.AreEqual("12", result[1]);
             Assert.AreEqual("1000", result[2]);
         }
+
+        [Test]
+        public void StringLogicalComparer_4()
+        {
+            var result = new[] { "16", "20", "9" }.OrderBy(x => x, _comparer).ToList();
+            Assert.AreEqual("9", result[0]);
+            Assert.AreEqual("16", result[1]);
+            Assert.AreEqual("20", result[2]);
+        }
     }
 }
