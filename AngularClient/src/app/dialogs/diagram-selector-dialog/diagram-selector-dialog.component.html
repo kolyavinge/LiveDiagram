@@ -5,7 +5,9 @@
     <div class="diagram-selector">
         <app-diagram-selector
             [availableDiagrams]="availableDiagrams"
-            [availableDiagramsLoading]="availableDiagramsLoading"
+            [selectedDiagram]="selectedDiagram"
+            [loading]="availableDiagramsLoading"
+            [showEmpty]="availableDiagramsEmpty"
             (selectedDiagramChange)="selectDiagram($event)"></app-diagram-selector>
     </div>
     <div class="selected-diagram-title">

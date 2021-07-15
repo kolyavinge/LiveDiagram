@@ -12,14 +12,15 @@ import { ApiService } from 'src/app/services/api.service';
 export class DiagramSelectorDialogComponent implements OnInit {
 
     availableDiagrams: AvailableDiagram[] = [];
-    availableDiagramsLoading: boolean = false;
-    okEnable: boolean = false;
     selectedDiagram: AvailableDiagram;
+    availableDiagramsLoading: boolean = false;
+    availableDiagramsEmpty: boolean = false;
+    totalDiagramsCount: number = 0;
     pageNumber: number = 0;
     pageSize: number = 40;
-    totalDiagramsCount: number = 0;
     filterTitle: string = '';
     filterTitlePlaceholder = 'Введите название диаграммы или ее часть';
+    okEnable: boolean = false;
 
     constructor(
         private _dialogRef: MatDialogRef<DiagramSelectorDialogComponent>,
@@ -33,7 +34,7 @@ export class DiagramSelectorDialogComponent implements OnInit {
 
     selectDiagram(selectedDiagram: AvailableDiagram): void {
         this.selectedDiagram = selectedDiagram;
-        this.okEnable = selectedDiagram ? true : false;
+        this.okEnable = selectedDiagram != null;
     }
 
     async pageNumberChange(pageNumber: number): Promise<any> {
@@ -57,8 +58,10 @@ export class DiagramSelectorDialogComponent implements OnInit {
     }
 
     private async loadDiagrams(): Promise<any> {
-        this.availableDiagrams = [];
         this.availableDiagramsLoading = true;
+        this.availableDiagramsEmpty = false;
+        this.availableDiagrams = [];
+        this.selectDiagram(null);
         if (this.totalDiagramsCount > 0) {
             let params = {
                 includeThumbnails: true,
@@ -71,6 +74,7 @@ export class DiagramSelectorDialogComponent implements OnInit {
             let response = await this._apiService.getAvailableDiagrams(params);
             this.availableDiagrams = response.availableDiagrams;
         }
+        this.availableDiagramsEmpty = this.availableDiagrams.length === 0;
         this.availableDiagramsLoading = false;
     }
 }

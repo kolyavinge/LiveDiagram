@@ -33,3 +33,11 @@ img.loading {
     bottom: 0;
     margin: auto;
 }
+
+span.empty {
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    font-style: italic;
+    color: gray;
+}

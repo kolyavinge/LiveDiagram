@@ -71,10 +71,12 @@ export class PagenatorComponent implements OnInit {
     }
 
     gotoPage(pageNumber: number): void {
-        this._pageNumber = pageNumber;
-        this.calculatePageButtons();
-        this.updateButtonsEnabled();
-        this.pageNumberChange.emit(this._pageNumber);
+        if (this._pageNumber !== pageNumber) {
+            this._pageNumber = pageNumber;
+            this.calculatePageButtons();
+            this.updateButtonsEnabled();
+            this.pageNumberChange.emit(this._pageNumber);
+        }
     }
 
     private calculatePageButtons(): void {

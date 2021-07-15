@@ -9,27 +9,18 @@ import { AvailableDiagram } from 'src/app/contracts/available-diagram';
 })
 export class DiagramSelectorComponent implements OnInit {
 
-    private _availableDiagrams: AvailableDiagram[] = [];
-
-    selectedDiagramId: string = '';
+    @Input() availableDiagrams: AvailableDiagram[];
+    @Input() selectedDiagram: AvailableDiagram;
     @Output() selectedDiagramChange = new EventEmitter<AvailableDiagram>();
-    @Input() availableDiagramsLoading: boolean = false;
-
-    get availableDiagrams(): AvailableDiagram[] {
-        return this._availableDiagrams;
-    }
-
-    @Input() set availableDiagrams(value: AvailableDiagram[]) {
-        this._availableDiagrams = value;
-        this.selectDiagram(null);
-    }
+    @Input() loading: boolean = false;
+    @Input() showEmpty: boolean = false;
 
     constructor() { }
 
     ngOnInit(): void { }
 
     selectDiagram(selectedDiagram: AvailableDiagram): void {
-        this.selectedDiagramId = selectedDiagram ? selectedDiagram.id : null;
+        this.selectedDiagram = selectedDiagram;
         this.selectedDiagramChange.emit(selectedDiagram);
     }
 }
