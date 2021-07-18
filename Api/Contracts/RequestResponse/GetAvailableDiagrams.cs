@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 using LiveDiagram.Api.Contracts.Common;
+using LiveDiagram.Api.Services;
+using LiveDiagram.Api.Utils;
 
 namespace LiveDiagram.Api.Contracts.RequestResponse
 {
@@ -15,6 +19,9 @@ namespace LiveDiagram.Api.Contracts.RequestResponse
         [JsonPropertyName("filterTitle")]
         public string FilterTitle { get; set; }
 
+        [JsonPropertyName("sort")]
+        public string Sort { get; set; }
+
         [JsonPropertyName("batch")]
         public Batch Batch { get; set; }
 
@@ -22,6 +29,25 @@ namespace LiveDiagram.Api.Contracts.RequestResponse
         {
             CountOnly = false;
             IncludeThumbnails = false;
+        }
+
+        public DiagramSort GetSort()
+        {
+            var sort = (Sort ?? "").Split(' ').First();
+            if (sort.Equals("title", StringComparison.OrdinalIgnoreCase)) return DiagramSort.Title;
+            if (sort.Equals("create", StringComparison.OrdinalIgnoreCase)) return DiagramSort.CreateDate;
+            if (sort.Equals("update", StringComparison.OrdinalIgnoreCase)) return DiagramSort.UpdateDate;
+
+            return DiagramSort.Title;
+        }
+
+        public SortDirection GetDirection()
+        {
+            var sort = (Sort ?? "").Split(' ').Last();
+            if (sort.Equals("asc", StringComparison.OrdinalIgnoreCase)) return SortDirection.Asc;
+            if (sort.Equals("desc", StringComparison.OrdinalIgnoreCase)) return SortDirection.Desc;
+
+            return SortDirection.Asc;
         }
     }
 

@@ -5,7 +5,22 @@ namespace LiveDiagram.Api.Utils
 {
     public class StringLogicalComparer : IComparer<string>
     {
+        private readonly SortDirection _sortDirection;
+
+        public StringLogicalComparer(SortDirection sortDirection)
+        {
+            _sortDirection = sortDirection;
+        }
+
+        public StringLogicalComparer() : this(SortDirection.Asc) { }
+
         public int Compare(string x, string y)
+        {
+            var result = CompareAsc(x, y);
+            return _sortDirection == SortDirection.Asc ? result : -result;
+        }
+
+        private int CompareAsc(string x, string y)
         {
             int? xNumber = null, yNumber = null;
             var length = Math.Min(x.Length, y.Length);

@@ -8,6 +8,7 @@ namespace LiveDiagram.Api.DataAccess.LiteDB
         {
             Add<IDiagramRepository>(new LiteDBDiagramRepository { DatabaseFile = databaseFile });
             Add<IDiagramThumbnailRepository>(new LiteDBDiagramThumbnailRepository { DatabaseFile = databaseFile });
+            Add<IDiagramMetaRepository>(new LiteDBDiagramMetaRepository { DatabaseFile = databaseFile });
         }
     }
 }

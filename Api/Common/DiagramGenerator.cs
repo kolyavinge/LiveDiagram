@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LiveDiagram.Api.Contracts.Common;
 using LiveDiagram.Api.Model;
 
@@ -166,6 +167,21 @@ namespace LiveDiagram.Api.Common
             {
                 var thumb = GetDefaultDiagramThumbnail(i.ToString());
                 yield return thumb;
+            }
+        }
+
+        public IEnumerable<DiagramMeta> GetDefaultDiagramMeta(int count)
+        {
+            var createDate = DateTime.Now.AddDays(-1);
+            for (int i = 1; i <= count; i++)
+            {
+                yield return new DiagramMeta
+                {
+                    DiagramId = i.ToString(),
+                    CreateDate = createDate,
+                    UpdateDate = createDate
+                };
+                createDate = createDate.AddSeconds(1);
             }
         }
 

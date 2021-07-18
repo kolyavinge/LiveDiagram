@@ -22,6 +22,7 @@ namespace LiveDiagram.Api.DataAccess.LiteDB
                 var generator = new DiagramGenerator();
                 databaseFile.GetCollection<Diagram>().Insert(generator.GetDefaultDiagram(10000).ToList());
                 databaseFile.GetCollection<DiagramThumbnail>().Insert(generator.GetDefaultDiagramThumbnail(10000).ToList());
+                databaseFile.GetCollection<DiagramMeta>().Insert(generator.GetDefaultDiagramMeta(10000).ToList());
             }
             RepositoryFactory = new LiteDBRepositoryFactory(databaseFile);
         }
@@ -30,6 +31,7 @@ namespace LiveDiagram.Api.DataAccess.LiteDB
         {
             databaseFile.Mapper.Entity<Diagram>().Id(x => x.Id);
             databaseFile.Mapper.Entity<DiagramThumbnail>().Id(x => x.DiagramId);
+            databaseFile.Mapper.Entity<DiagramMeta>().Id(x => x.DiagramId);
         }
 
         public IRepositoryFactory RepositoryFactory { get; private set; }

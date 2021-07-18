@@ -49,7 +49,14 @@ namespace LiveDiagram.Api.Controllers
             }
             else
             {
-                var param = new GetAvailableDiagramsParams { IncludeThumbnails = request.IncludeThumbnails, FilterTitle = request.FilterTitle, Batch = request.Batch };
+                var param = new GetAvailableDiagramsParams
+                {
+                    IncludeThumbnails = request.IncludeThumbnails,
+                    FilterTitle = request.FilterTitle,
+                    Sort = request.GetSort(),
+                    Direction = request.GetDirection(),
+                    Batch = request.Batch
+                };
                 var availableDiagrams = _diagramService
                     .GetAvailableDiagrams(param)
                     .ToList();

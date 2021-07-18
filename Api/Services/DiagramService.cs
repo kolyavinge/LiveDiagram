@@ -59,24 +59,34 @@ namespace LiveDiagram.Api.Services
         public List<AvailableDiagram> GetAvailableDiagrams(GetAvailableDiagramsParams param)
         {
             var diagramRepo = _dbContext.RepositoryFactory.Get<IDiagramRepository>();
-            IEnumerable<AvailableDiagram> diagramsFromDB = null;
-            if (String.IsNullOrWhiteSpace(param.FilterTitle))
-            {
-                diagramsFromDB = diagramRepo.GetAvailableDiagrams();
-            }
-            else
-            {
-                diagramsFromDB = diagramRepo.GetAvailableDiagrams(x => x.Title.Contains(param.FilterTitle));
-            }
+            var diagramsFromDB = String.IsNullOrWhiteSpace(param.FilterTitle)
+                ? diagramRepo.GetAvailableDiagrams()
+                : diagramRepo.GetAvailableDiagrams(x => x.Title.Contains(param.FilterTitle));
             var loadedDiagramsAvailableDiagrams = _loadedDiagrams.Select(diagram => new AvailableDiagram { Id = diagram.Id, Title = diagram.Title });
             if (!String.IsNullOrWhiteSpace(param.FilterTitle))
             {
                 loadedDiagramsAvailableDiagrams = loadedDiagramsAvailableDiagrams.Where(x => x.Title.Contains(param.FilterTitle));
             }
-            var availableDiagrams = loadedDiagramsAvailableDiagrams
-                .Union(diagramsFromDB)
-                .OrderBy(x => x.Title, new StringLogicalComparer())
-                .ToList();
+            var availableDiagrams = loadedDiagramsAvailableDiagrams.Union(diagramsFromDB).ToList();
+            if (param.Sort == DiagramSort.Title)
+            {
+                availableDiagrams = availableDiagrams.OrderBy(x => x.Title, new StringLogicalComparer(param.Direction)).ToList();
+            }
+            else
+            {
+                var withMeta = (from a in availableDiagrams
+                                join m in _dbContext.RepositoryFactory.Get<IDiagramMetaRepository>().GetDiagramMeta(availableDiagrams)
+                                on a.Id equals m.DiagramId
+                                select new { AvailableDiagram = a, Meta = m }).ToList();
+                if (param.Sort == DiagramSort.CreateDate)
+                {
+                    availableDiagrams = withMeta.OrderBy(x => x.Meta.CreateDate, new DateTimeComparer(param.Direction)).Select(x => x.AvailableDiagram).ToList();
+                }
+                else if (param.Sort == DiagramSort.UpdateDate)
+                {
+                    availableDiagrams = withMeta.OrderBy(x => x.Meta.UpdateDate, new DateTimeComparer(param.Direction)).Select(x => x.AvailableDiagram).ToList();
+                }
+            }
             if (param.Batch != null)
             {
                 if (availableDiagrams.Count > param.Batch.StartIndex)
@@ -138,6 +148,8 @@ namespace LiveDiagram.Api.Services
             var diagramThumbnail = new DiagramThumbnail { DiagramId = diagram.Id, Content = diagramImageContent };
             diagramThumbnailRepo.Save(diagramThumbnail);
 
+            _dbContext.RepositoryFactory.Get<IDiagramMetaRepository>().SaveUpdateDate(diagram, DateTime.UtcNow);
+
             return true;
         }
 
@@ -158,6 +170,12 @@ namespace LiveDiagram.Api.Services
 
         public string FilterTitle { get; set; }
 
+        public DiagramSort Sort { get; set; }
+
+        public SortDirection Direction { get; set; }
+
         public Batch Batch { get; set; }
     }
+
+    public enum DiagramSort { Title, CreateDate, UpdateDate }
 }
