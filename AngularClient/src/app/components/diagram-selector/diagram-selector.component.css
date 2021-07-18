@@ -5,6 +5,7 @@ div.root {
 div.thumbnail {
     float: left;
     width: 200px;
+    height: 130px;
     margin-right: 8px;
     margin-bottom: 8px;
     cursor: pointer;

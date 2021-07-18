@@ -24,6 +24,7 @@ export class ApiService {
             countOnly: args && args.countOnly ? true : false,
             includeThumbnails: args && args.includeThumbnails ? true : false,
             filterTitle: args && args.filterTitle ? args.filterTitle : '',
+            sort: args && args.sort,
             batch: args && args.batch
         };
         return this._httpClient.post(ApiPath.getAvailableDiagramsPath, postData).toPromise();

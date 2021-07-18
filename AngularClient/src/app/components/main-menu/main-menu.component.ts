@@ -43,7 +43,7 @@ export class MainMenuComponent implements OnInit {
     async onAvailableDiagramsOpen(): Promise<any> {
         this.availableDiagramsLoading = true;
         this.availableDiagrams = [];
-        let result = await this._apiService.getAvailableDiagrams();
+        let result = await this._apiService.getAvailableDiagrams({ sort: 'update desc', batch: { startIndex: 0, count: 10 } });
         this.availableDiagrams = result.availableDiagrams;
         this.availableDiagramsLoading = false;
     }
