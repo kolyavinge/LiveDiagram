@@ -11,6 +11,12 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class DiagramSelectorDialogComponent implements OnInit {
 
+    private _sort: string = 'title asc';
+    private _filterTitleDelayedRequest: DelayedRequest = new DelayedRequest((async _ => {
+        await this.loadTotalDiagramsCount();
+        await this.pageNumberChange(0);
+    }), 1000);
+
     availableDiagrams: AvailableDiagram[] = [];
     selectedDiagram: AvailableDiagram;
     availableDiagramsLoading: boolean = false;
@@ -32,6 +38,14 @@ export class DiagramSelectorDialogComponent implements OnInit {
         await this.loadDiagrams();
     }
 
+    async sort(sort: string): Promise<any> {
+        console.log(sort);
+        if (this._sort !== sort) {
+            this._sort = sort;
+            await this.loadDiagrams();
+        }
+    }
+
     selectDiagram(selectedDiagram: AvailableDiagram): void {
         this.selectedDiagram = selectedDiagram;
         this.okEnable = selectedDiagram != null;
@@ -47,11 +61,6 @@ export class DiagramSelectorDialogComponent implements OnInit {
         this._filterTitleDelayedRequest.send();
     }
 
-    private _filterTitleDelayedRequest: DelayedRequest = new DelayedRequest((async _ => {
-        await this.loadTotalDiagramsCount();
-        await this.pageNumberChange(0);
-    }), 1000);
-
     private async loadTotalDiagramsCount(): Promise<any> {
         let response = await this._apiService.getAvailableDiagrams({ countOnly: true, filterTitle: this.filterTitle });
         this.totalDiagramsCount = response.count;
@@ -66,6 +75,7 @@ export class DiagramSelectorDialogComponent implements OnInit {
             let params = {
                 includeThumbnails: true,
                 filterTitle: this.filterTitle,
+                sort: this._sort,
                 batch: {
                     startIndex: this.pageNumber * this.pageSize,
                     count: this.pageSize

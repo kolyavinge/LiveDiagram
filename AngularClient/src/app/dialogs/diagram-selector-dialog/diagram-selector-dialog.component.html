@@ -1,6 +1,14 @@
 <div class="root">
     <div class="filter">
-        <input type="text" class="filter" [value]="filterTitle" (input)="filterTitleChange($event.target.value)" [placeholder]="filterTitlePlaceholder" />
+        <input type="text" class="filter-title" [value]="filterTitle" (input)="filterTitleChange($event.target.value)" [placeholder]="filterTitlePlaceholder" />
+        <select class="sort" (change)="sort($event.target.value)">
+            <option value="title asc">по названию (а-я)</option>
+            <option value="title desc">по названию (я-а)</option>
+            <option value="update desc">по изменению (сначала новые)</option>
+            <option value="update asc">по изменению (сначала старые)</option>
+            <option value="create desc">по созданию (сначала новые)</option>
+            <option value="create asc">по созданию (сначала старые)</option>
+        </select>
     </div>
     <div class="diagram-selector">
         <app-diagram-selector

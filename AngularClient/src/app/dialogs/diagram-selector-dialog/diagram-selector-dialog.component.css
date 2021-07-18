@@ -6,9 +6,16 @@ div.filter {
     margin-bottom: 16px;
 }
 
-input.filter {
+input.filter-title {
     width: 350px;
     height: 20px;
+}
+
+select.sort {
+    display: block;
+    float: right;
+    width: 225px;
+    height: 24px;
 }
 
 div.diagram-selector {
