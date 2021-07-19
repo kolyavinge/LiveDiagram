@@ -57,9 +57,7 @@ namespace LiveDiagram.Api.Controllers
                     Direction = request.GetDirection(),
                     Batch = request.Batch
                 };
-                var availableDiagrams = _diagramService
-                    .GetAvailableDiagrams(param)
-                    .ToList();
+                var availableDiagrams = _diagramService.GetAvailableDiagrams(param).ToList();
                 response.Count = availableDiagrams.Count;
                 response.AvailableDiagrams = availableDiagrams;
             }

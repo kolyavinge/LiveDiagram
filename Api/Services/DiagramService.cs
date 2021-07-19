@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using LiveDiagram.Api.Common;
 using LiveDiagram.Api.Contracts.Common;
 using LiveDiagram.Api.DataAccess;
@@ -35,69 +36,26 @@ namespace LiveDiagram.Api.Services
 
         public int GetAvailableDiagramsCount(GetAvailableDiagramsCountParams param)
         {
-            var diagramRepo = _dbContext.RepositoryFactory.Get<IDiagramRepository>();
-            IEnumerable<AvailableDiagram> diagramsFromDB = null;
-            if (String.IsNullOrWhiteSpace(param.FilterTitle))
+            var filter = new DiagramMetaCountFilter
             {
-                diagramsFromDB = diagramRepo.GetAvailableDiagrams();
-            }
-            else
-            {
-                diagramsFromDB = diagramRepo.GetAvailableDiagrams(x => x.Title.Contains(param.FilterTitle));
-            }
-            var loadedDiagramsAvailableDiagrams = _loadedDiagrams.Select(diagram => new AvailableDiagram { Id = diagram.Id, Title = diagram.Title });
-            if (!String.IsNullOrWhiteSpace(param.FilterTitle))
-            {
-                loadedDiagramsAvailableDiagrams = loadedDiagramsAvailableDiagrams.Where(x => x.Title.Contains(param.FilterTitle));
-            }
+                FilterTitle = param.FilterTitle
+            };
+            var count = _dbContext.RepositoryFactory.Get<IDiagramMetaRepository>().GetDiagramMetaCount(filter);
 
-            return loadedDiagramsAvailableDiagrams
-                .Union(diagramsFromDB)
-                .Count();
+            return count;
         }
 
         public List<AvailableDiagram> GetAvailableDiagrams(GetAvailableDiagramsParams param)
         {
-            var diagramRepo = _dbContext.RepositoryFactory.Get<IDiagramRepository>();
-            var diagramsFromDB = String.IsNullOrWhiteSpace(param.FilterTitle)
-                ? diagramRepo.GetAvailableDiagrams()
-                : diagramRepo.GetAvailableDiagrams(x => x.Title.Contains(param.FilterTitle));
-            var loadedDiagramsAvailableDiagrams = _loadedDiagrams.Select(diagram => new AvailableDiagram { Id = diagram.Id, Title = diagram.Title });
-            if (!String.IsNullOrWhiteSpace(param.FilterTitle))
+            var filter = new DiagramMetaFilter
             {
-                loadedDiagramsAvailableDiagrams = loadedDiagramsAvailableDiagrams.Where(x => x.Title.Contains(param.FilterTitle));
-            }
-            var availableDiagrams = loadedDiagramsAvailableDiagrams.Union(diagramsFromDB).ToList();
-            if (param.Sort == DiagramSort.Title)
-            {
-                availableDiagrams = availableDiagrams.OrderBy(x => x.Title, new StringLogicalComparer(param.Direction)).ToList();
-            }
-            else
-            {
-                var withMeta = (from a in availableDiagrams
-                                join m in _dbContext.RepositoryFactory.Get<IDiagramMetaRepository>().GetDiagramMeta(availableDiagrams)
-                                on a.Id equals m.DiagramId
-                                select new { AvailableDiagram = a, Meta = m }).ToList();
-                if (param.Sort == DiagramSort.CreateDate)
-                {
-                    availableDiagrams = withMeta.OrderBy(x => x.Meta.CreateDate, new DateTimeComparer(param.Direction)).Select(x => x.AvailableDiagram).ToList();
-                }
-                else if (param.Sort == DiagramSort.UpdateDate)
-                {
-                    availableDiagrams = withMeta.OrderBy(x => x.Meta.UpdateDate, new DateTimeComparer(param.Direction)).Select(x => x.AvailableDiagram).ToList();
-                }
-            }
-            if (param.Batch != null)
-            {
-                if (availableDiagrams.Count > param.Batch.StartIndex)
-                {
-                    availableDiagrams.RemoveRange(0, param.Batch.StartIndex);
-                }
-                if (availableDiagrams.Count > param.Batch.Count)
-                {
-                    availableDiagrams.RemoveRange(param.Batch.Count, availableDiagrams.Count - param.Batch.Count);
-                }
-            }
+                FilterTitle = param.FilterTitle,
+                Sort = param.Sort,
+                Direction = param.Direction,
+                Batch = param.Batch
+            };
+            var meta = _dbContext.RepositoryFactory.Get<IDiagramMetaRepository>().GetDiagramMeta(filter);
+            var availableDiagrams = meta.Select(x => new AvailableDiagram { Id = x.DiagramId, Title = x.Title }).ToList();
             if (param.IncludeThumbnails)
             {
                 var diagramThumbnailRepo = _dbContext.RepositoryFactory.Get<IDiagramThumbnailRepository>();
@@ -148,7 +106,16 @@ namespace LiveDiagram.Api.Services
             var diagramThumbnail = new DiagramThumbnail { DiagramId = diagram.Id, Content = diagramImageContent };
             diagramThumbnailRepo.Save(diagramThumbnail);
 
-            _dbContext.RepositoryFactory.Get<IDiagramMetaRepository>().SaveUpdateDate(diagram, DateTime.UtcNow);
+            var updateDate = DateTime.UtcNow;
+            var diagramMetaRepo = _dbContext.RepositoryFactory.Get<IDiagramMetaRepository>();
+            var meta = diagramMetaRepo.GetDiagramMeta(diagram) ?? new DiagramMeta { DiagramId = diagram.Id, CreateDate = updateDate };
+            meta.Title = diagram.Title;
+            var titleRegex = new Regex(@"^(.*)\s(\d+)?$");
+            var titleRegexMatch = titleRegex.Match(diagram.Title);
+            meta.TitleLetter = titleRegexMatch.Success ? titleRegexMatch.Groups[1].Value : diagram.Title;
+            meta.TitleNumber = titleRegexMatch.Success ? int.Parse(titleRegexMatch.Groups[2].Value) : 0;
+            meta.UpdateDate = updateDate;
+            diagramMetaRepo.SaveMeta(meta);
 
             return true;
         }
@@ -170,12 +137,10 @@ namespace LiveDiagram.Api.Services
 
         public string FilterTitle { get; set; }
 
-        public DiagramSort Sort { get; set; }
+        public DiagramSortField Sort { get; set; }
 
         public SortDirection Direction { get; set; }
 
         public Batch Batch { get; set; }
     }
-
-    public enum DiagramSort { Title, CreateDate, UpdateDate }
 }

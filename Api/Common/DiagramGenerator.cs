@@ -172,12 +172,15 @@ namespace LiveDiagram.Api.Common
 
         public IEnumerable<DiagramMeta> GetDefaultDiagramMeta(int count)
         {
-            var createDate = DateTime.Now.AddDays(-1);
+            var createDate = DateTime.UtcNow.AddYears(-1);
             for (int i = 1; i <= count; i++)
             {
                 yield return new DiagramMeta
                 {
                     DiagramId = i.ToString(),
+                    Title = "Тестовая диаграмма " + i.ToString(),
+                    TitleLetter = "Тестовая диаграмма",
+                    TitleNumber = i,
                     CreateDate = createDate,
                     UpdateDate = createDate
                 };

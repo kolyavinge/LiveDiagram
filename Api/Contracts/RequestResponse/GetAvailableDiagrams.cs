@@ -31,14 +31,14 @@ namespace LiveDiagram.Api.Contracts.RequestResponse
             IncludeThumbnails = false;
         }
 
-        public DiagramSort GetSort()
+        public DiagramSortField GetSort()
         {
             var sort = (Sort ?? "").Split(' ').First();
-            if (sort.Equals("title", StringComparison.OrdinalIgnoreCase)) return DiagramSort.Title;
-            if (sort.Equals("create", StringComparison.OrdinalIgnoreCase)) return DiagramSort.CreateDate;
-            if (sort.Equals("update", StringComparison.OrdinalIgnoreCase)) return DiagramSort.UpdateDate;
+            if (sort.Equals("title", StringComparison.OrdinalIgnoreCase)) return DiagramSortField.Title;
+            if (sort.Equals("create", StringComparison.OrdinalIgnoreCase)) return DiagramSortField.CreateDate;
+            if (sort.Equals("update", StringComparison.OrdinalIgnoreCase)) return DiagramSortField.UpdateDate;
 
-            return DiagramSort.Title;
+            return DiagramSortField.Title;
         }
 
         public SortDirection GetDirection()

@@ -6,4 +6,5 @@ Api.Test/bin
 Api.Test/obj
 LiveDiagram.db
 LiveDiagram-log.db
+LiveDiagram-tmp.db
 *.code-workspace
