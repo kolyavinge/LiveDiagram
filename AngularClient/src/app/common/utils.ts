@@ -1,4 +1,3 @@
-import { ElementRef } from '@angular/core';
 import { Point } from 'src/app/common/geometry';
 
 export default {
@@ -7,7 +6,9 @@ export default {
         return Date.now().toString();
     },
 
-    pointInElement(element: ElementRef, event: MouseEvent): Point {
-        return new Point(event.x - element.nativeElement.offsetLeft, event.y - element.nativeElement.offsetTop);
+    pointInElement(nativeElement: any, event: MouseEvent): Point {
+        return new Point(
+            event.x - nativeElement.offsetLeft + nativeElement.scrollLeft,
+            event.y - nativeElement.offsetTop + nativeElement.scrollTop);
     }
 };

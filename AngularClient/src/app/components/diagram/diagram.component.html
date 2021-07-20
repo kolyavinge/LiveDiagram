@@ -1,7 +1,13 @@
 <div #root class="root"
-    (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp($event)"
+    (mousedown)="onMouseDown($event)"
+    (mousemove)="onMouseMove($event)"
+    (mouseup)="onMouseUp($event)"
     (resized)="onResize($event)">
-    <app-diagram-item *ngFor="let item of diagram.items" [item]="item"></app-diagram-item>
-    <app-relation *ngFor="let relation of diagram.relations" [relation]="relation"></app-relation>
-    <app-selection-rectangle [model]="selectionRectangleModel"></app-selection-rectangle>
+    <div
+        [style.width.px]="diagram.size.width"
+        [style.height.px]="diagram.size.height">
+        <app-diagram-item *ngFor="let item of diagram.items" [item]="item"></app-diagram-item>
+        <app-relation *ngFor="let relation of diagram.relations" [relation]="relation"></app-relation>
+        <app-selection-rectangle [model]="selectionRectangleModel"></app-selection-rectangle>
+    </div>
 </div>

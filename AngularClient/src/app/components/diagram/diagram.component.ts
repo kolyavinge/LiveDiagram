@@ -36,7 +36,6 @@ export class DiagramComponent implements OnInit {
         self._diagram = self._diagramService.diagram;
         self._diagramEventsService.diagramLoadEvent.addHandler((diagram: Diagram) => {
             self._diagram = diagram;
-            self._diagram.size = new Size(self._root.nativeElement.offsetWidth, self._root.nativeElement.offsetHeight);
         });
     }
 
@@ -73,7 +72,7 @@ export class DiagramComponent implements OnInit {
         }
         if (pointedOrResizedItem) {
             this._pointedOrResizedItemState = pointedOrResizedItem.getState();
-            this._mouseLastPosition = new Point(event.x, event.y);
+            this._mouseLastPosition = Utils.pointInElement(this._root.nativeElement, event);
         }
         // selection events
         if (pointedOrResizedItem) {
@@ -85,13 +84,13 @@ export class DiagramComponent implements OnInit {
         }
         // selection rectangle
         if (!pointedOrResizedItem) {
-            this.selectionRectangleModel.setStartPoint(Utils.pointInElement(this._root, event));
+            this.selectionRectangleModel.setStartPoint(Utils.pointInElement(this._root.nativeElement, event));
         }
     }
 
     onMouseMove(event: MouseEvent): void {
         if (this._pointedItem != null || this._resizedItem != null) {
-            let mouseCurrentPosition = new Point(event.x, event.y);
+            let mouseCurrentPosition = Utils.pointInElement(this._root.nativeElement, event);
             let deltaX = mouseCurrentPosition.x - this._mouseLastPosition.x;
             let deltaY = mouseCurrentPosition.y - this._mouseLastPosition.y;
             if (this._resizedItem) {
@@ -105,7 +104,7 @@ export class DiagramComponent implements OnInit {
             this._mouseLastPosition = mouseCurrentPosition;
         } else if (this.selectionRectangleModel.isActive) {
             this.diagram.items.forEach(i => i.isSelected = false);
-            this.selectionRectangleModel.setEndPoint(Utils.pointInElement(this._root, event));
+            this.selectionRectangleModel.setEndPoint(Utils.pointInElement(this._root.nativeElement, event));
             let selectedItems = this.selectionRectangleModel.getSelectedItems(this.diagram.items);
             if (selectedItems.length > 0) {
                 selectedItems.forEach(i => i.isSelected = true);
@@ -166,7 +165,5 @@ export class DiagramComponent implements OnInit {
         }
     }
 
-    onResize(event: ResizedEvent): void {
-        this._diagram.size = new Size(event.newWidth, event.newHeight);
-    }
+    onResize(event: ResizedEvent): void { }
 }

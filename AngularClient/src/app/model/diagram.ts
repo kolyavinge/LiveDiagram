@@ -50,12 +50,14 @@ export class Diagram extends Identifiable {
     moveItemBy(item: DiagramItem, deltaX: number, deltaY: number): void {
         item.position = new Point(item.position.x + deltaX, item.position.y + deltaY);
         this.correctItemPosition(item);
+        this.calculateDiagramSize();
         this.calculateRelationsSegments(item);
     }
 
     moveItemTo(item: DiagramItem, x: number, y: number): void {
         item.position = new Point(x, y);
         this.correctItemPosition(item);
+        this.calculateDiagramSize();
         this.calculateRelationsSegments(item);
     }
 
@@ -160,10 +162,19 @@ export class Diagram extends Identifiable {
         let y: number = null;
         if (item.position.x < 0) x = 0;
         if (item.position.y < 0) y = 0;
-        if (item.position.x + item.size.width > this._size.width) x = this._size.width - item.size.width;
-        if (item.position.y + item.size.height > this._size.height) y = this._size.height - item.size.height;
         if (x != null || y != null) {
             item.position = new Point(x ?? item.position.x, y ?? item.position.y);
+        }
+    }
+
+    private calculateDiagramSize(): void {
+        let rightItem = this._items.sort((a, b) => { return a.position.x - b.position.x; }).reverse()[0];
+        let bottomItem = this._items.sort((a, b) => { return a.position.y - b.position.y; }).reverse()[0];
+        let newWidth = rightItem.position.x + rightItem.size.width;
+        let newHeight = bottomItem.position.y + bottomItem.size.height;
+        let newSize = new Size(newWidth, newHeight);
+        if (!this.size.isEquals(newSize)) {
+            this.size = newSize;
         }
     }
 
