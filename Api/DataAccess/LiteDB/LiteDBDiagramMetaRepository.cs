@@ -42,18 +42,29 @@ namespace LiveDiagram.Api.DataAccess.LiteDB
         {
             var query = DatabaseFile.GetCollection<DiagramMeta>().Query();
 
-            var direction = filter.Direction == SortDirection.Asc ? 1 : 2;
-            if (filter.Sort == DiagramSortField.Title)
+            if (filter.Sort == DiagramSortField.Title && filter.Direction == SortDirection.Asc)
             {
-                query = query.OrderBy(x => new { x.TitleLetter, x.TitleNumber }, direction);
+                query = query.OrderBy(x => new { x.TitleLetter, x.TitleNumber });
             }
-            else if (filter.Sort == DiagramSortField.CreateDate)
+            else if (filter.Sort == DiagramSortField.Title && filter.Direction == SortDirection.Desc)
             {
-                query = query.OrderBy(x => x.CreateDate, direction);
+                query = query.OrderByDescending(x => new { x.TitleLetter, x.TitleNumber });
             }
-            else if (filter.Sort == DiagramSortField.UpdateDate)
+            else if (filter.Sort == DiagramSortField.CreateDate && filter.Direction == SortDirection.Asc)
             {
-                query = query.OrderBy(x => x.UpdateDate, direction);
+                query = query.OrderBy(x => x.CreateDate);
+            }
+            else if (filter.Sort == DiagramSortField.CreateDate && filter.Direction == SortDirection.Desc)
+            {
+                query = query.OrderByDescending(x => x.CreateDate);
+            }
+            else if (filter.Sort == DiagramSortField.UpdateDate && filter.Direction == SortDirection.Asc)
+            {
+                query = query.OrderBy(x => x.UpdateDate);
+            }
+            else if (filter.Sort == DiagramSortField.UpdateDate && filter.Direction == SortDirection.Desc)
+            {
+                query = query.OrderByDescending(x => x.UpdateDate);
             }
 
             if (!String.IsNullOrWhiteSpace(filter.FilterTitle))
