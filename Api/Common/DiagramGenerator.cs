@@ -23,6 +23,8 @@ namespace LiveDiagram.Api.Common
             {
                 Id = diagramId,
                 Title = "Тестовая диаграмма",
+                Width = 2000,
+                Height = 2000,
                 Items = new List<DiagramItem>
                 {
                     new DiagramItem
@@ -194,6 +196,67 @@ namespace LiveDiagram.Api.Common
             {
                 DiagramId = diagramId,
                 Content = "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"
+            };
+        }
+
+        public Diagram GetBigDiagram100()
+        {
+            var itemSize = 120;
+            var itemOffset = 50;
+            var diagram = new Diagram
+            {
+                Id = "big 1000",
+                Title = "Большая диаграмма 1000",
+                Width = 10 * (itemSize + itemOffset),
+                Height = 100 * (itemSize + itemOffset),
+                Items = new List<DiagramItem>(),
+                Relations = new List<Relation>()
+            };
+            for (int row = 0; row < 100; row++)
+            {
+                for (int col = 0; col < 10; col++)
+                {
+                    var title = String.Format("Элемент {0} {1}", row + 1, col + 1);
+                    var item = new DiagramItem
+                    {
+                        Id = title,
+                        Title = title,
+                        X = col * (itemSize + itemOffset) + itemOffset,
+                        Y = row * (itemSize + itemOffset) + itemOffset,
+                        Width = itemSize,
+                        Height = itemSize
+                    };
+                    diagram.Items.Add(item);
+                }
+            }
+
+            for (int row = 1; row < 100; row++)
+            {
+                for (int col = 0; col < 10; col++)
+                {
+                    var relation = new Relation
+                    {
+                        Id = "relation ",
+                        DiagramItemIdFrom = String.Format("Элемент {0} {1}", row, col + 1),
+                        DiagramItemIdTo = String.Format("Элемент {0} {1}", row + 1, col + 1)
+                    };
+                    diagram.Relations.Add(relation);
+                }
+            }
+
+            return diagram;
+        }
+
+        public DiagramMeta GetBigDiagram100Meta()
+        {
+            return new DiagramMeta
+            {
+                DiagramId = "big 1000",
+                Title = "Большая диаграмма 1000",
+                TitleLetter = "Большая диаграмма",
+                TitleNumber = 1000,
+                CreateDate = DateTime.UtcNow,
+                UpdateDate = DateTime.UtcNow
             };
         }
     }

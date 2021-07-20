@@ -20,10 +20,12 @@ namespace LiveDiagram.Api.DataAccess.LiteDB
             if (!databaseFileExists)
             {
                 var generator = new DiagramGenerator();
-                int count = 100000;
+                int count = 10000;
                 databaseFile.GetCollection<Diagram>().Insert(generator.GetDefaultDiagram(count).ToList());
                 databaseFile.GetCollection<DiagramThumbnail>().Insert(generator.GetDefaultDiagramThumbnail(count).ToList());
                 databaseFile.GetCollection<DiagramMeta>().Insert(generator.GetDefaultDiagramMeta(count).ToList());
+                databaseFile.GetCollection<Diagram>().Insert(generator.GetBigDiagram100());
+                databaseFile.GetCollection<DiagramMeta>().Insert(generator.GetBigDiagram100Meta());
             }
             RepositoryFactory = new LiteDBRepositoryFactory(databaseFile);
         }
