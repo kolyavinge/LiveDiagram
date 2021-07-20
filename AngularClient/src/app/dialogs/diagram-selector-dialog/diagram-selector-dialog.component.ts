@@ -39,10 +39,9 @@ export class DiagramSelectorDialogComponent implements OnInit {
     }
 
     async sort(sort: string): Promise<any> {
-        console.log(sort);
         if (this._sort !== sort) {
             this._sort = sort;
-            await this.loadDiagrams();
+            await this.pageNumberChange(0);
         }
     }
 
