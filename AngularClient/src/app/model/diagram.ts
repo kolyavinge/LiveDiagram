@@ -170,8 +170,8 @@ export class Diagram extends Identifiable {
     private calculateDiagramSize(): void {
         let rightItem = this._items.sort((a, b) => { return a.position.x - b.position.x; }).reverse()[0];
         let bottomItem = this._items.sort((a, b) => { return a.position.y - b.position.y; }).reverse()[0];
-        let newWidth = rightItem.position.x + rightItem.size.width;
-        let newHeight = bottomItem.position.y + bottomItem.size.height;
+        let newWidth = rightItem.position.x + rightItem.size.width + 20;
+        let newHeight = bottomItem.position.y + bottomItem.size.height + 20;
         let newSize = new Size(newWidth, newHeight);
         if (!this.size.isEquals(newSize)) {
             this.size = newSize;

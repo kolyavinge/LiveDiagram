@@ -4,8 +4,8 @@ div.root {
 
 div.thumbnail {
     float: left;
-    width: 200px;
-    height: 122px;
+    width: 204px;
+    height: 120px;
     margin-right: 4px;
     margin-bottom: 4px;
     cursor: pointer;
@@ -20,11 +20,12 @@ div.selected {
     box-shadow: rgb(0 0 0 / 50%) 0px 0px 5px;
 }
 
-div.thumbnail>img {
-    width: 200px;
+div.thumbnail>div {
+    height: 105px;
 }
 
 div.thumbnail>span {
+    display: block;
     font-size: 14px;
 }
 

@@ -5,7 +5,7 @@
         class="thumbnail"
         [class.selected]="selectedDiagram && availableDiagram.id === selectedDiagram.id"
         (click)="selectDiagram(availableDiagram)">
-        <img [src]="availableDiagram.thumbnail" />
+        <div><img [src]="availableDiagram.thumbnail" /></div>
         <span>{{ availableDiagram.title }}</span>
     </div>
 </div>
