@@ -12,23 +12,6 @@ namespace LiveDiagram.Api.DataAccess.LiteDB
     {
         public LiteDatabase DatabaseFile { get; set; }
 
-        public IEnumerable<AvailableDiagram> GetAvailableDiagrams()
-        {
-            return DatabaseFile.GetCollection<Diagram>().Query()
-                .Select(x => new { x.Id, x.Title })
-                .ToList()
-                .Select(x => new AvailableDiagram { Id = x.Id, Title = x.Title });
-        }
-
-        public IEnumerable<AvailableDiagram> GetAvailableDiagrams(Expression<Func<Diagram, bool>> predicate)
-        {
-            return DatabaseFile.GetCollection<Diagram>().Query()
-                .Where(predicate)
-                .Select(x => new { x.Id, x.Title })
-                .ToList()
-                .Select(x => new AvailableDiagram { Id = x.Id, Title = x.Title });
-        }
-
         public Diagram GetById(string diagramId)
         {
             return DatabaseFile.GetCollection<Diagram>().Query()

@@ -37,6 +37,8 @@ namespace LiveDiagram.Api.DataAccess.LiteDB
             databaseFile.Mapper.Entity<DiagramMeta>().Id(x => x.DiagramId);
         }
 
+        public void Dispose() { }
+
         public IRepositoryFactory RepositoryFactory { get; private set; }
     }
 }

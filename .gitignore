@@ -4,5 +4,7 @@ Api/bin
 Api/obj
 Api.Test/bin
 Api.Test/obj
-*.db
+/Database/LiteDB
+/LiveDiagram-tmp.db
+/Database/SimpleDB
 *.code-workspace

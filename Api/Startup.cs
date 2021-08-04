@@ -1,5 +1,4 @@
 using System;
-using LiveDiagram.Api.Common;
 using LiveDiagram.Api.DataAccess;
 using LiveDiagram.Api.Services;
 using LiveDiagram.Api.SignalR;
@@ -13,6 +12,8 @@ namespace LiveDiagram.Api
 {
     public class Startup
     {
+        private IDBContext _dbContext;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,10 +29,10 @@ namespace LiveDiagram.Api
             });
 
             var dbContextInitializer = new DBContextInitializer();
-            var dbContext = dbContextInitializer.MakeDBContext(Configuration);
-            services.AddSingleton<IDBContext>(dbContext);
+            _dbContext = dbContextInitializer.MakeDBContext(Configuration);
+            services.AddSingleton<IDBContext>(_dbContext);
 
-            var diagramService = new DiagramService(dbContext);
+            var diagramService = new DiagramService(_dbContext);
             services.AddSingleton<IDiagramService>(diagramService);
 
             var actionService = new ActionService();

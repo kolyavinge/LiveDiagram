@@ -10,15 +10,11 @@ namespace LiveDiagram.Api.DataAccess
     {
         DiagramMeta GetDiagramMeta(Diagram diagram);
 
-        IEnumerable<DiagramMeta> GetDiagramMeta(IEnumerable<AvailableDiagram> diagrams);
-
         int GetDiagramMetaCount(DiagramMetaCountFilter filter);
 
         IEnumerable<DiagramMeta> GetDiagramMeta(DiagramMetaFilter filter);
 
         void SaveMeta(DiagramMeta meta);
-
-        void SaveUpdateDate(Diagram diagram, DateTime updateDate);
     }
 
     public class DiagramMetaCountFilter

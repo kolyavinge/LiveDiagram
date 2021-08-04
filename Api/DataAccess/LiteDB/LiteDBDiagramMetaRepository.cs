@@ -19,14 +19,6 @@ namespace LiveDiagram.Api.DataAccess.LiteDB
                 .FirstOrDefault();
         }
 
-        public IEnumerable<DiagramMeta> GetDiagramMeta(IEnumerable<AvailableDiagram> diagrams)
-        {
-            var diagramsId = diagrams.Select(x => x.Id).ToList();
-            return DatabaseFile.GetCollection<DiagramMeta>().Query()
-                .Where(x => diagramsId.Contains(x.DiagramId))
-                .ToList();
-        }
-
         public int GetDiagramMetaCount(DiagramMetaCountFilter filter)
         {
             var query = DatabaseFile.GetCollection<DiagramMeta>().Query();
@@ -79,17 +71,6 @@ namespace LiveDiagram.Api.DataAccess.LiteDB
 
         public void SaveMeta(DiagramMeta meta)
         {
-            DatabaseFile.GetCollection<DiagramMeta>().Upsert(meta);
-        }
-
-        public void SaveUpdateDate(Diagram diagram, DateTime updateDate)
-        {
-            var meta = DatabaseFile.GetCollection<DiagramMeta>().Query()
-                .Where(x => x.DiagramId == diagram.Id)
-                .FirstOrDefault() ?? new DiagramMeta { DiagramId = diagram.Id, CreateDate = updateDate };
-
-            meta.UpdateDate = updateDate;
-
             DatabaseFile.GetCollection<DiagramMeta>().Upsert(meta);
         }
     }
