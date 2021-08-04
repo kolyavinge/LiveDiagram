@@ -30,7 +30,9 @@ export class PagenatorComponent implements OnInit {
     }
 
     @Input() set pageNumber(value: number) {
-        this.gotoPage(value);
+        this._pageNumber = value;
+        this.calculatePageButtons();
+        this.updateButtonsEnabled();
     }
 
     @Output() pageNumberChange = new EventEmitter<number>();
@@ -71,12 +73,10 @@ export class PagenatorComponent implements OnInit {
     }
 
     gotoPage(pageNumber: number): void {
-        if (this._pageNumber !== pageNumber) {
-            this._pageNumber = pageNumber;
-            this.calculatePageButtons();
-            this.updateButtonsEnabled();
-            this.pageNumberChange.emit(this._pageNumber);
-        }
+        this._pageNumber = pageNumber;
+        this.calculatePageButtons();
+        this.updateButtonsEnabled();
+        this.pageNumberChange.emit(this._pageNumber);
     }
 
     private calculatePageButtons(): void {
