@@ -13,7 +13,6 @@ namespace LiveDiagram.Api.DataAccess.SimpleDB
         {
             var diagramIds = diagrams.Select(x => x.Id).ToList();
             return Engine.GetCollection<DiagramThumbnail>().Query()
-                .Select()
                 .Where(x => diagramIds.Contains(x.DiagramId))
                 .ToList();
         }

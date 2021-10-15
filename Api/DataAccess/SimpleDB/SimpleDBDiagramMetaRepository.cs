@@ -51,7 +51,6 @@ namespace LiveDiagram.Api.DataAccess.SimpleDB
             if (!String.IsNullOrWhiteSpace(filter.FilterTitle))
             {
                 return Engine.GetCollection<DiagramMeta>().Query()
-                    .Select()
                     .Where(x => x.Title.Contains(filter.FilterTitle))
                     .Count();
             }

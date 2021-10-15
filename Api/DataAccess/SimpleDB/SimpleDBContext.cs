@@ -26,8 +26,8 @@ namespace LiveDiagram.Api.DataAccess.SimpleDB
                 .Name("diagram")
                 .PrimaryKey(x => x.Id)
                 .Field(0, x => x.Title)
-                .Field(1, x => x.Items)
-                .Field(2, x => x.Relations)
+                .Field(1, x => x.Items, new FieldSettings { Compressed = true })
+                .Field(2, x => x.Relations, new FieldSettings { Compressed = true })
                 .Field(3, x => x.Width)
                 .Field(4, x => x.Height)
                 .MakeFunction(() => new Diagram())
@@ -44,7 +44,7 @@ namespace LiveDiagram.Api.DataAccess.SimpleDB
             builder.Map<DiagramThumbnail>()
                 .Name("diagramThumbnail")
                 .PrimaryKey(x => x.DiagramId)
-                .Field(0, x => x.Content)
+                .Field(0, x => x.Content, new FieldSettings { Compressed = true })
                 .MakeFunction(() => new DiagramThumbnail())
                 .PrimaryKeySetFunction((primaryKeyValue, entity) => entity.DiagramId = (string)primaryKeyValue)
                 .FieldSetFunction((fieldNumber, fieldValue, entity) =>
@@ -70,6 +70,26 @@ namespace LiveDiagram.Api.DataAccess.SimpleDB
                     if (fieldNumber == 3) entity.CreateDate = (DateTime)fieldValue;
                     if (fieldNumber == 4) entity.UpdateDate = (DateTime)fieldValue;
                 });
+
+            builder.Index<DiagramMeta>()
+               .Name("title")
+               .For(x => x.Title);
+
+            builder.Index<DiagramMeta>()
+                .Name("titleLetter")
+                .For(x => x.TitleLetter);
+
+            builder.Index<DiagramMeta>()
+                .Name("titleNumber")
+                .For(x => x.TitleNumber);
+
+            builder.Index<DiagramMeta>()
+                .Name("createDate")
+                .For(x => x.CreateDate);
+
+            builder.Index<DiagramMeta>()
+                .Name("updateDate")
+                .For(x => x.UpdateDate);
 
             _engine = builder.BuildEngine();
 
