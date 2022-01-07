@@ -17,13 +17,12 @@ namespace LiveDiagram.Api.DataAccess.SimpleDB
         public SimpleDBContext(IConfiguration configuration)
         {
             var databaseFilePath = configuration["DatabaseFilePath"];
-            var isNewDatabase = Directory.GetFiles(databaseFilePath).Any() == false;
+            var isNewDatabase = !File.Exists(databaseFilePath);
 
             var builder = DBEngineBuilder.Make();
-            builder.WorkingDirectory(databaseFilePath);
+            builder.DatabaseFilePath(databaseFilePath);
 
             builder.Map<Diagram>()
-                .Name("diagram")
                 .PrimaryKey(x => x.Id)
                 .Field(0, x => x.Title)
                 .Field(1, x => x.Items, new FieldSettings { Compressed = true })
@@ -42,7 +41,6 @@ namespace LiveDiagram.Api.DataAccess.SimpleDB
                 });
 
             builder.Map<DiagramThumbnail>()
-                .Name("diagramThumbnail")
                 .PrimaryKey(x => x.DiagramId)
                 .Field(0, x => x.Content, new FieldSettings { Compressed = true })
                 .MakeFunction(() => new DiagramThumbnail())
@@ -53,7 +51,6 @@ namespace LiveDiagram.Api.DataAccess.SimpleDB
                 });
 
             builder.Map<DiagramMeta>()
-                .Name("diagramMeta")
                 .PrimaryKey(x => x.DiagramId)
                 .Field(0, x => x.Title)
                 .Field(1, x => x.TitleLetter)
