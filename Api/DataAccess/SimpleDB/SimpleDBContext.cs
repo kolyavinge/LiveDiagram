@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using LiveDiagram.Api.Common;
 using LiveDiagram.Api.Contracts.Common;
 using LiveDiagram.Api.Model;
@@ -11,7 +12,7 @@ namespace LiveDiagram.Api.DataAccess.SimpleDB
 {
     public class SimpleDBContext : IDBContext
     {
-        private IDBEngine _engine;
+        private readonly IDBEngine _engine;
 
         public SimpleDBContext(IConfiguration configuration)
         {
@@ -98,9 +99,9 @@ namespace LiveDiagram.Api.DataAccess.SimpleDB
             {
                 var generator = new DiagramGenerator();
                 int count = 100000;
-                _engine.GetCollection<Diagram>().Insert(generator.GetDefaultDiagram(count));
-                _engine.GetCollection<DiagramThumbnail>().Insert(generator.GetDefaultDiagramThumbnail(count));
-                _engine.GetCollection<DiagramMeta>().Insert(generator.GetDefaultDiagramMeta(count));
+                _engine.GetCollection<Diagram>().InsertRange(generator.GetDefaultDiagram(count).ToList());
+                _engine.GetCollection<DiagramThumbnail>().InsertRange(generator.GetDefaultDiagramThumbnail(count).ToList());
+                _engine.GetCollection<DiagramMeta>().InsertRange(generator.GetDefaultDiagramMeta(count).ToList());
             }
 
             RepositoryFactory = new SimpleDBRepositoryFactory(_engine);
